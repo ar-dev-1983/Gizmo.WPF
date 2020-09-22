@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Gizmo.WPF">
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowBackgroundBrush}" Color="#FF0B1A21" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowBorderBrush}" Color="#FF4B606F" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowHighlightBrush}" Color="#FF4B606F" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowForegroundBrush}" Color="#FFEDEFEF" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}" Color="#FFADB8BB" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, ControlBackgroundBrush}" Color="#FF3D525D" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, ControlReadonlyBackgroundBrush}" Color="#FF313F46" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, ControlBorderBrush}" Color="#FF4B606F" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, ControlHighlightBrush}" Color="#FF6E818C" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}" Color="#FF8295A2" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, ControlSelectBrush}" Color="#FF1671A0" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, ControlSelectBorderBrush}" Color="#FF23B1D3" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, KeyBackgroundBrush}" Color="#FF125C82" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, KeyHighlightBrush}" Color="#FF1671A0" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, KeySelectBrush}" Color="#FF23B1D3" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, AltOneForegroundBrush}" Color="#FFEDEFEF" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, AltTwoForegroundBrush}" Color="#FFEDEFEF" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, HighlightForegroundBrush}" Color="#FFEDEFEF" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, SelectForegroundBrush}" Color="#FFEDEFEF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, RowBorderBrush}" Color="#80EDEFEF" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, RowHighlightBrush}" Color="#206E818C" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, RowSelectBrush}" Color="#2023B1D3" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, MenuBackgroundBrush}" Color="#233137" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, MenuBorderBrush}" Color="#FF4B606F" />
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey local:UITheme, ControlAdditionalBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#FFF1F3F3" />
+        <GradientStop Offset="0.5" Color="#FFF0F2F2" />
+        <GradientStop Offset="0.5" Color="#FFE7EAEE" />
+        <GradientStop Offset="1" Color="#FFF6F7F8" />
+    </LinearGradientBrush>
+
+    <Color x:Key="{ComponentResourceKey local:UITheme, ShadowColor}" R="18" G="28" B="32" />
+    <Color x:Key="{ComponentResourceKey local:UITheme, ShadowMouseOverColor}" R="250" G="250" B="250" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, ShadowBrush}" Color="#FF121C20" />
+</ResourceDictionary>

@@ -1,0 +1,232 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Gizmo.WPF">
+
+    <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Width" Value="19"/>
+        <Setter Property="Height" Value="13"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="Transparent" Width="19" Height="13">
+                        <Border Width="9" Height="9">
+                            <Path Margin="1" Name="ExpandPath" Data="M0,0 L0,6 L6,0 z" VerticalAlignment="Center" Fill="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" Stroke="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}">
+                                <Path.RenderTransform>
+                                    <RotateTransform Angle="135" CenterY="3" CenterX="3"/>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter Property="RenderTransform" TargetName="ExpandPath">
+                                <Setter.Value>
+                                    <RotateTransform Angle="180" CenterY="3" CenterX="3"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsMouseOver" Value="True">
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                            <Setter TargetName="ExpandPath" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <local:IndentConverter x:Key="IndentConverter"/>
+
+    <Style TargetType="{x:Type local:UITreeNodeExpanderControl}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:UITreeNodeExpanderControl}">
+                    <ToggleButton x:Name="Expander"
+									  Style="{StaticResource ExpandCollapseToggleStyle}" 
+									  Margin="{Binding Level, Converter={StaticResource IndentConverter},RelativeSource={RelativeSource AncestorType={x:Type local:UITreeListItem}}}"
+									  IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type local:UITreeListItem}}}"
+									  ClickMode="Press"/>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path=HasItems, RelativeSource={RelativeSource AncestorType={x:Type local:UITreeListItem}}}" Value="False">
+                            <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="UITreeListItemStyle"  TargetType="local:UITreeListItem">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel IsItemsHost="True" VirtualizingPanel.IsVirtualizing="True"
+                                    VirtualizingPanel.VirtualizationMode="Recycling"
+                                    VirtualizingPanel.ScrollUnit="Item"
+                                    VirtualizingPanel.IsContainerVirtualizable="True"
+                                    VirtualizingPanel.IsVirtualizingWhenGrouping="True"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:UITreeListItem">
+                    <VirtualizingStackPanel
+                                    VirtualizingPanel.IsVirtualizing="True"
+                                    VirtualizingPanel.VirtualizationMode="Recycling"
+                                    VirtualizingPanel.ScrollUnit="Item"
+                                    VirtualizingPanel.IsContainerVirtualizable="True"
+                                    VirtualizingPanel.IsVirtualizingWhenGrouping="True">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Margin="-2,0,-10,0" Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                                <GridViewRowPresenter x:Name="PART_Header" Height="20" Content="{TemplateBinding Header}" Columns="{Binding Columns, RelativeSource={RelativeSource AncestorType={x:Type local:UITreeList}}}" />
+                            </Border>
+                            <ItemsPresenter Grid.Row="1" x:Name="ItemsHost"/>
+                        </Grid>
+                    </VirtualizingStackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="false">
+                            <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, RowSelectBrush}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:UITreeListItem" BasedOn="{StaticResource UITreeListItemStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+    </Style>
+
+    <Style x:Key="GridViewColumnHeaderGripper" TargetType="Thumb">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border Background="Transparent" BorderBrush="Transparent" BorderThickness="0">
+                        <Rectangle HorizontalAlignment="Center" Width="2" Fill="{DynamicResource {ComponentResourceKey local:UITheme, WindowBackgroundBrush}}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:UITreeList}">
+        <Style.Resources>
+            <Style TargetType="{x:Type GridViewColumnHeader}">
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, KeyBackgroundBrush}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowBackgroundBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, AltTwoForegroundBrush}}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                            <Grid>
+                                <Border x:Name="HeaderBorder" BorderThickness="1" Margin="-1,-1,-1,-1" BorderBrush="Transparent" Background="{TemplateBinding Background}">
+                                    <ContentPresenter x:Name="HeaderContent"
+                                                              Margin="0,0,0,1"
+                                                              TextBlock.Foreground="{TemplateBinding Foreground}"
+                                                              RecognizesAccessKey="True"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                                </Border>
+                                <Thumb x:Name="PART_HeaderGripper" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0" Style="{StaticResource GridViewColumnHeaderGripper}" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="HeaderBorder" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, KeyHighlightBrush}}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, HighlightForegroundBrush}}" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="HeaderBorder" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, KeySelectBrush}}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="ScrollViewer">
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ScrollViewer">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Border Name="Bd" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="{Binding Path=BorderThickness, RelativeSource={RelativeSource AncestorType=local:UITreeList}}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}"/>
+                                <Border Grid.ColumnSpan="2" Background="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" VerticalAlignment="Top" Height="26"/>
+                                <DockPanel Margin="{TemplateBinding Padding}" Grid.ColumnSpan="3">
+                                    <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false">
+                                        <GridViewHeaderRowPresenter Margin="-2,0,-10,0" Height="26"
+                                                                                          Columns="{Binding Path=TemplatedParent.Columns, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                          ColumnHeaderContainerStyle="{Binding Path=TemplatedParent.View.ColumnHeaderContainerStyle, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                          ColumnHeaderTemplate="{Binding Path=TemplatedParent.View.ColumnHeaderTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                          ColumnHeaderTemplateSelector="{Binding Path=TemplatedParent.View.ColumnHeaderTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                          AllowsColumnReorder="{Binding Path=TemplatedParent.View.AllowsColumnReorder, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                          ColumnHeaderContextMenu="{Binding Path=TemplatedParent.View.ColumnHeaderContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                          ColumnHeaderToolTip="{Binding Path=TemplatedParent.View.ColumnHeaderToolTip, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    </ScrollViewer>
+                                    <ScrollContentPresenter Name="PART_ScrollContentPresenter" 
+                                                            KeyboardNavigation.DirectionalNavigation="Local"
+                                                            CanContentScroll="True"
+                                                            CanHorizontallyScroll="True"
+                                                            CanVerticallyScroll="True" />
+                                </DockPanel>
+                                <ScrollBar Name="PART_HorizontalScrollBar"
+                                                                Orientation="Horizontal"
+                                                                Grid.Row="1"
+                                                                Maximum="{TemplateBinding ScrollableWidth}"
+                                                                ViewportSize="{TemplateBinding ViewportWidth}"
+                                                                Value="{TemplateBinding HorizontalOffset}"
+                                                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
+
+                                <ScrollBar Name="PART_VerticalScrollBar"
+                                                                Grid.Column="1"
+                                                                Maximum="{TemplateBinding ScrollableHeight}"
+                                                                ViewportSize="{TemplateBinding ViewportHeight}"
+                                                                Value="{TemplateBinding VerticalOffset}"
+                                                                Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"  Margin="0,26,0,0" />
+
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:UITreeList}">
+                    <ScrollViewer x:Name="PART_Body_Scroll" CanContentScroll="True" Style="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+                        <ItemsPresenter x:Name="ItemsHost"/>
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

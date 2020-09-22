@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net471</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <LangVersion>8.0</LangVersion>
+    <PackageProjectUrl>https://github.com/ar-dev-1983/Gizmo.WPF</PackageProjectUrl>
+    <Authors>ar-dev-1983</Authors>
+    <Description>WPF UI Library for Gizmo Projects</Description>
+    <Copyright>ar-dev-1983</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/ar-dev-1983/Gizmo.WPF</RepositoryUrl>
+    <RepositoryType></RepositoryType>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>

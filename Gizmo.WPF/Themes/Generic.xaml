@@ -1,0 +1,21 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/Brushes.BlueDark.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/StandardControls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/DefaultWindowStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/DialogWindowStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/ToolWindowStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UIButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UIRepeatButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UIToggleButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UIPopupButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UISwitch.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UIEnumSwitch.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UIControlGroup.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UITextbox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UITabPanel.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UITreeList.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UIComboBox.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

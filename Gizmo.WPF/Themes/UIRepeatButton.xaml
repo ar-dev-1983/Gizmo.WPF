@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Gizmo.WPF">
+    
+    <Style TargetType="{x:Type local:UIRepeatButton}">
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:UIRepeatButton}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.ColumnSpan="2" x:Name="PART_Background" CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}" BorderThickness="0" BorderBrush="Transparent">
+                            <Border.Effect>
+                                <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border Grid.ColumnSpan="2" x:Name="PART_border" CornerRadius="{TemplateBinding CornerRadius}" Background="Transparent" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
+                        <ContentPresenter x:Name="PART_Icon" ContentSource="Icon" Grid.Column="0" Margin="4,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <ContentPresenter x:Name="PART_Content" Grid.Column="1" Margin="2,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="PART_Icon" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="PART_Content" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Flat" Value="True">
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="0" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="Transparent" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="Transparent" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.8" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
