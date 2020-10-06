@@ -6,6 +6,13 @@ namespace Gizmo.WPF
 
     public class UITreeList : TreeView
     {
+        public UITreeList()
+  : base()
+        {
+            Columns = new GridViewColumnCollection();
+            DefaultStyleKey = typeof(UITreeList);
+        }
+
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new UITreeListItem();
