@@ -97,6 +97,7 @@
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowBackgroundBrush}}" />
+                            <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, InactiveWindowBackgroundBrush}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

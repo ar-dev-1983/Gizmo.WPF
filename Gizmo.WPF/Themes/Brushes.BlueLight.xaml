@@ -3,6 +3,7 @@
                     xmlns:local="clr-namespace:Gizmo.WPF">
 
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowBackgroundBrush}" Color="#FAFAFA" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, InactiveWindowBackgroundBrush}" Color="#FFE8E8E8" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowBorderBrush}" Color="#D6D6D6" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowHighlightBrush}" Color="#E3E3E3" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowForegroundBrush}" Color="#FF656565" />
@@ -20,7 +21,7 @@
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, KeyHighlightBrush}" Color="#FF1671A0" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, KeySelectBrush}" Color="#FF23B1D3" />
 
-    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, AltOneForegroundBrush}" Color="#FF656565" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, AltOneForegroundBrush}" Color="#FF282828" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, AltTwoForegroundBrush}" Color="#FFEDEFEF" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, HighlightForegroundBrush}" Color="#FFEDEFEF" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, SelectForegroundBrush}" Color="#FFEDEFEF" />

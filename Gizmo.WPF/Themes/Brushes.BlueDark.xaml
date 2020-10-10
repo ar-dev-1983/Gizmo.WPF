@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Gizmo.WPF">
-    
+
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowBackgroundBrush}" Color="#FF0B1A21" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, InactiveWindowBackgroundBrush}" Color="#FF0D1E25" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowBorderBrush}" Color="#FF4B606F" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowHighlightBrush}" Color="#FF4B606F" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, WindowForegroundBrush}" Color="#FFEDEFEF" />

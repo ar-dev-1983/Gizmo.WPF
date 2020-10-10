@@ -10,6 +10,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/ar-dev-1983/Gizmo.WPF</RepositoryUrl>
     <RepositoryType></RepositoryType>
+    <Version>1.0.0.1</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\LICENSE">

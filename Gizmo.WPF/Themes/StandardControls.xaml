@@ -208,9 +208,10 @@
                             <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.1" />
                             <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
                             <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, AltOneForegroundBrush}}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="PART_Background" Property="Opacity" Value="0.5" />
@@ -1193,6 +1194,24 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+    <Style x:Key="BaseMenuItemStyle" TargetType="{x:Type MenuItem}">
+        <Style.Triggers>
+            <Trigger Property="Role"  Value="TopLevelHeader">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelHeaderTemplateKey}}" />
+                <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelItemTemplateKey}}" />
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuHeaderTemplateKey}}" />
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuItem">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuItemTemplateKey}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
     <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Style.Triggers>

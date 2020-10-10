@@ -10,7 +10,6 @@ namespace Gizmo.WPF
   : base()
         {
             Columns = new GridViewColumnCollection();
-            DefaultStyleKey = typeof(UITreeList);
         }
 
         protected override DependencyObject GetContainerForItemOverride()
