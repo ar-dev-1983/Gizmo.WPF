@@ -27,8 +27,8 @@
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, SelectForegroundBrush}" Color="#FFEDEFEF" />
     
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, RowBorderBrush}" Color="#803E628F" />
-    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, RowHighlightBrush}" Color="#404C5C77" />
-    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, RowSelectBrush}" Color="#406D2D5F" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, RowHighlightBrush}" Color="#40BE80B1" />
+    <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, RowSelectBrush}" Color="#40BE80B1" />
 
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, MenuBackgroundBrush}" Color="#FAFAFA" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, MenuBorderBrush}" Color="#D6D6D6" />

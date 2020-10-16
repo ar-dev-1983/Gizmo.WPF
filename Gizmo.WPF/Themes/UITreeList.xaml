@@ -85,7 +85,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Border Margin="-2,0,-10,0" Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                            <Border Margin="-2,0,-10,0" Name="Border" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" Padding="{TemplateBinding Padding}">
                                 <GridViewRowPresenter x:Name="PART_Header" Height="20" Content="{TemplateBinding Header}" Columns="{Binding Columns, RelativeSource={RelativeSource AncestorType={x:Type local:UITreeList}}}" />
                             </Border>
                             <ItemsPresenter Grid.Row="1" x:Name="ItemsHost"/>
@@ -97,6 +97,7 @@
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, RowSelectBrush}}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, KeySelectBrush}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
