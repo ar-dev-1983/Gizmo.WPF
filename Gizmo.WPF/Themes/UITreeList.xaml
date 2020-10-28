@@ -230,4 +230,69 @@
         </Setter>
     </Style>
 
+    <Style x:Key="HeaderlessUITreeList" TargetType="{x:Type local:UITreeList}">
+        <Style.Resources>
+            <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="ScrollViewer">
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ScrollViewer">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Border Name="Bd" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="{Binding Path=BorderThickness, RelativeSource={RelativeSource AncestorType=local:UITreeList}}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}"/>
+                                <DockPanel Margin="{TemplateBinding Padding}" Grid.ColumnSpan="3">
+                                    <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false">
+                                    </ScrollViewer>
+                                    <ScrollContentPresenter Name="PART_ScrollContentPresenter" 
+                                                            KeyboardNavigation.DirectionalNavigation="Local"
+                                                            CanContentScroll="True"
+                                                            CanHorizontallyScroll="True"
+                                                            CanVerticallyScroll="True" />
+                                </DockPanel>
+                                <ScrollBar Name="PART_HorizontalScrollBar"
+                                                                Orientation="Horizontal"
+                                                                Grid.Row="1"
+                                                                Maximum="{TemplateBinding ScrollableWidth}"
+                                                                ViewportSize="{TemplateBinding ViewportWidth}"
+                                                                Value="{TemplateBinding HorizontalOffset}"
+                                                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
+
+                                <ScrollBar Name="PART_VerticalScrollBar"
+                                                                Grid.Column="1"
+                                                                Maximum="{TemplateBinding ScrollableHeight}"
+                                                                ViewportSize="{TemplateBinding ViewportHeight}"
+                                                                Value="{TemplateBinding VerticalOffset}"
+                                                                Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"  Margin="0" />
+
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:UITreeList}">
+                    <ScrollViewer x:Name="PART_Body_Scroll" CanContentScroll="True" Style="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+                        <ItemsPresenter x:Name="ItemsHost"/>
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
