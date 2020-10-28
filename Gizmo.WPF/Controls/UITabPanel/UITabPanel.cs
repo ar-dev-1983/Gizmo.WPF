@@ -63,6 +63,11 @@ namespace Gizmo.WPF
             get => (bool)GetValue(IsExpandedProperty);
             set => SetValue(IsExpandedProperty, value);
         }
+        public bool IsExpandable
+        {
+            get => (bool)GetValue(IsExpandableProperty);
+            set => SetValue(IsExpandableProperty, value);
+        }
         public UITabPanelItemOrientation Orientation
         {
             get => (UITabPanelItemOrientation)GetValue(OrientationProperty);
@@ -85,6 +90,7 @@ namespace Gizmo.WPF
         }
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(UITabPanel), new UIPropertyMetadata(new CornerRadius(0)));
         public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register("IsExpanded", typeof(bool), typeof(UITabPanel), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(IsExpandedPropertyChanged)));
+        public static readonly DependencyProperty IsExpandableProperty = DependencyProperty.Register("IsExpandable", typeof(bool), typeof(UITabPanel), new FrameworkPropertyMetadata(false));
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(UITabPanelItemOrientation), typeof(UITabPanel), new FrameworkPropertyMetadata(UITabPanelItemOrientation.Left));
         public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register("Items", typeof(ObservableCollection<UITabPanelItem>), typeof(UITabPanel), new UIPropertyMetadata(null, new PropertyChangedCallback(OnItemsCollectionChanged)));
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(UITabPanel), new UIPropertyMetadata(null));
@@ -140,7 +146,6 @@ namespace Gizmo.WPF
                         {
                             SelectedItem = Items[newValue];
                             Items[newValue].IsSelected = true;
-
                             RoutedEventArgs args = new RoutedEventArgs
                             {
                                 RoutedEvent = SelectionChangedEvent
@@ -175,13 +180,22 @@ namespace Gizmo.WPF
             if (selectedIndex == Items.IndexOf((sender as UITabPanelItem)))
             {
                 SelectedIndex = -1;
-                IsExpanded = false;
+                if (IsExpandable)
+                {
+                    IsExpanded = false;
+                    Content = null;
+                }
             }
         }
 
         private void Node_ItemSelected(object sender, RoutedEventArgs e)
         {
             SelectedIndex = Items.IndexOf((sender as UITabPanelItem));
+            if (IsExpandable)
+            {
+                IsExpanded = true;
+                Content = Items[SelectedIndex].Content;
+            }
             foreach (var node in Items)
             {
                 if (Items.IndexOf(node) != SelectedIndex)

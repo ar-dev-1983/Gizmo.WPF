@@ -217,14 +217,19 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-            <Border Grid.Column="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <ContentPresenter Margin="0,1"/>
-                </ScrollViewer>
-            </Border>
+            <Border Grid.Column="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"/>
+            <ContentPresenter Grid.Column="1" Margin="0,1"/>
         </Grid>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsExpanded" Value="False">
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsExpanded" Value="False"/>
+                    <Condition Property="IsExpandable" Value="True"/>
+                </MultiTrigger.Conditions>
+                <Setter TargetName="ContentColumn" Property="MinWidth" Value="0" />
+                <Setter TargetName="ContentColumn" Property="Width" Value="0" />
+            </MultiTrigger>
+            <Trigger Property="IsExpandable" Value="False">
                 <Setter TargetName="ContentColumn" Property="MinWidth" Value="0" />
                 <Setter TargetName="ContentColumn" Property="Width" Value="0" />
             </Trigger>
@@ -238,9 +243,7 @@
                 <ColumnDefinition Width="32" MinWidth="32" MaxWidth="32" />
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"/>
-            <ScrollViewer Margin="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <ContentPresenter/>
-            </ScrollViewer>
+            <ContentPresenter Margin="1" Grid.Column="0" />
             <ItemsControl Margin="0,10,0,0" Grid.Column="1" ItemsSource="{TemplateBinding Items}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -250,7 +253,15 @@
             </ItemsControl>
         </Grid>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsExpanded" Value="False">
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsExpanded" Value="False"/>
+                    <Condition Property="IsExpandable" Value="True"/>
+                </MultiTrigger.Conditions>
+                <Setter TargetName="ContentColumn" Property="MinWidth" Value="0" />
+                <Setter TargetName="ContentColumn" Property="Width" Value="0" />
+            </MultiTrigger>
+            <Trigger Property="IsExpandable" Value="False">
                 <Setter TargetName="ContentColumn" Property="MinWidth" Value="0" />
                 <Setter TargetName="ContentColumn" Property="Width" Value="0" />
             </Trigger>
@@ -271,12 +282,18 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
             <Border Grid.Row="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"/>
-            <ScrollViewer Margin="1" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <ContentPresenter/>
-            </ScrollViewer>
+            <ContentPresenter Margin="1" Grid.Row="1"/>
         </Grid>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsExpanded" Value="False">
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsExpanded" Value="False"/>
+                    <Condition Property="IsExpandable" Value="True"/>
+                </MultiTrigger.Conditions>
+                <Setter TargetName="ContentRow" Property="MinHeight" Value="0" />
+                <Setter TargetName="ContentRow" Property="Height" Value="0" />
+            </MultiTrigger>
+            <Trigger Property="IsExpandable" Value="False">
                 <Setter TargetName="ContentRow" Property="MinHeight" Value="0" />
                 <Setter TargetName="ContentRow" Property="Height" Value="0" />
             </Trigger>
