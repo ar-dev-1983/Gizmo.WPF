@@ -41,6 +41,7 @@
     </LinearGradientBrush>
     
     <Color x:Key="{ComponentResourceKey local:UITheme, ShadowColor}" R="26" G="32" B="44" />
+    <Color x:Key="{ComponentResourceKey local:UITheme, GlowColor}" R="255" G="255" B="255" />
     <Color x:Key="{ComponentResourceKey local:UITheme, ShadowMouseOverColor}" R="250" G="250" B="250" />
     <SolidColorBrush x:Key="{ComponentResourceKey local:UITheme, ShadowBrush}" Color="#FF1A202C" />
 </ResourceDictionary>

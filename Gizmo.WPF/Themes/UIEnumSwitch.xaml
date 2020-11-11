@@ -62,6 +62,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:UIEnumSwitch}">
                     <Border CornerRadius="{TemplateBinding CornerRadius}" Background="Transparent" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Border.Effect>
+                            <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0"/>
+                        </Border.Effect>
                         <ItemsControl ItemsSource="{TemplateBinding Items}" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
