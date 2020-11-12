@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-
+using System.Windows.Media;
+using System.Linq;
 namespace Gizmo.WPF
 {
     public static class ThemeManager
@@ -227,6 +228,7 @@ namespace Gizmo.WPF
                 }
             }
         }
+
         public static void ApplyThemeToWindow(Window control, UIThemeEnum _theme)
         {
             if (control.Resources.MergedDictionaries != null)
@@ -252,6 +254,35 @@ namespace Gizmo.WPF
                         break;
                 }
             }
+        }
+
+        public static object GetResource(UIThemeEnum _theme, string _resourceName)
+        {
+            object result = null;
+
+            try
+            {
+                switch (_theme)
+                {
+                    case UIThemeEnum.BlueDark:
+                        result = BlueDark[(from node in BlueDark.Keys.OfType<ComponentResourceKey>() where node.ResourceId.ToString() == _resourceName select node).First()];
+                        break;
+                    case UIThemeEnum.BlueLight:
+                        result = BlueLight[(from node in BlueLight.Keys.OfType<ComponentResourceKey>() where node.ResourceId.ToString() == _resourceName select node).First()];
+                        break;
+                    case UIThemeEnum.PurpleDark:
+                        result = PurpleDark[(from node in PurpleDark.Keys.OfType<ComponentResourceKey>() where node.ResourceId.ToString() == _resourceName select node).First()];
+                        break;
+                    case UIThemeEnum.PurpleLight:
+                        result = PurpleLight[(from node in PurpleLight.Keys.OfType<ComponentResourceKey>() where node.ResourceId.ToString() == _resourceName select node).First()];
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            return result;
         }
     }
 }
