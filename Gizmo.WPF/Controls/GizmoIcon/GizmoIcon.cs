@@ -11,12 +11,6 @@ namespace Gizmo.WPF
     /// https://github.com/MartinTopfstedt/FontAwesome5
     ///
 
-    //Placeholder enum for example how the enum should look to be used in GizmoIcon
-    public enum GizmoEmptyEnum
-    {
-        None = 0x0
-    }
-
     //using in xaml:
     //1. include xmlns namespace with enum alongside with Gizmo.WPF namespace, like this
     //
@@ -33,7 +27,7 @@ namespace Gizmo.WPF
 
     public class GizmoIcon : TextBlock
     {
-        private static readonly FontFamily GizmoIconFontFamily = new FontFamily(new Uri("pack://application:,,,/Resources/Fonts/Gizmo.IconFont.ttf"), "./#Gizmo.IconFont");
+        private static readonly FontFamily GizmoIconFontFamily = new FontFamily(new Uri("pack://application:,,,/Gizmo.WPF;component/Resources/Fonts/Gizmo.IconFont.ttf"), "./#Gizmo.IconFont");
 
         public Enum Icon
         {
@@ -45,8 +39,8 @@ namespace Gizmo.WPF
             get { return (FontFamily)GetValue(IconFontFamilyProperty); }
             set { SetValue(IconFontFamilyProperty, value); }
         }
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(Enum), typeof(GizmoIcon), new PropertyMetadata(GizmoEmptyEnum.None, OnIconPropertyChanged));
-        public static readonly DependencyProperty IconFontFamilyProperty = DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(GizmoIcon), new PropertyMetadata(GizmoIconFontFamily, OnIconPropertyChanged));
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(Enum), typeof(GizmoIcon), new PropertyMetadata(GizmoIconEnum.None, OnIconPropertyChanged));
+        public static readonly DependencyProperty IconFontFamilyProperty = DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(GizmoIcon), new PropertyMetadata(GizmoIconFontFamily, OnIconFontFamilyPropertyChanged));
 
         private static void OnIconPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -54,11 +48,15 @@ namespace Gizmo.WPF
             d.SetValue(TextAlignmentProperty, TextAlignment.Center);
             d.SetValue(TextProperty, char.ConvertFromUtf32((int)e.NewValue));
         }
+        private static void OnIconFontFamilyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            d.SetValue(FontFamilyProperty, !(d is GizmoIcon) ? GizmoIconFontFamily : (d as GizmoIcon).IconFontFamily);
+        }
     }
 
     public class GizmoIconImage : Image
     {
-        private static readonly FontFamily GizmoIconFontFamily = new FontFamily(new Uri("pack://application:,,,/Resources/Fonts/Gizmo.IconFont.ttf"), "./#Gizmo.IconFont");
+        private static readonly FontFamily GizmoIconFontFamily = new FontFamily(new Uri("pack://application:,,,/Gizmo.WPF;component/Resources/Fonts/Gizmo.IconFont.ttf"), "./#Gizmo.IconFont");
 
         public Brush Foreground
         {
@@ -76,7 +74,7 @@ namespace Gizmo.WPF
             set { SetValue(FontFamilyProperty, value); }
         }
         public static readonly DependencyProperty ForegroundProperty = DependencyProperty.Register("Foreground", typeof(Brush), typeof(GizmoIconImage), new PropertyMetadata(Brushes.Black, OnIconPropertyChanged));
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(Enum), typeof(GizmoIconImage), new PropertyMetadata(GizmoEmptyEnum.None, OnIconPropertyChanged));
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(Enum), typeof(GizmoIconImage), new PropertyMetadata(GizmoIconEnum.None, OnIconPropertyChanged));
         public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register("FontFamily", typeof(FontFamily), typeof(GizmoIconImage), new PropertyMetadata(GizmoIconFontFamily, OnIconPropertyChanged));
 
         private static void OnIconPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

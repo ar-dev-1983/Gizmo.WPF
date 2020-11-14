@@ -17,5 +17,6 @@
         <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UITabPanel.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UITreeList.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UIComboBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.WPF;Component/Themes/UISearchBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
