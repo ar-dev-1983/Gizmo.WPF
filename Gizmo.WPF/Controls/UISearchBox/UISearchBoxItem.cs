@@ -1,22 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace Gizmo.WPF
 {
-    public class UISearchBoxItem : Control, ICorneredControl
+    public class UISearchBoxItem : ContentControl, ICorneredControl
     {
-        public static RoutedEvent ItemSelectedEvent;
-        public event RoutedEventHandler ItemSelectedClick
+        #region Routed Events
+        public static readonly RoutedEvent SelectedEvent = Selector.SelectedEvent.AddOwner(typeof(ListBoxItem));
+        public event RoutedEventHandler Selected
         {
-            add { AddHandler(ItemSelectedEvent, value); }
-            remove { RemoveHandler(ItemSelectedEvent, value); }
+            add
+            {
+                AddHandler(SelectedEvent, value);
+            }
+            remove
+            {
+                RemoveHandler(SelectedEvent, value);
+            }
         }
+        #endregion
+
+        #region Constructors
         public UISearchBoxItem()
 : base()
         {
@@ -25,74 +31,95 @@ namespace Gizmo.WPF
         static UISearchBoxItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(UISearchBoxItem), new FrameworkPropertyMetadata(typeof(UISearchBoxItem)));
-            ItemSelectedEvent = EventManager.RegisterRoutedEvent("ItemSelectedClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(UISearchBoxItem));
         }
+        #endregion
 
+        #region Override Methods
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
         }
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
+            Select();
+            e.Handled = true;
+        }
+        #endregion
 
+        #region Private Methods
+        private void Select()
+        {
+            if (ParentUISearchBox != null)
+            {
+                IsSelected = true;
+                ParentUISearchBox.IsPressed = false;
+            }
+        }
+        #endregion
+
+        #region Private Properties
+        private UISearchBox ParentUISearchBox
+        {
+            get
+            {
+                UISearchBox searchBox = ParentSelector as UISearchBox;
+
+                if (searchBox == null)
+                {
+                    searchBox = CustomVisualTreeHelper.FindVisulaParent<UISearchBox>(this);
+                }
+                return searchBox;
+            }
+        }
+        internal Selector ParentSelector
+        {
+            get
+            {
+                return ItemsControl.ItemsControlFromItemContainer(this) as Selector;
+            }
+        }
+        #endregion
+
+        #region Public Properties
         public bool IsSelected
         {
             get => (bool)GetValue(IsSelectedProperty);
             set => SetValue(IsSelectedProperty, value);
-        }
-        public object Value
-        {
-            get => (object)GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
-        public object Icon
-        {
-            get => (object)GetValue(IconProperty);
-            set => SetValue(IconProperty, value);
-        }
-        public object Header
-        {
-            get => GetValue(HeaderProperty);
-            set => SetValue(HeaderProperty, value);
-        }
-        public object Description
-        {
-            get => GetValue(DescriptionProperty);
-            set => SetValue(DescriptionProperty, value);
         }
         public CornerRadius CornerRadius
         {
             get => (CornerRadius)GetValue(CornerRadiusProperty);
             set => SetValue(CornerRadiusProperty, value);
         }
+        #endregion
 
+        #region Dependency Properties
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(UISearchBoxItem), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(IsSelectedChanged)));
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(UISearchBoxItem), new FrameworkPropertyMetadata(null));
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(object), typeof(UISearchBoxItem), new FrameworkPropertyMetadata(null));
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(object), typeof(UISearchBoxItem), new UIPropertyMetadata(null));
-        public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description", typeof(object), typeof(UISearchBoxItem), new UIPropertyMetadata(null));
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(UISearchBoxItem), new UIPropertyMetadata(new CornerRadius(0)));
+        #endregion
 
+        #region Property Callbacks
         private static void IsSelectedChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            UISearchBoxItem item = (UISearchBoxItem)o;
-            item.CheckIsSelected();
-        }
+            UISearchBoxItem item = o as UISearchBoxItem;
+            bool isSelected = (bool)e.NewValue;
 
-        internal void CheckIsSelected()
-        {
-            if (IsSelected)
+            if (isSelected)
             {
-                RoutedEventArgs args = new RoutedEventArgs
-                {
-                    RoutedEvent = ItemSelectedEvent
-                };
-                RaiseEvent(args);
-                IsSelected = false;
+                item.OnSelected(new RoutedEventArgs(Selector.SelectedEvent, item));
             }
         }
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+
+        protected virtual void OnSelected(RoutedEventArgs e)
         {
-            base.OnMouseLeftButtonUp(e);
-            IsSelected = true;
+            HandleIsSelectedChanged(true, e);
         }
+
+        private void HandleIsSelectedChanged(bool newValue, RoutedEventArgs e)
+        {
+            RaiseEvent(e);
+        }
+        #endregion
     }
 }
