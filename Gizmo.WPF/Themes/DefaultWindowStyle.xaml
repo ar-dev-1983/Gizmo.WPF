@@ -51,36 +51,34 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
-                    <Border x:Name="PART_Container" Padding="0">
-                        <Grid Margin="0">
-                            <Border x:Name="PART_Border" Width="Auto" Height="Auto" Padding="0" Background="{DynamicResource {ComponentResourceKey local:UITheme, WindowBackgroundBrush}}" BorderBrush="{DynamicResource {ComponentResourceKey local:UITheme, WindowBorderBrush}}" BorderThickness="1">
-                                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
-                                    <Border x:Name="TitleBar" Background="{DynamicResource {ComponentResourceKey local:UITheme, WindowBackgroundBrush}}" BorderThickness="0" DockPanel.Dock="Top">
-                                        <Grid Height="29">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="36" />
-                                                <ColumnDefinition />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <Image WindowChrome.IsHitTestVisibleInChrome="True"  x:Name="Icon" Grid.Column="0" Width="16" Height="16" Margin="3" HorizontalAlignment="Left" Source="{Binding Path=Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
-                                            <TextBlock x:Name="Caption" Foreground="Transparent" Grid.Column="1" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="12" Opacity="0.66" Text="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
-                                            <Button WindowChrome.IsHitTestVisibleInChrome="True" Click="MinButtonClick" x:Name="MinButton" Grid.Column="2" Width="46" Height="29" VerticalAlignment="Top" Style="{DynamicResource {ComponentResourceKey local:UITheme, WindowStyleTitleBarButton}}">
-                                                <Path Data="M0,8 H8 M0,7 H8 M0,6 H8" RenderOptions.EdgeMode="Aliased" Stretch="None" Stroke="{Binding ElementName=MinButton, Path=Foreground}" StrokeThickness="1" />
-                                            </Button>
-                                            <Button WindowChrome.IsHitTestVisibleInChrome="True" Click="MaxButtonClick" x:Name="MaxButton" Grid.Column="3" Width="46" Height="29" VerticalAlignment="Top" Style="{DynamicResource {ComponentResourceKey local:UITheme, WindowStyleTitleBarButton}}">
-                                                <Path x:Name="PART_MaxButton_Path" Data="M0,0 H8 V8 H0 V0 Z" RenderOptions.EdgeMode="Aliased" Stretch="None" Stroke="{Binding ElementName=MaxButton, Path=Foreground}" StrokeThickness="1" />
-                                            </Button>
-                                            <Button WindowChrome.IsHitTestVisibleInChrome="True" Click="CloseButtonClick" x:Name="CloseButton" Grid.Column="4" Width="46" Height="29" VerticalAlignment="Top" Style="{DynamicResource {ComponentResourceKey local:UITheme, WindowStyleTitleBarButton}}">
-                                                <Path Data="M0,0 L8,8 M0,8 L8,0" Stretch="None" Stroke="{Binding ElementName=CloseButton, Path=Foreground}" StrokeThickness="1.5" />
-                                            </Button>
-                                        </Grid>
-                                    </Border>
-                                    <ContentPresenter />
-                                </DockPanel>
-                            </Border>
-                        </Grid>
+                    <Border x:Name="PART_Container" BorderThickness="0">
+                        <Border x:Name="PART_Border" Width="Auto" Height="Auto" Background="{DynamicResource {ComponentResourceKey local:UITheme, WindowBackgroundBrush}}" BorderBrush="{DynamicResource {ComponentResourceKey local:UITheme, WindowBorderBrush}}" BorderThickness="1">
+                            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+                                <Border x:Name="TitleBar" Background="{DynamicResource {ComponentResourceKey local:UITheme, WindowBackgroundBrush}}" BorderThickness="0" DockPanel.Dock="Top">
+                                    <Grid Height="29">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="36" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image WindowChrome.IsHitTestVisibleInChrome="True"  x:Name="Icon" Grid.Column="0" Width="16" Height="16" Margin="3" HorizontalAlignment="Left" Source="{Binding Path=Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <TextBlock x:Name="Caption" Foreground="Transparent" Grid.Column="1" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="12" Opacity="0.66" Text="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <Button WindowChrome.IsHitTestVisibleInChrome="True" Click="MinButtonClick" x:Name="MinButton" Grid.Column="2" Width="46" Height="29" VerticalAlignment="Top" Style="{DynamicResource {ComponentResourceKey local:UITheme, WindowStyleTitleBarButton}}">
+                                            <Path Data="M0,8 H8 M0,7 H8 M0,6 H8" RenderOptions.EdgeMode="Aliased" Stretch="None" Stroke="{Binding ElementName=MinButton, Path=Foreground}" StrokeThickness="1" />
+                                        </Button>
+                                        <Button WindowChrome.IsHitTestVisibleInChrome="True" Click="MaxButtonClick" x:Name="MaxButton" Grid.Column="3" Width="46" Height="29" VerticalAlignment="Top" Style="{DynamicResource {ComponentResourceKey local:UITheme, WindowStyleTitleBarButton}}">
+                                            <Path x:Name="PART_MaxButton_Path" Data="M0,0 H8 V8 H0 V0 Z" RenderOptions.EdgeMode="Aliased" Stretch="None" Stroke="{Binding ElementName=MaxButton, Path=Foreground}" StrokeThickness="1" />
+                                        </Button>
+                                        <Button WindowChrome.IsHitTestVisibleInChrome="True" Click="CloseButtonClick" x:Name="CloseButton" Grid.Column="4" Width="46" Height="29" VerticalAlignment="Top" Style="{DynamicResource {ComponentResourceKey local:UITheme, WindowStyleTitleBarButton}}">
+                                            <Path Data="M0,0 L8,8 M0,8 L8,0" Stretch="None" Stroke="{Binding ElementName=CloseButton, Path=Foreground}" StrokeThickness="1.5" />
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                                <ContentPresenter />
+                            </DockPanel>
+                        </Border>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">

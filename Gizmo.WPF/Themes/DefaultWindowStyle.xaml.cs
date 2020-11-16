@@ -55,7 +55,7 @@ namespace Gizmo.WPF
                 containerBorder.Padding = new Thickness(
                     SystemParameters.WorkArea.Left + 7,
                     SystemParameters.WorkArea.Top + 7,
-                    (SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right) + 7,
+                    (SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right) + 5,
                     (SystemParameters.PrimaryScreenHeight - SystemParameters.WorkArea.Bottom) + 5);
             }
             else
