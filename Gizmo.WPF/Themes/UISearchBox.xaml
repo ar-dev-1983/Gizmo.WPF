@@ -35,56 +35,263 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type local:UISearchBox}">
-        <Style.Resources>
-            <Style x:Key="CompletelyTransparentUITextBox" TargetType="local:UITextBox">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="local:UITextBox">
-                                <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+    <Style x:Key="CompletelyTransparentUITextBox" TargetType="local:UITextBox">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:UITextBox">
+                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" 
                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   BorderThickness="0" IsTabStop="False" ToolTip="{TemplateBinding ValidationError}" />
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style x:Key="CompletelyTransparentUIToggleButton" TargetType="{x:Type local:UIToggleButton}">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}}" />
-                <Setter Property="Focusable" Value="false" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type local:UIToggleButton}">
-                            <Grid>
-                                <local:GizmoIcon IsHitTestVisible="True" x:Name="PART_Icon" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Icon="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}">
-                                    <local:GizmoIcon.Effect>
-                                        <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="3" Opacity="1" ShadowDepth="0"/>
-                                    </local:GizmoIcon.Effect>
-                                </local:GizmoIcon>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="PART_Icon" Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
-                                </Trigger>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter TargetName="PART_Icon" Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </Style.Resources>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="CompletelyTransparentUIToggleButton" TargetType="{x:Type local:UIToggleButton}">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}}" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:UIToggleButton}">
+                    <Grid>
+                        <local:GizmoIcon IsHitTestVisible="True" x:Name="PART_Icon" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Icon="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}">
+                            <local:GizmoIcon.Effect>
+                                <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="3" Opacity="1" ShadowDepth="0"/>
+                            </local:GizmoIcon.Effect>
+                        </local:GizmoIcon>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Icon" Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="PART_Icon" Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="Collapsible_UISearchBox" TargetType="{x:Type local:UISearchBox}">
+        <Grid>
+            <Border VerticalAlignment="Center" HorizontalAlignment="Stretch" x:Name="PART_border" MinHeight="{TemplateBinding MinHeight}" 
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Visibility="Hidden">
+                <local:UITextBox x:Name="PART_SearchInput" Margin="24,0,1,0" Style="{StaticResource CompletelyTransparentUITextBox}"/>
+            </Border>
+            <local:UIToggleButton x:Name="PART_ToggleButton" Style="{StaticResource CompletelyTransparentUIToggleButton}"
+                            CornerRadius="{TemplateBinding CornerRadius}" 
+                            Width="{Binding MinHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                            Height="{Binding MinHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                            IsChecked="{Binding Path=IsPressed, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press" Icon="{x:Static local:GizmoIconEnum.Zoom}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left">
+            </local:UIToggleButton>
+            <Popup PopupAnimation="Fade" Name="PART_Popup" AllowsTransparency="True" Focusable="False" 
+                               IsOpen="{Binding IsPressed, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" 
+                               SnapsToDevicePixels="True" StaysOpen="False" Placement="Bottom">
+                <Grid>
+                    <Border Name="DropDownBorder" Margin="0,2,0,0" CornerRadius="3"
+                                    Background="{DynamicResource {ComponentResourceKey local:UITheme, MenuBackgroundBrush}}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                    BorderThickness="1" ClipToBounds="True" SnapsToDevicePixels="True">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.RowSpan="2" x:Name="PART_OptionsSeparator"  BorderThickness="0,0,0,1" CornerRadius="3" Margin="0,0,0,-1" BorderBrush="{TemplateBinding BorderBrush}" Background="{DynamicResource {ComponentResourceKey local:UITheme, WindowBackgroundBrush}}"/>
+                            <ContentPresenter x:Name="PART_OptionsPresenter" Grid.Row="0" Content="{TemplateBinding OptionsContent}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <ItemsPresenter x:Name="PART_ItemsPresenter" Grid.Row="2" Margin="5" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HasItems" Value="False"/>
+                    <Condition Property="ShowOptions" Value="False"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="DropDownBorder" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Collapsed"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HasItems" Value="False"/>
+                    <Condition Property="ShowOptions" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="DropDownBorder" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Visible"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HasItems" Value="True"/>
+                    <Condition Property="ShowOptions" Value="False"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="DropDownBorder" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Collapsed"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HasItems" Value="True"/>
+                    <Condition Property="ShowOptions" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="DropDownBorder" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Visible"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <Trigger Property="Orientation" Value="Left">
+                <Setter TargetName="PART_SearchInput" Property="Margin" Value="24,0,1,0"/>
+                <Setter TargetName="PART_ToggleButton" Property="HorizontalAlignment" Value="Left"/>
+                <Setter TargetName="PART_ToggleButton" Property="Icon" Value="{x:Static local:GizmoIconEnum.Zoom}"/>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Right">
+                <Setter TargetName="PART_SearchInput" Property="Margin" Value="4,0,24,0"/>
+                <Setter TargetName="PART_ToggleButton" Property="HorizontalAlignment" Value="Right"/>
+                <Setter TargetName="PART_ToggleButton" Property="Icon" Value="{x:Static local:GizmoIconEnum.Search}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="PART_border" Property="Visibility" Value="Visible"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="False">
+                <Setter TargetName="PART_border" Property="Visibility" Value="Hidden"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="NonCollapsible_UISearchBox" TargetType="{x:Type local:UISearchBox}">
+        <Grid>
+            <Border VerticalAlignment="Center" HorizontalAlignment="Stretch" x:Name="PART_border" MinHeight="{TemplateBinding MinHeight}" 
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                <local:UITextBox x:Name="PART_SearchInput" Margin="24,0,1,0" Style="{StaticResource CompletelyTransparentUITextBox}"/>
+            </Border>
+            <local:GizmoIcon Width="24" IsHitTestVisible="True" x:Name="PART_Icon" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Left" Icon="{x:Static local:GizmoIconEnum.Zoom}" Foreground="{TemplateBinding Foreground}">
+                <local:GizmoIcon.Effect>
+                    <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="3" Opacity="1" ShadowDepth="0"/>
+                </local:GizmoIcon.Effect>
+            </local:GizmoIcon>
+            <Popup PopupAnimation="Fade" Name="PART_Popup" AllowsTransparency="True" Focusable="False" 
+                               IsOpen="{Binding IsPressed, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" 
+                               SnapsToDevicePixels="True" StaysOpen="True" Placement="Bottom">
+                <Grid>
+                    <Border Name="DropDownBorder" Margin="0,2,0,0" CornerRadius="3"
+                                    Background="{DynamicResource {ComponentResourceKey local:UITheme, MenuBackgroundBrush}}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                    BorderThickness="1" ClipToBounds="True" SnapsToDevicePixels="True">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.RowSpan="2" x:Name="PART_OptionsSeparator"  BorderThickness="0,0,0,1" CornerRadius="3" Margin="0,0,0,-1" BorderBrush="{TemplateBinding BorderBrush}" Background="{DynamicResource {ComponentResourceKey local:UITheme, WindowBackgroundBrush}}"/>
+                            <ContentPresenter x:Name="PART_OptionsPresenter" Grid.Row="0" Content="{TemplateBinding OptionsContent}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <ItemsPresenter x:Name="PART_ItemsPresenter" Grid.Row="2" Margin="5" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HasItems" Value="False"/>
+                    <Condition Property="ShowOptions" Value="False"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="DropDownBorder" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Collapsed"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HasItems" Value="False"/>
+                    <Condition Property="ShowOptions" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="DropDownBorder" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Visible"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HasItems" Value="True"/>
+                    <Condition Property="ShowOptions" Value="False"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="DropDownBorder" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Collapsed"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HasItems" Value="True"/>
+                    <Condition Property="ShowOptions" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="DropDownBorder" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Visible"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <Trigger Property="Orientation" Value="Left">
+                <Setter TargetName="PART_SearchInput" Property="Margin" Value="24,0,1,0"/>
+                <Setter TargetName="PART_Icon" Property="HorizontalAlignment" Value="Left"/>
+                <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static local:GizmoIconEnum.Zoom}"/>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Right">
+                <Setter TargetName="PART_SearchInput" Property="Margin" Value="4,0,24,0"/>
+                <Setter TargetName="PART_Icon" Property="HorizontalAlignment" Value="Right"/>
+                <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static local:GizmoIconEnum.Search}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type local:UISearchBox}">
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="CornerRadius" Value="12" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
         <Setter Property="Focusable" Value="false" />
         <Setter Property="MinHeight" Value="24" />
-        <Setter Property="MinWidth" Value="24" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="MinWidth" Value="100" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -96,127 +303,14 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:UISearchBox}">
-                    <Grid>
-                        <Border VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="PART_border" Width="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}" 
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                Background="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" Opacity="0">
-                            <local:UITextBox x:Name="PART_SearchInput" Margin="24,0,1,0" Style="{StaticResource CompletelyTransparentUITextBox}" Opacity="1"/>
-                        </Border>
-                        <local:UIToggleButton x:Name="PART_ToggleButton" Style="{StaticResource CompletelyTransparentUIToggleButton}"
-                            CornerRadius="{TemplateBinding CornerRadius}" 
-                            Width="{Binding MinWidth, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                            Height="{Binding MinHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                            IsChecked="{Binding Path=IsPressed, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                            ClickMode="Press" Icon="{x:Static local:GizmoIconEnum.Zoom}"
-                            VerticalAlignment="Center" HorizontalAlignment="Left">
-                        </local:UIToggleButton>
-                        <Popup PopupAnimation="Fade" Name="PART_Popup" AllowsTransparency="True" Focusable="False" 
-                               IsOpen="{Binding IsPressed, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" 
-                               SnapsToDevicePixels="True" StaysOpen="False" Placement="Bottom">
-                            <Grid>
-                                <Border Name="DropDownBorder" Margin="0,2,0,0" CornerRadius="3"
-                                    Background="{DynamicResource {ComponentResourceKey local:UITheme, MenuBackgroundBrush}}" 
-                                    BorderBrush="{DynamicResource {ComponentResourceKey local:UITheme, MenuBorderBrush}}"
-                                    MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                    BorderThickness="1" ClipToBounds="True" SnapsToDevicePixels="True">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <ContentPresenter x:Name="PART_OptionsPresenter" Grid.Row="0" Content="{TemplateBinding OptionsContent}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                                        <Border Grid.Row="1" x:Name="PART_OptionsSeparator"  BorderThickness="0,0,0,1" Margin="-1" BorderBrush="{DynamicResource {ComponentResourceKey local:UITheme, MenuBorderBrush}}"/>
-                                        <ItemsPresenter x:Name="PART_ItemsPresenter" Grid.Row="2" Margin="5" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
-                                    </Grid>
-                                </Border>
-                            </Grid>
-                        </Popup>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="HasItems" Value="False"/>
-                                <Condition Property="ShowOptions" Value="False"/>
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="DropDownBorder" Property="Visibility" Value="Collapsed"/>
-                                <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Collapsed"/>
-                                <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Collapsed"/>
-                                <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Collapsed"/>
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="HasItems" Value="False"/>
-                                <Condition Property="ShowOptions" Value="True"/>
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="DropDownBorder" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Collapsed"/>
-                                <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Collapsed"/>
-                                <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Visible"/>
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="HasItems" Value="True"/>
-                                <Condition Property="ShowOptions" Value="False"/>
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="DropDownBorder" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Collapsed"/>
-                                <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Collapsed"/>
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="HasItems" Value="True"/>
-                                <Condition Property="ShowOptions" Value="True"/>
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="DropDownBorder" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="PART_ItemsPresenter" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="PART_OptionsSeparator" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="PART_OptionsPresenter" Property="Visibility" Value="Visible"/>
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                        <Trigger Property="Orientation" Value="Left">
-                            <Setter Property="HorizontalAlignment" Value="Left"/>
-                            <Setter TargetName="PART_ToggleButton" Property="HorizontalAlignment" Value="Left"/>
-                            <Setter TargetName="PART_SearchInput" Property="Margin" Value="24,0,1,0"/>
-                            <Setter TargetName="PART_ToggleButton" Property="Icon" Value="{x:Static local:GizmoIconEnum.Zoom}"/>
-                        </Trigger>
-                        <Trigger Property="Orientation" Value="Right">
-                            <Setter Property="HorizontalAlignment" Value="Right"/>
-                            <Setter TargetName="PART_ToggleButton" Property="HorizontalAlignment" Value="Right"/>
-                            <Setter TargetName="PART_SearchInput" Property="Margin" Value="1,0,24,0"/>
-                            <Setter TargetName="PART_ToggleButton" Property="Icon" Value="{x:Static local:GizmoIconEnum.Search}"/>
-                        </Trigger>
-                        <EventTrigger RoutedEvent="{x:Static local:UISearchBox.PressedEvent}">
-                            <BeginStoryboard>
-                                <Storyboard >
-                                    <DoubleAnimation Storyboard.TargetName="PART_border" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:1" FillBehavior="HoldEnd" />
-                                    <DoubleAnimation Storyboard.TargetName="PART_border" Storyboard.TargetProperty="Width" To="300" Duration="0:0:1" FillBehavior="HoldEnd" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="{x:Static local:UISearchBox.UnpressedEvent}">
-                            <BeginStoryboard>
-                                <Storyboard >
-                                    <DoubleAnimation Storyboard.TargetName="PART_border" Storyboard.TargetProperty="Width" To="24" Duration="0:0:1" FillBehavior="HoldEnd" />
-                                    <DoubleAnimation Storyboard.TargetName="PART_border" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:1" FillBehavior="HoldEnd" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Collapsible" Value="True">
+                <Setter Property="Template" Value="{StaticResource Collapsible_UISearchBox}"/>
+            </Trigger>
+            <Trigger Property="Collapsible" Value="False">
+                <Setter Property="Template" Value="{StaticResource NonCollapsible_UISearchBox}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

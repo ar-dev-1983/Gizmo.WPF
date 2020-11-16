@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Gizmo.WPF
 {
@@ -11,16 +12,16 @@ namespace Gizmo.WPF
     {
         #region Internal Properties
         const string partSearchInput = "PART_SearchInput";
-        
+
         protected UITextBox searchTextBox;
-        
+
         internal UITextBox SearchTextBox => searchTextBox;
 
         #endregion
 
         #region Routed Events
         public static RoutedEvent SearchTextChangedEvent;
-        
+
         public event RoutedEventHandler SearchTextChanged
         {
             add { AddHandler(SearchTextChangedEvent, value); }
@@ -28,15 +29,15 @@ namespace Gizmo.WPF
         }
 
         public static RoutedEvent PressedEvent;
-        
+
         public static RoutedEvent UnpressedEvent;
-        
+
         public event RoutedEventHandler PressedClick
         {
             add { AddHandler(PressedEvent, value); }
             remove { RemoveHandler(PressedEvent, value); }
         }
-        
+
         public event RoutedEventHandler UnpressedClick
         {
             add { AddHandler(UnpressedEvent, value); }
@@ -50,7 +51,7 @@ namespace Gizmo.WPF
         {
             DefaultStyleKey = typeof(UISearchBox);
         }
-        
+
         static UISearchBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(UISearchBox), new FrameworkPropertyMetadata(typeof(UISearchBox)));
@@ -84,15 +85,18 @@ namespace Gizmo.WPF
             base.OnApplyTemplate();
             if (searchTextBox != null)
             {
-                searchTextBox.TextChanged += SearchTextBox_TextChanged;
+                searchTextBox.TextChanged -= SearchTextBox_TextChanged;
+                searchTextBox.GotFocus -= SearchTextBox_GotFocus;
+                searchTextBox.LostFocus -= SearchTextBox_LostFocus;
             }
             searchTextBox = GetTemplateChild(partSearchInput) as UITextBox;
             if (searchTextBox != null)
             {
                 searchTextBox.TextChanged += SearchTextBox_TextChanged;
+                searchTextBox.GotFocus += SearchTextBox_GotFocus;
+                searchTextBox.LostFocus += SearchTextBox_LostFocus;
             }
         }
-
         private void AttachItems()
         {
             foreach (object item in Items)
@@ -101,7 +105,7 @@ namespace Gizmo.WPF
                 if (container == null)
                 {
                     UpdateLayout();
-                    container = ItemContainerGenerator.ContainerFromItem(item) as UISearchBoxItem; 
+                    container = ItemContainerGenerator.ContainerFromItem(item) as UISearchBoxItem;
                 }
                 if (container != null)
                 {
@@ -119,11 +123,45 @@ namespace Gizmo.WPF
         #endregion
 
         #region Event Handlers
+        private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender != null)
+            {
+                if (Items != null)
+                {
+                    if (!Collapsible && Items.Count != 0 && IsPressed)
+                    {
+                        IsPressed = false;
+                    }
+                }
+            }
+        }
+
+        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!Collapsible)
+            {
+                if (!IsPressed)
+                    IsPressed = true;
+            }
+        }
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (sender != null)
             {
-                if (IsPressed)
+                if (Collapsible)
+                {
+                    if (IsPressed)
+                    {
+                        SearchText = (sender as UITextBox).Text;
+                        RoutedEventArgs args = new RoutedEventArgs
+                        {
+                            RoutedEvent = SearchTextChangedEvent
+                        };
+                        RaiseEvent(args);
+                    }
+                }
+                else
                 {
                     SearchText = (sender as UITextBox).Text;
                     RoutedEventArgs args = new RoutedEventArgs
@@ -148,35 +186,40 @@ namespace Gizmo.WPF
             get => (bool)GetValue(IsPressedProperty);
             set => SetValue(IsPressedProperty, value);
         }
-        
+
         public bool HoldSearchTextAfterHide
         {
             get => (bool)GetValue(HoldSearchTextAfterHideProperty);
             set => SetValue(HoldSearchTextAfterHideProperty, value);
         }
-        
+
         public string SearchText
         {
             get => (string)GetValue(SearchTextProperty);
             set => SetValue(SearchTextProperty, value);
         }
-        
+
         public SearchPlacementEnum Orientation
         {
             get => (SearchPlacementEnum)GetValue(OrientationProperty);
             set => SetValue(OrientationProperty, value);
         }
-        
+
         public bool ShowOptions
         {
             get => (bool)GetValue(ShowOptionsProperty);
             set => SetValue(ShowOptionsProperty, value);
         }
-        
+
         public object OptionsContent
         {
             get => (bool)GetValue(OptionsContentProperty);
             set => SetValue(OptionsContentProperty, value);
+        }
+        public bool Collapsible
+        {
+            get => (bool)GetValue(CollapsibleProperty);
+            set => SetValue(CollapsibleProperty, value);
         }
         #endregion
 
@@ -188,6 +231,7 @@ namespace Gizmo.WPF
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(SearchPlacementEnum), typeof(UISearchBox), new UIPropertyMetadata(SearchPlacementEnum.Left));
         public static readonly DependencyProperty ShowOptionsProperty = DependencyProperty.Register("ShowOptions", typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(false));
         public static readonly DependencyProperty OptionsContentProperty = DependencyProperty.Register("OptionsContent", typeof(object), typeof(UISearchBox), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty CollapsibleProperty = DependencyProperty.Register("Collapsible", typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(true));
         #endregion
 
         #region Property Callbacks
@@ -212,6 +256,12 @@ namespace Gizmo.WPF
             }
             else
             {
+                if (!Collapsible)
+                {
+                    //then the Collapsible is false we must get rid of the logical and keyboard focus set in searchTextBox
+                    FocusManager.SetFocusedElement(FocusManager.GetFocusScope(searchTextBox), null);
+                    Keyboard.ClearFocus();
+                }
                 RoutedEventArgs args = new RoutedEventArgs
                 {
                     RoutedEvent = UnpressedEvent

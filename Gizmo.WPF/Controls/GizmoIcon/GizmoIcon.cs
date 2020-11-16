@@ -46,7 +46,8 @@ namespace Gizmo.WPF
         {
             d.SetValue(FontFamilyProperty, !(d is GizmoIcon) ? GizmoIconFontFamily : (d as GizmoIcon).IconFontFamily);
             d.SetValue(TextAlignmentProperty, TextAlignment.Center);
-            d.SetValue(TextProperty, char.ConvertFromUtf32((int)e.NewValue));
+            if (e.NewValue != null)
+                d.SetValue(TextProperty, char.ConvertFromUtf32((int)e.NewValue));
         }
         private static void OnIconFontFamilyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
