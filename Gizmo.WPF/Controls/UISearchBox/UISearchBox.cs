@@ -221,6 +221,11 @@ namespace Gizmo.WPF
             get => (bool)GetValue(CollapsibleProperty);
             set => SetValue(CollapsibleProperty, value);
         }
+        public PlacementMode PopupPlacement
+        {
+            get => (PlacementMode)GetValue(PopupPlacementProperty);
+            set => SetValue(PopupPlacementProperty, value);
+        }
         #endregion
 
         #region Dependency Properties
@@ -232,6 +237,7 @@ namespace Gizmo.WPF
         public static readonly DependencyProperty ShowOptionsProperty = DependencyProperty.Register("ShowOptions", typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(false));
         public static readonly DependencyProperty OptionsContentProperty = DependencyProperty.Register("OptionsContent", typeof(object), typeof(UISearchBox), new UIPropertyMetadata(null));
         public static readonly DependencyProperty CollapsibleProperty = DependencyProperty.Register("Collapsible", typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(true));
+        public static readonly DependencyProperty PopupPlacementProperty = DependencyProperty.Register("PopupPlacement", typeof(PlacementMode), typeof(UISearchBox), new UIPropertyMetadata(PlacementMode.Bottom));
         #endregion
 
         #region Property Callbacks

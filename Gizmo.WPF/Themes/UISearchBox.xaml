@@ -95,7 +95,7 @@
             </local:UIToggleButton>
             <Popup PopupAnimation="Fade" Name="PART_Popup" AllowsTransparency="True" Focusable="False" 
                                IsOpen="{Binding IsPressed, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" 
-                               SnapsToDevicePixels="True" StaysOpen="False" Placement="Bottom">
+                               SnapsToDevicePixels="True" StaysOpen="False" Placement="{TemplateBinding PopupPlacement}">
                 <Grid>
                     <Border Name="DropDownBorder" Margin="0,2,0,0" CornerRadius="3"
                                     Background="{DynamicResource {ComponentResourceKey local:UITheme, MenuBackgroundBrush}}" 
@@ -200,7 +200,7 @@
             </local:GizmoIcon>
             <Popup PopupAnimation="Fade" Name="PART_Popup" AllowsTransparency="True" Focusable="False" 
                                IsOpen="{Binding IsPressed, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" 
-                               SnapsToDevicePixels="True" StaysOpen="True" Placement="Bottom">
+                               SnapsToDevicePixels="True" StaysOpen="True" Placement="{TemplateBinding PopupPlacement}">
                 <Grid>
                     <Border Name="DropDownBorder" Margin="0,2,0,0" CornerRadius="3"
                                     Background="{DynamicResource {ComponentResourceKey local:UITheme, MenuBackgroundBrush}}" 
