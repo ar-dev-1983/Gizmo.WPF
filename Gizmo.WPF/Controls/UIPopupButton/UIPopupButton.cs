@@ -4,28 +4,9 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Markup;
-using System.Windows.Media;
 
 namespace Gizmo.WPF
 {
-    public static class PopupHelper
-    {
-        public static bool IsLogicalAncestorOf(this UIElement ancestor, UIElement child)
-        {
-            if (child != null)
-            {
-                FrameworkElement obj = child as FrameworkElement;
-                while (obj != null)
-                {
-                    FrameworkElement parent = VisualTreeHelper.GetParent(obj) as FrameworkElement;
-                    obj = parent == null ? obj.Parent as FrameworkElement : parent as FrameworkElement;
-                    if (obj == ancestor) return true;
-                }
-            }
-            return false;
-        }
-    }
-
     [TemplatePart(Name = partPopup)]
     [ContentProperty("Items")]
     public class UIPopupButton : MenuItem, ICorneredControl, ICommandSource

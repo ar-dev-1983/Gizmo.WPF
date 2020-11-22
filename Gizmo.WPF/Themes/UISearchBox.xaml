@@ -2,7 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Gizmo.WPF">
     <local:HeightDivideConverter x:Key="HeightDivideConverter" />
-
+    
+    <DataTemplate x:Key="WatermarkTemplate">
+        <ContentControl Content="{Binding}" Foreground="{DynamicResource {ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}}" Focusable="False" />
+    </DataTemplate>
+    
     <Style TargetType="{x:Type local:UISearchBoxItem}">
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
         <Setter Property="Background" Value="Transparent" />
@@ -38,13 +42,45 @@
     <Style x:Key="CompletelyTransparentUITextBox" TargetType="local:UITextBox">
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Watermark" Value="Search" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:UITextBox">
+                    <Grid>
+                    <ContentPresenter x:Name="PART_Watermark"
+                                      Content="{TemplateBinding Watermark}"
+                                      ContentTemplate="{Binding WatermarkDataTemplate, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource WatermarkTemplate}}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      IsHitTestVisible="False"
+                                      Visibility="Collapsed" />
                     <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" 
                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   BorderThickness="0" IsTabStop="False" ToolTip="{TemplateBinding ValidationError}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Watermark" Value="{x:Null}">
+                            <Setter TargetName="PART_Watermark" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="False" />
+                                <Condition Property="Text" Value="" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Watermark" Property="Visibility" Value="Collapsed" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Text" Value="" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Watermark" Property="Visibility" Value="Visible" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

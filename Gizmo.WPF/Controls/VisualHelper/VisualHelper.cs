@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Gizmo.WPF
 {
-    public class CustomVisualTreeHelper
+    public static class VisualHelper
     {
         //this static method is for most common purpuses
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
@@ -27,6 +29,43 @@ namespace Gizmo.WPF
                 //we have not yet reached the Parent of the desired type, so we continue to search.
                 _ => FindVisulaParent<T>(parentObject)
             };
+        }
+
+        public static bool IsLogicalAncestorOf(this UIElement ancestor, UIElement child)
+        {
+            if (child != null)
+            {
+                FrameworkElement obj = child as FrameworkElement;
+                while (obj != null)
+                {
+                    FrameworkElement parent = VisualTreeHelper.GetParent(obj) as FrameworkElement;
+                    obj = parent == null ? obj.Parent as FrameworkElement : parent as FrameworkElement;
+                    if (obj == ancestor) return true;
+                }
+            }
+            return false;
+        }
+
+        public static PngBitmapEncoder SnapShotPNG(this UIElement visualSource)
+        {
+            double actualHeight = visualSource.RenderSize.Height;
+            double actualWidth = visualSource.RenderSize.Width;
+
+            RenderTargetBitmap renderTarget = new RenderTargetBitmap((int)actualWidth, (int)actualHeight, 96, 96, PixelFormats.Pbgra32);
+            VisualBrush sourceBrush = new VisualBrush(visualSource);
+
+            DrawingVisual drawingVisual = new DrawingVisual();
+            DrawingContext drawingContext = drawingVisual.RenderOpen();
+
+            using (drawingContext)
+            {
+                drawingContext.DrawRectangle(sourceBrush, null, new Rect(new Point(0, 0), new Point(actualWidth, actualHeight)));
+            }
+            renderTarget.Render(drawingVisual);
+
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(renderTarget));
+            return encoder;
         }
     }
 }

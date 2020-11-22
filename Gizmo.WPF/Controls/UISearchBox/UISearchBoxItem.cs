@@ -1,14 +1,34 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace Gizmo.WPF
 {
+    /// <summary>
+    /// UISearchBoxItem - это элемент управления для представления выбираемых элементов для UISearchBox
+    /// </summary>
+    /// <remarks>
+    /// UISearchBoxItem is a control that implements a selectable item for UISearchBox
+    /// </remarks>
     public class UISearchBoxItem : ContentControl, ICorneredControl
     {
         #region Routed Events
-        public static readonly RoutedEvent SelectedEvent = Selector.SelectedEvent.AddOwner(typeof(ListBoxItem));
+        /// <summary>
+        /// Событие представляющее выбор элемента UISearchBoxItem
+        /// </summary>
+        /// <remarks>
+        /// Routed event represents Selection Event for UISearchBoxItem
+        /// </remarks>
+        public static readonly RoutedEvent SelectedEvent = Selector.SelectedEvent.AddOwner(typeof(UISearchBoxItem));
+
+        /// <summary>
+        /// Обработчик события представляющего выбор элемента UISearchBoxItem
+        /// </summary>
+        /// <remarks>
+        /// Routed event handler represents Selection Event for UISearchBoxItem
+        /// </remarks>
         public event RoutedEventHandler Selected
         {
             add
@@ -23,8 +43,13 @@ namespace Gizmo.WPF
         #endregion
 
         #region Constructors
-        public UISearchBoxItem()
-: base()
+        /// <summary>
+        /// Конструктор по умолчанию для DependencyObject
+        /// </summary>
+        /// <remarks>
+        /// Default DependencyObject constructor
+        /// </remarks>
+        public UISearchBoxItem() : base()
         {
             DefaultStyleKey = typeof(UISearchBoxItem);
         }
@@ -39,6 +64,13 @@ namespace Gizmo.WPF
         {
             base.OnApplyTemplate();
         }
+
+        /// <summary>
+        /// Виртуальная функция, которая реализует обработку свойства IsSelected.
+        /// </summary>
+        /// <remarks>
+        /// Virtual function that implements how to handle IsSelected property.
+        /// </remarks>
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
@@ -48,6 +80,12 @@ namespace Gizmo.WPF
         #endregion
 
         #region Private Methods
+        /// <summary>
+        /// Вспомогательная функция для обработки действий при выборе элемента в режиме одиночного выделения элементов.
+        /// </summary>
+        /// <remarks>
+        /// Helper function for handling actions when selecting an item in single item selection mode.
+        /// </remarks>
         private void Select()
         {
             if (ParentUISearchBox != null)
@@ -59,6 +97,12 @@ namespace Gizmo.WPF
         #endregion
 
         #region Private Properties
+        /// <summary>
+        /// Parent ItemsControl for UISearchBoxItems
+        /// </summary>
+        /// <remarks>
+        /// Parent ItemsControl for UISearchBoxItems
+        /// </remarks>
         private UISearchBox ParentUISearchBox
         {
             get
@@ -67,11 +111,18 @@ namespace Gizmo.WPF
 
                 if (searchBox == null)
                 {
-                    searchBox = CustomVisualTreeHelper.FindVisulaParent<UISearchBox>(this);
+                    searchBox = VisualHelper.FindVisulaParent<UISearchBox>(this);
                 }
                 return searchBox;
             }
         }
+
+        /// <summary>
+        /// Parent Selector for UISearchBoxItems
+        /// </summary>
+        /// <remarks>
+        /// Parent Selector for UISearchBoxItems
+        /// </remarks>
         internal Selector ParentSelector
         {
             get
@@ -82,11 +133,25 @@ namespace Gizmo.WPF
         #endregion
 
         #region Public Properties
+        /// <summary>
+        /// Указывает был ли выделен UISearchBoxItems.
+        /// </summary>
+        /// <remarks>
+        /// Indicates whether this UISearchBoxItems is selected.
+        /// </remarks>
+        [Bindable(true), Category("Appearance")]
         public bool IsSelected
         {
             get => (bool)GetValue(IsSelectedProperty);
             set => SetValue(IsSelectedProperty, value);
         }
+        /// <summary>
+        /// Задает радиус углов для UISearchBoxItems.
+        /// </summary>
+        /// <remarks>
+        /// Sets the corner radius for the UISearchBoxItems.
+        /// </remarks>
+        [Bindable(true), Category("Appearance")]
         public CornerRadius CornerRadius
         {
             get => (CornerRadius)GetValue(CornerRadiusProperty);

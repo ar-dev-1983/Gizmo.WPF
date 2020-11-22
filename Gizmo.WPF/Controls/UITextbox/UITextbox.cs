@@ -17,28 +17,38 @@ namespace Gizmo.WPF
             set => SetValue(CornerRadiusProperty, value);
         }
 
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(UITextBox), new UIPropertyMetadata(new CornerRadius(3)));
         public bool Flat
         {
             get => (bool)GetValue(FlatProperty);
             set => SetValue(FlatProperty, value);
         }
 
-        public static readonly DependencyProperty FlatProperty = DependencyProperty.Register("Flat", typeof(bool), typeof(UITextBox), new UIPropertyMetadata(false));
         public bool IsValidationError
         {
             get => (bool)GetValue(IsValidationErrorProperty);
             set => SetValue(IsValidationErrorProperty, value);
         }
 
-        public static readonly DependencyProperty IsValidationErrorProperty = DependencyProperty.Register("IsValidationError", typeof(bool), typeof(UITextBox), new UIPropertyMetadata(false));
         public string ValidationError
         {
             get => (string)GetValue(ValidationErrorProperty);
             set => SetValue(ValidationErrorProperty, value);
         }
-
+        public object Watermark
+        {
+            get => (object)GetValue(WatermarkProperty);
+            set => SetValue(WatermarkProperty, value);
+        }
+        public DataTemplate WatermarkDataTemplate
+        {
+            get => (DataTemplate)GetValue(WatermarkDataTemplateProperty);
+            set => SetValue(WatermarkDataTemplateProperty, value);
+        }
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(UITextBox), new UIPropertyMetadata(new CornerRadius(3)));
+        public static readonly DependencyProperty FlatProperty = DependencyProperty.Register("Flat", typeof(bool), typeof(UITextBox), new UIPropertyMetadata(false));
+        public static readonly DependencyProperty IsValidationErrorProperty = DependencyProperty.Register("IsValidationError", typeof(bool), typeof(UITextBox), new UIPropertyMetadata(false));
         public static readonly DependencyProperty ValidationErrorProperty = DependencyProperty.Register("ValidationError", typeof(string), typeof(UITextBox), new UIPropertyMetadata(null));
-
+        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(object), typeof(UITextBox), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty WatermarkDataTemplateProperty = DependencyProperty.Register("WatermarkDataTemplate", typeof(DataTemplate), typeof(UITextBox), new UIPropertyMetadata(null));
     }
 }

@@ -2,6 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Gizmo.WPF">
 
+    <local:BoolConverter x:Key="BoolConverter" />
+    <local:BoolInvertedConverter x:Key="BoolInvertedConverter" />
+    <local:BoolToFontStyle x:Key="BoolToFontStyle" />
+    <local:BoolToFontWeight x:Key="BoolToFontWeight" />
+    <local:BoolToVisivilityConverter x:Key="BoolToVisivilityConverter" />
+    <local:BoolToVisivilityInvertedConverter x:Key="BoolToVisivilityInvertedConverter" />
+    <local:NullableValueConverter x:Key="NullableValueConverter" />
     <local:RoundedCornerConverter x:Key="RoundedCornerConverter" />
 
     <Style TargetType="PasswordBox">

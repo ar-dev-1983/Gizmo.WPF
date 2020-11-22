@@ -6,6 +6,16 @@ using System.Windows.Input;
 
 namespace Gizmo.WPF
 {
+    /// <summary>
+    /// UISearchBox - это элемент управления для организации стандартизированного интерфейса для пользователя в части поиска по спискам в приложении.
+    /// UISearchBox сам по себе не выполняет поиск, а только передает строку для поиска в логике приложения, и выводит результаты поиска, передаваемые ему извне, 
+    /// для отображения пользователю и выбора определенного результата.
+    /// </summary>
+    /// <remarks>
+    /// UISearchBox is a control for organizing a standardized user interface for searching through lists in an application.
+    /// UISearchBox itself does not perform a search, it only passes the search string in the application logic,
+    /// and outputs the search results passed to it externally for display to the user and selecting a specific result.
+    /// </remarks>
     [TemplatePart(Name = partSearchInput)]
     [StyleTypedProperty(Property = "ItemContainerStyle", StyleTargetType = typeof(UISearchBoxItem))]
     public class UISearchBox : Selector, ICorneredControl
@@ -20,8 +30,20 @@ namespace Gizmo.WPF
         #endregion
 
         #region Routed Events
+        /// <summary>
+        /// Событие представляющее изменение строки поиска в UISearchBox
+        /// </summary>
+        /// <remarks>
+        /// Routed Event representing search string is changed in UISearchBox
+        /// </remarks>
         public static RoutedEvent SearchTextChangedEvent;
 
+        /// <summary>
+        /// Обработчик события представляющего изменение строки поиска в UISearchBox
+        /// </summary>
+        /// <remarks>
+        /// Routed event handler represents Unselection Event for UISearchBox
+        /// </remarks>
         public event RoutedEventHandler SearchTextChanged
         {
             add { AddHandler(SearchTextChangedEvent, value); }
@@ -30,13 +52,13 @@ namespace Gizmo.WPF
 
         public static RoutedEvent PressedEvent;
 
-        public static RoutedEvent UnpressedEvent;
-
         public event RoutedEventHandler PressedClick
         {
             add { AddHandler(PressedEvent, value); }
             remove { RemoveHandler(PressedEvent, value); }
         }
+
+        public static RoutedEvent UnpressedEvent;
 
         public event RoutedEventHandler UnpressedClick
         {
@@ -46,6 +68,12 @@ namespace Gizmo.WPF
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Конструктор по умолчанию для DependencyObject
+        /// </summary>
+        /// <remarks>
+        /// Default DependencyObject constructor
+        /// </remarks>
         public UISearchBox()
 : base()
         {
@@ -226,6 +254,16 @@ namespace Gizmo.WPF
             get => (PlacementMode)GetValue(PopupPlacementProperty);
             set => SetValue(PopupPlacementProperty, value);
         }
+        public object Watermark
+        {
+            get => (object)GetValue(WatermarkProperty);
+            set => SetValue(WatermarkProperty, value);
+        }
+        public DataTemplate WatermarkDataTemplate
+        {
+            get => (DataTemplate)GetValue(WatermarkDataTemplateProperty);
+            set => SetValue(WatermarkDataTemplateProperty, value);
+        }
         #endregion
 
         #region Dependency Properties
@@ -238,6 +276,8 @@ namespace Gizmo.WPF
         public static readonly DependencyProperty OptionsContentProperty = DependencyProperty.Register("OptionsContent", typeof(object), typeof(UISearchBox), new UIPropertyMetadata(null));
         public static readonly DependencyProperty CollapsibleProperty = DependencyProperty.Register("Collapsible", typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(true));
         public static readonly DependencyProperty PopupPlacementProperty = DependencyProperty.Register("PopupPlacement", typeof(PlacementMode), typeof(UISearchBox), new UIPropertyMetadata(PlacementMode.Bottom));
+        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(object), typeof(UISearchBox), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty WatermarkDataTemplateProperty = DependencyProperty.Register("WatermarkDataTemplate", typeof(DataTemplate), typeof(UISearchBox), new UIPropertyMetadata(null));
         #endregion
 
         #region Property Callbacks

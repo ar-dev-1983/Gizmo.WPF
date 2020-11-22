@@ -1,6 +1,11 @@
 ﻿namespace Gizmo.WPF
 {
-    //Default Icons from Gizmo.IconFont for most common purposes
+    /// <summary>
+    /// Перечисление для установки внешнего вида GizmoIcon
+    /// </summary>
+    /// <remarks>
+    /// Enumeration for setting the appearance of the GizmoIcon
+    /// </remarks>    
     public enum GizmoIconEnum
     {
         None = 0x0,
