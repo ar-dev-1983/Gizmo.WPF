@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gizmo.Demo", "Gizmo.Demo\Gizmo.Demo.csproj", "{72EFB6BA-1112-4F1E-AED7-457ECEEA83FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gizmo.WPF", "..\Gizmo.WPF\Gizmo.WPF.csproj", "{7B14B05B-7D09-4EB2-B61F-F96CB3475934}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72EFB6BA-1112-4F1E-AED7-457ECEEA83FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72EFB6BA-1112-4F1E-AED7-457ECEEA83FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72EFB6BA-1112-4F1E-AED7-457ECEEA83FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72EFB6BA-1112-4F1E-AED7-457ECEEA83FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B14B05B-7D09-4EB2-B61F-F96CB3475934}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B14B05B-7D09-4EB2-B61F-F96CB3475934}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B14B05B-7D09-4EB2-B61F-F96CB3475934}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B14B05B-7D09-4EB2-B61F-F96CB3475934}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF64A622-CDC3-4A43-8A08-69E65D71F81C}
+	EndGlobalSection
+EndGlobal

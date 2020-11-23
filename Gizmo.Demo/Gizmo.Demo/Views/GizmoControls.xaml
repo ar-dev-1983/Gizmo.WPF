@@ -1,0 +1,273 @@
+﻿<Page x:Class="Gizmo.Demo.GizmoControls"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:System="clr-namespace:System;assembly=mscorlib"
+      xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
+      xmlns:local="clr-namespace:Gizmo.Demo"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}"
+      Title="">
+    <Page.Resources>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ui:SelectionModeEnum"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="115"/>
+                <ColumnDefinition Width="65"/>
+                <ColumnDefinition Width="115"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Text="UIButton, UIToggleButton, UIPopupButton" FontSize="11pt" FontWeight="Bold" Margin="4" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="0" Grid.Row="1" TextAlignment="Right" VerticalAlignment="Center" Text="FLAT:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Right" VerticalAlignment="Center" Text="DISABLED:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="3" TextAlignment="Right" VerticalAlignment="Center" Text="NORMAL:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="6" TextAlignment="Right" VerticalAlignment="Center" Text="TOGGLE ON:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="7" TextAlignment="Right" VerticalAlignment="Center" Text="DEFAULT:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="8" TextAlignment="Right" VerticalAlignment="Center" Text="WITH ICON:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="9" TextAlignment="Right" VerticalAlignment="Center" Text="WITH POPUP:" FontSize="10pt" Margin="4"/>
+            
+            <ui:UIButton Grid.Column="2" Grid.Row="1" Margin="4" Height="24" Content="BUTTON" CornerRadius="12" Flat="True"/>
+            <ui:UIButton Grid.Column="2" Grid.Row="2" Margin="4" Height="24" Content="BUTTON" CornerRadius="12" Flat="False" IsEnabled="False"/>
+            <ui:UIButton Grid.Column="2" Grid.Row="3" Margin="4" Height="24" Content="BUTTON" CornerRadius="12" Flat="False"/>
+            <ui:UIToggleButton Grid.Column="2" Grid.Row="6" Margin="4" Height="24" Content="BUTTON" CornerRadius="12" Flat="False" IsChecked="True"/>
+            <ui:UIButton Grid.Column="2" Grid.Row="7" Margin="4" Height="24" Content="BUTTON" CornerRadius="12" Flat="False" IsDefault="True"/>
+            <ui:UIButton Grid.Column="2" Grid.Row="8" Margin="4" Height="24" Content="BUTTON" CornerRadius="12" Flat="False">
+                <ui:UIButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIButton.Icon>
+            </ui:UIButton>
+            <ui:UIPopupButton Grid.Column="2" Grid.Row="9" Margin="4" Height="24" Content="BUTTON" CornerRadius="12" Flat="False">
+                <ui:UIPopupButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIPopupButton.Icon>
+                <MenuItem Header="Project">
+                    <MenuItem.Icon>
+                        <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Reports">
+                    <MenuItem.Icon>
+                        <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Log">
+                    <MenuItem.Icon>
+                        <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ui:UIPopupButton>
+
+            <ui:UIButton Grid.Column="3" Grid.Row="1" Margin="4" Width="24" Height="24" CornerRadius="12" Flat="True">
+                <ui:UIButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIButton.Icon>
+            </ui:UIButton>
+            <ui:UIButton Grid.Column="3" Grid.Row="2" Margin="4" Width="24" Height="24" CornerRadius="12" Flat="False" IsEnabled="False">
+                <ui:UIButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIButton.Icon>
+            </ui:UIButton>
+            <ui:UIButton Grid.Column="3" Grid.Row="3" Margin="4" Width="24" Height="24" CornerRadius="12" Flat="False">
+                <ui:UIButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIButton.Icon>
+            </ui:UIButton>
+            <ui:UIToggleButton Grid.Column="3" Grid.Row="6" Margin="4" Width="24" Height="24" CornerRadius="12" Flat="False" IsChecked="True">
+                <ui:UIToggleButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIToggleButton.Icon>
+            </ui:UIToggleButton>
+            <ui:UIButton Grid.Column="3" Grid.Row="7" Margin="4" Width="24" Height="24" CornerRadius="12" Flat="False" IsDefault="True">
+                <ui:UIButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIButton.Icon>
+            </ui:UIButton>
+            <ui:UIButton Grid.Column="3" Grid.Row="8" Margin="4" Width="24" Height="24" CornerRadius="12" Flat="False">
+                <ui:UIButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIButton.Icon>
+            </ui:UIButton>
+            <ui:UIPopupButton Grid.Column="3" Grid.Row="9" Margin="4" Width="40" Height="24" CornerRadius="12" Flat="False">
+                <ui:UIPopupButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIPopupButton.Icon>
+                <MenuItem Header="Project">
+                    <MenuItem.Icon>
+                        <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Reports">
+                    <MenuItem.Icon>
+                        <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Log">
+                    <MenuItem.Icon>
+                        <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ui:UIPopupButton>
+
+            <ui:UIButton Grid.Column="4" Grid.Row="1" Margin="4" Height="24" Content="BUTTON" CornerRadius="0" Flat="True"/>
+            <ui:UIButton Grid.Column="4" Grid.Row="2" Margin="4" Height="24" Content="BUTTON" CornerRadius="0" Flat="False" IsEnabled="False"/>
+            <ui:UIButton Grid.Column="4" Grid.Row="3" Margin="4" Height="24" Content="BUTTON" CornerRadius="0" Flat="False"/>
+            <ui:UIToggleButton Grid.Column="4" Grid.Row="6" Margin="4" Height="24" Content="BUTTON" CornerRadius="0" Flat="False" IsChecked="True"/>
+            <ui:UIButton Grid.Column="4" Grid.Row="7" Margin="4" Height="24" Content="BUTTON" CornerRadius="0" Flat="False" IsDefault="True"/>
+            <ui:UIButton Grid.Column="4" Grid.Row="8" Margin="4" Height="24" Content="BUTTON" CornerRadius="0" Flat="False">
+                <ui:UIButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIButton.Icon>
+            </ui:UIButton>
+            <ui:UIPopupButton Grid.Column="4" Grid.Row="9" Margin="4" Height="24" Content="BUTTON" CornerRadius="0" Flat="False">
+                <ui:UIPopupButton.Icon>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                </ui:UIPopupButton.Icon>
+                <MenuItem Header="Project">
+                    <MenuItem.Icon>
+                        <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Reports">
+                    <MenuItem.Icon>
+                        <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Log">
+                    <MenuItem.Icon>
+                        <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Add}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ui:UIPopupButton>
+
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="115"/>
+                <ColumnDefinition Width="115"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Text="UISwitch" FontSize="11pt" FontWeight="Bold" Margin="4" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="0" Grid.Row="1" TextAlignment="Right" VerticalAlignment="Center" Text="DEFAULT/OFF:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Right" VerticalAlignment="Center" Text="DEFAULT/ON:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="3" TextAlignment="Right" VerticalAlignment="Center" Text="DISABLED/OFF:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="4" TextAlignment="Right" VerticalAlignment="Center" Text="DISABLED/ON:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="5" TextAlignment="Right" VerticalAlignment="Center" Text="READONLY:" FontSize="10pt" Margin="4"/>
+
+            <ui:UISwitch Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="False" Header="LABEL" HeaderPlacement="Right"/>
+            <ui:UISwitch Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="True" Header="LABEL" HeaderPlacement="Right"/>
+            <ui:UISwitch Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="False" Header="LABEL" HeaderPlacement="Right" IsEnabled="False"/>
+            <ui:UISwitch Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="True" Header="LABEL" HeaderPlacement="Right" IsEnabled="False"/>
+            <ui:UISwitch Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="True" Header="LABEL" HeaderPlacement="Right" IsReadOnly="True"/>
+
+            <ui:UISwitch Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="False" Header="LABEL" HeaderPlacement="Right" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=SecondUISwitchStyle}}"/>
+            <ui:UISwitch Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="True" Header="LABEL" HeaderPlacement="Right" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=SecondUISwitchStyle}}"/>
+            <ui:UISwitch Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="False" Header="LABEL" HeaderPlacement="Right" IsEnabled="False" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=SecondUISwitchStyle}}"/>
+            <ui:UISwitch Grid.Column="2" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="True" Header="LABEL" HeaderPlacement="Right" IsEnabled="False" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=SecondUISwitchStyle}}"/>
+            <ui:UISwitch Grid.Column="2" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="True" Header="LABEL" HeaderPlacement="Right" IsReadOnly="True" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=SecondUISwitchStyle}}"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="115"/>
+                <ColumnDefinition Width="65"/>
+                <ColumnDefinition Width="115"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Text="UITextBox, UIPasswordBox" FontSize="11pt" FontWeight="Bold" Margin="4" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="0" Grid.Row="1" TextAlignment="Right" VerticalAlignment="Center" Text="FLAT:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Right" VerticalAlignment="Center" Text="DISABLED:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="3" TextAlignment="Right" VerticalAlignment="Center" Text="NORMAL:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="4" TextAlignment="Right" VerticalAlignment="Center" Text="READONLY:" FontSize="10pt" Margin="4"/>
+            <TextBlock Grid.Column="0" Grid.Row="5" TextAlignment="Right" VerticalAlignment="Center" Text="VALIDATION ERROR:" FontSize="10pt" Margin="4"/>
+
+            <ui:UITextBox CornerRadius="2" Grid.Column="2" Grid.Row="1" Margin="4" Height="24" Text="TEXTBOX" Flat="True"/>
+            <ui:UITextBox CornerRadius="2" Grid.Column="2" Grid.Row="2" Margin="4" Height="24" Text="TEXTBOX" IsEnabled="False"/>
+            <ui:UITextBox CornerRadius="2" Grid.Column="2" Grid.Row="3" Margin="4" Height="24" Text="TEXTBOX"/>
+            <ui:UITextBox CornerRadius="2" Grid.Column="2" Grid.Row="4" Margin="4" Height="24" Text="TEXTBOX" IsReadOnly="True"/>
+            <ui:UITextBox CornerRadius="2" Grid.Column="2" Grid.Row="5" Margin="4" Height="24" Text="TEXTBOX" IsValidationError="True"/>
+
+            <ui:UIPasswordBox CornerRadius="2" Grid.Column="4" Grid.Row="1" Margin="4" Height="24" Watermark="Enter password" Flat="True"/>
+            <ui:UIPasswordBox CornerRadius="2" Grid.Column="4" Grid.Row="2" Margin="4" Height="24" Watermark="Enter password" IsEnabled="False"/>
+            <ui:UIPasswordBox CornerRadius="2" Grid.Column="4" Grid.Row="3" Margin="4" Height="24" Watermark="Enter password"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="UIEnumSwitch" FontSize="11pt" FontWeight="Bold" Margin="4" TextAlignment="Center" VerticalAlignment="Center"/>
+            <ui:UIEnumSwitch Grid.Row="1" x:Name="TestEnumEwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" CornerRadius="12" BorderThickness="1" Height="24" Grid.ColumnSpan="2"
+                         SourceEnum="{x:Type local:TestEnum}">
+                <ui:UIEnumSwitch.ItemTemplate>
+                    <DataTemplate>
+                        <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}"/>
+                    </DataTemplate>
+                </ui:UIEnumSwitch.ItemTemplate>
+            </ui:UIEnumSwitch>
+            <ui:UIComboBox Grid.ColumnSpan="2" Grid.Row="2" Width="150" Flat="False" CornerRadius="2" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" SelectedItem="{Binding ElementName=TestEnumEwitch, Path=SelectionMode, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15,5"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="Selected Items" TextAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Margin="5" Text="Unselected Items" TextAlignment="Center"/>
+            <ListBox Grid.Row="4" Grid.Column="0" Margin="5" Height="134" VerticalAlignment="Top" ItemsSource="{Binding ElementName=TestEnumEwitch, Path=SelectedItems, Mode=OneWay}"/>
+            <ListBox Grid.Row="4" Grid.Column="1" Margin="5" Height="134" VerticalAlignment="Top" ItemsSource="{Binding ElementName=TestEnumEwitch, Path=UnselectedItems, Mode=OneWay}"/>
+        </Grid>
+    </Grid>
+</Page>

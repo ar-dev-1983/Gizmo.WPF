@@ -93,16 +93,33 @@ namespace Gizmo.WPF
         #endregion
 
         #region Override Methods
+        /// <summary>
+        /// Возвращает true если элемент является своим собственным контейнером
+        /// </summary>
+        /// <remarks>
+        /// Return true if the item is its own ItemContainer
+        /// </remarks>
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
             return item is UISearchBoxItem;
         }
-
+        /// <summary>
+        /// Создает контейнер для элемента
+        /// </summary>
+        /// <remarks>
+        /// Create or identify the element used to display the given item.
+        /// </remarks>
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new UISearchBoxItem();
         }
 
+        /// <summary>
+        /// Задает свойства контейнера элемента для отображения
+        /// </summary>
+        /// <remarks>
+        /// Prepare the element to display the item
+        /// </remarks>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
@@ -125,32 +142,15 @@ namespace Gizmo.WPF
                 searchTextBox.LostFocus += SearchTextBox_LostFocus;
             }
         }
-        private void AttachItems()
-        {
-            foreach (object item in Items)
-            {
-                UISearchBoxItem container = item as UISearchBoxItem;
-                if (container == null)
-                {
-                    UpdateLayout();
-                    container = ItemContainerGenerator.ContainerFromItem(item) as UISearchBoxItem;
-                }
-                if (container != null)
-                {
-                    UISearchBoxItem searchBoxItem = new UISearchBoxItem();
-                    Binding b = new Binding("IsSelected")
-                    {
-                        Mode = BindingMode.TwoWay,
-                        Source = container
-                    };
-                    searchBoxItem.SetBinding(UISearchBoxItem.IsSelectedProperty, b);
-                    PrepareContainerForItemOverride(searchBoxItem, item);
-                }
-            }
-        }
         #endregion
 
         #region Event Handlers
+        /// <summary>
+        /// Функция отслеживает фокус у SearchTextBox. Если фокус потерян - закрываем Popup с результатами поиска.
+        /// </summary>
+        /// <remarks>
+        /// The function tracks of focus in SearchTextBox. If focus is lost - we hide Popup with search results.
+        /// </remarks>
         private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (sender != null)
@@ -164,7 +164,12 @@ namespace Gizmo.WPF
                 }
             }
         }
-
+        /// <summary>
+        /// Функция отслеживает фокус у SearchTextBox. Если фокус получен - показываем Popup с результатами поиска.
+        /// </summary>
+        /// <remarks>
+        /// The function tracks focus in SearchTextBox. If focus is got - we show Popup with search results.
+        /// </remarks>
         private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (!Collapsible)
@@ -173,6 +178,13 @@ namespace Gizmo.WPF
                     IsPressed = true;
             }
         }
+
+        /// <summary>
+        /// Функция генерирует событие SearchTextChangedEvent при изменении текста в SearchTextBox.
+        /// </summary>
+        /// <remarks>
+        /// The function generates the SearchTextChangedEvent when the text in the SearchTextBox changesю.
+        /// </remarks>
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (sender != null)

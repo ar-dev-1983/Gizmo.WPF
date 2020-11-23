@@ -1,0 +1,80 @@
+﻿<Window x:Class="Gizmo.Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
+        xmlns:local="clr-namespace:Gizmo.Demo"
+        mc:Ignorable="d"
+        Title="Gizmo WPF Demo" Height="600" Width="900"
+        Style="{DynamicResource {ComponentResourceKey ResourceId=DefaultWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
+        Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}"
+        Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="29"  />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" MinWidth="29"  />
+        </Grid.ColumnDefinitions>
+        <ui:UIEnumSwitch VerticalAlignment="Center" HorizontalAlignment="Right" Height="26" Margin="2,-29,150,0" CornerRadius="0" Grid.ColumnSpan="3" WindowChrome.IsHitTestVisibleInChrome="True"
+                         SourceEnum="{x:Type ui:UIThemeEnum}" SelectionMode="Single" SelectedIndex="0" SelectionChanged="UIEnumSwitch_SelectionChanged">
+            <ui:UIEnumSwitch.ItemTemplate>
+                <DataTemplate>
+                    <ui:GizmoIcon FontSize="16" Icon="{x:Static ui:GizmoIconEnum.Theme}"/>
+                </DataTemplate>
+            </ui:UIEnumSwitch.ItemTemplate>
+        </ui:UIEnumSwitch>
+        <Border IsHitTestVisible="False" Grid.Row="1" Grid.ColumnSpan="3" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, ControlBorderBrush}}" VerticalAlignment="Top" BorderThickness="0,1,0,0"/>
+        <Border Grid.Row="1" Grid.Column="0" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, ControlBorderBrush}}" BorderThickness="0,0,1,0">
+            <ui:UITabPanel x:Name="tpTabPanelLeft" Orientation="Left" SelectedIndex="0">
+                <ui:UITabPanel.Items>
+                    <ui:UITabPanelItem x:Name="FirstLeftTab" Margin="0,3">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                        </ui:UITabPanelItem.Header>
+                    </ui:UITabPanelItem>
+                    <ui:UITabPanelItem x:Name="SecondLeftTab" Margin="0,3">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                        </ui:UITabPanelItem.Header>
+                    </ui:UITabPanelItem>
+                    <ui:UITabPanelItem x:Name="ThirdLeftTab" Margin="0,3">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                        </ui:UITabPanelItem.Header>
+                    </ui:UITabPanelItem>
+                </ui:UITabPanel.Items>
+            </ui:UITabPanel>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="2" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, ControlBorderBrush}}" BorderThickness="1,0,0,0">
+            <ui:UITabPanel x:Name="tpTabPanelRight" Orientation="Right">
+                <ui:UITabPanel.Items>
+                    <ui:UITabPanelItem x:Name="FirstRightTab" Margin="0,3">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                        </ui:UITabPanelItem.Header>
+                    </ui:UITabPanelItem>
+                    <ui:UITabPanelItem x:Name="SecondRightTab" Margin="0,3">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                        </ui:UITabPanelItem.Header>
+                    </ui:UITabPanelItem>
+                    <ui:UITabPanelItem x:Name="ThirdRightTab" Margin="0,3">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                        </ui:UITabPanelItem.Header>
+                    </ui:UITabPanelItem>
+                </ui:UITabPanel.Items>
+            </ui:UITabPanel>
+        </Border>
+        <ContentPresenter x:Name="DemoContent" Grid.Column="1" Grid.Row="1">
+            <ContentPresenter.Content>
+                <Frame Source="/Views/GizmoControls.xaml" VerticalContentAlignment="Top" HorizontalContentAlignment="Left"/>
+            </ContentPresenter.Content>
+        </ContentPresenter>
+    </Grid>
+</Window>

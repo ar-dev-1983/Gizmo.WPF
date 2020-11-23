@@ -277,7 +277,7 @@ namespace Gizmo.WPF
 
                             OnUnselected(new RoutedEventArgs(Selector.UnselectedEvent, this));
                         }
-                        ParentUIEnumSwitch.HandleMultipleSelection(DataContext, false);
+                        ParentUIEnumSwitch.HandleMultipleSelection(DataContext);
                         break;
                     case SelectionAction.Selection:
                         if (IsSelected)
@@ -288,7 +288,7 @@ namespace Gizmo.WPF
                         {
                             OnUnselected(new RoutedEventArgs(Selector.UnselectedEvent, this));
                         }
-                        ParentUIEnumSwitch.HandleMultipleSelection(DataContext, false);
+                        ParentUIEnumSwitch.HandleMultipleSelection(DataContext);
                         break;
                 }
             }

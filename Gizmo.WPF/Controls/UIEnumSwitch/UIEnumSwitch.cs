@@ -20,6 +20,50 @@ namespace Gizmo.WPF
     [StyleTypedProperty(Property = "ItemContainerStyle", StyleTargetType = typeof(UIEnumSwitchItem))]
     public class UIEnumSwitch : Selector, ICorneredControl
     {
+        #region Internal
+        /// <summary>
+        /// Перечисление для отслеживания текущего состояния UIEnumSwitch
+        /// </summary>
+        /// <remarks>
+        /// Enum for determine UIEnumSwitch state
+        /// </remarks>
+        internal enum ControlState
+        {
+            /// <summary>
+            /// Не готов, элементы коллекции Items не установлены
+            /// </summary>
+            /// <remarks>
+            /// Not ready, no items in Items Collection
+            /// </remarks>
+            NotReady,
+            /// <summary>
+            /// Элементы коллекции Items созданы
+            /// </summary>
+            /// <remarks>
+            /// Items added to collection
+            /// </remarks>
+            ItemsCreated,
+            /// <summary>
+            /// Готов для работы
+            /// </summary>
+            /// <remarks>
+            /// Ready for work
+            /// </remarks>
+            Ready,
+            /// <summary>
+            /// Этот статус требуется для прерывания обработки OnSelectedIndexChanged и OnSelectedItemChanged при задании значений SelectedIndex или SelectedItem в логике выбора элементов внутри UIEnumSwitch.
+            /// </summary>
+            /// <remarks>
+            /// This status is required to interrupt the processing of OnSelectedIndexChanged and OnSelectedItemChanged when the SelectedIndex or SelectedItem values are set in the item selection logic inside the UIEnumSwitch.
+            /// </remarks>
+            IgnoreChanges
+        }
+        #endregion
+
+        #region Private Properties
+        private ControlState state = ControlState.NotReady;
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Конструктор по умолчанию для DependencyObject
@@ -45,7 +89,6 @@ namespace Gizmo.WPF
         #endregion
 
         #region Override Methods
-
         /// <summary>
         /// Возвращает true если элемент является своим собственным контейнером
         /// </summary>
@@ -183,6 +226,7 @@ namespace Gizmo.WPF
         {
             base.OnItemsChanged(e);
             AttachItems();
+            state = ControlState.Ready;
         }
 
         /// <summary>
@@ -223,7 +267,9 @@ namespace Gizmo.WPF
             if (appropriateTypeOfItemIsNotSet)
                 throw new InvalidOperationException("One or more elements in Items collection is not Enun derived type!");
         }
+        #endregion
 
+        #region Selection Logic
         /// <summary>
         /// Возвращает контейнер для заданного элемента.
         /// </summary>
@@ -241,6 +287,45 @@ namespace Gizmo.WPF
             return itemContainer;
         }
 
+        private void Select(object value, bool raiseEvent = false, bool selectItem = false)
+        {
+            if (value != null)
+            {
+                if (SelectionMode == SelectionModeEnum.Single)
+                {
+                    HandleSingleSelection(value, raiseEvent, selectItem);
+                }
+                else if (SelectionMode == SelectionModeEnum.MultipleWhithDefault)
+                {
+                    HandleMultipleSelectionWithDefault(value, selectItem);
+                }
+                else if (SelectionMode == SelectionModeEnum.Multiple)
+                {
+                    HandleMultipleSelection(value, selectItem);
+                }
+            }
+        }
+
+        private object GetItemAtIndex(int index)
+        {
+            if (Items != null)
+            {
+                if (Items.Count != 0)
+                {
+                    return index == -1 ? Items[0] : index >= Items.Count ? Items[Items.Count - 1] : Items[index];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #region Single Selection Mode
         /// <summary>
         /// Вспомогательная функция для режима выбора одного элемента, задает состояние IsSelected если оно указано и заполняет список коллекции UnselectedItems 
         /// </summary>
@@ -284,6 +369,115 @@ namespace Gizmo.WPF
         }
 
         /// <summary>
+        /// Вспомогательная функция задает состояние элементов и вызывает событие SelectionChanged если задано raiseEvent в значении true.
+        /// Эта функция обеспечивает выполнение режима выбора одиночного элемента в коллекции одновременно.
+        /// </summary>
+        /// <remarks>
+        /// Helper function that sets state of the item and raised SelectionChanged Event if raiseEvent is set to true.
+        /// This function is used to maintain Single item Selection Mode.
+        /// </remarks>
+        internal void HandleSingleSelection(object value, bool raiseEvent, bool selectItem = false)
+        {
+            if (value != null)
+            {
+                SelectedItems.Clear();
+                UnselectedItems.Clear();
+
+                SelectedItems.Add(value);
+                FillUnselected(value, true);
+
+                if (selectItem)
+                {
+                    var itemToSelect = GetItemContainer(value);
+                    if (itemToSelect != null)
+                    {
+                        itemToSelect.IsSelected = true;
+                    }
+                }
+
+                state = ControlState.IgnoreChanges;
+                if (SelectedItems.Count != 0)
+                {
+                    SelectedItem = SelectedItems[SelectedItems.Count - 1];
+                    SelectedIndex = Items.IndexOf(SelectedItem);
+                }
+                state = ControlState.Ready;
+
+                if (raiseEvent)
+                    RaiseEvent(new SelectionChangedEventArgs(SelectionChangedEvent, UnselectedItems, SelectedItems));
+
+            }
+        }
+        #endregion
+
+        #region Multiple Selection Mode
+        /// <summary>
+        /// Вспомогательная функция обеспечивает выполнение режима выбора множества элементов в коллекции одновременно.
+        /// </summary>
+        /// <remarks>
+        /// Helper function is used to maintain Multiple items Selection Mode.
+        /// </remarks>
+        internal void HandleMultipleSelection(object value, bool selectItem = false)
+        {
+            if (value != null)
+            {
+                if (SelectedItems.Count == 0)
+                {
+                    //ни один элемент не был выбран
+                    //no item was selected
+                    SelectedItems.Clear();
+                    UnselectedItems.Clear();
+
+                    SelectedItems.Add(value);
+                    if (selectItem)
+                    {
+                        var itemToSelect = GetItemContainer(value);
+                        if (itemToSelect != null)
+                        {
+                            itemToSelect.IsSelected = true;
+                        }
+                    }
+
+                    foreach (var node in Items)
+                    {
+                        if (!Equals(node, value))
+                        {
+                            UnselectedItems.Add(node);
+                        }
+                    }
+                }
+                else
+                {
+                    if (!SelectedItems.Contains(value))
+                    {
+                        //в ранее выбранных элементах отсутсвует текущий элемент, добавляем его в список выбранных элементов
+                        //in the previously selected items the current element is missing, add it to the list of selected items
+                        SelectedItems.Add(value);
+                        UnselectedItems.Remove(value);
+                    }
+                    else
+                    {
+                        //в ранее выбранных элементах находится текущий, убираем его из списка выбранных элементов
+                        //the current item is in the previously selected items, remove it from the list of selected items
+                        SelectedItems.Remove(value);
+                        UnselectedItems.Add(value);
+                    }
+                }
+
+                state = ControlState.IgnoreChanges;
+                if (SelectedItems.Count != 0)
+                {
+                    SelectedItem = SelectedItems[SelectedItems.Count - 1];
+                    SelectedIndex = Items.IndexOf(SelectedItem);
+                }
+                state = ControlState.Ready;
+            }
+        }
+
+        #endregion
+
+        #region MultipleWhithDefault Selection Mode
+        /// <summary>
         /// Вспомогательная функция для режима выбора множества элементов, задает состояние IsSelected, и ResetedByDefaultItem, а так же заполняет список коллекции UnselectedItems
         /// </summary>
         /// <remarks>
@@ -311,32 +505,6 @@ namespace Gizmo.WPF
         }
 
         /// <summary>
-        /// Вспомогательная функция задает состояние элементов и вызывает событие SelectionChanged если задано raiseEvent в значении true.
-        /// Эта функция обеспечивает выполнение режима выбора одиночного элемента в коллекции одновременно.
-        /// </summary>
-        /// <remarks>
-        /// Helper function that sets state of the item and raised SelectionChanged Event if raiseEvent is set to true.
-        /// This function is used to maintain Single item Selection Mode.
-        /// </remarks>
-        internal void HandleSingleSelection(object value, bool riseEvent)
-        {
-            if (value != null)
-            {
-                SelectedItems.Clear();
-                UnselectedItems.Clear();
-
-                SelectedItems.Add(value);
-                FillUnselected(value, true);
-
-                LastSelectedItem = SelectedItems != null ? SelectedItems.Count != 0 ? SelectedItems[SelectedItems.Count - 1] : null : null;
-
-                if (riseEvent)
-                    RaiseEvent(new SelectionChangedEventArgs(SelectionChangedEvent, UnselectedItems, SelectedItems));
-
-            }
-        }
-
-        /// <summary>
         /// Вспомогательная функция задает состояние элементов и вызывает событие SelectionChanged.
         /// Эта функция обеспечивает выполнение режима выбора множества элементов в коллекции одновременно со сбросом на элемент по умолчанию, если ни один из элементов не выбран.
         /// </summary>
@@ -344,10 +512,19 @@ namespace Gizmo.WPF
         /// Helper function that sets state of the item and raised SelectionChanged Event.
         /// This function is used to maintain Multiple items Selection Mode with fallback to default.
         /// </remarks>
-        internal void HandleMultipleSelectionWithDefault(object value)
+        internal void HandleMultipleSelectionWithDefault(object value, bool selectItem = false)
         {
             if (value != null)
             {
+                if (selectItem)
+                {
+                    var itemToSelect = GetItemContainer(value);
+                    if (itemToSelect != null)
+                    {
+                        itemToSelect.IsSelected = true;
+                    }
+                }
+
                 if (SelectedItems.Count == 0)
                 {
                     //ни один элемент не был выбран ни разу, выбирает элемент по умолчанию
@@ -451,7 +628,14 @@ namespace Gizmo.WPF
                         }
                     }
                 }
-                LastSelectedItem = SelectedItems != null ? SelectedItems.Count != 0 ? SelectedItems[SelectedItems.Count - 1] : null : null;
+
+                state = ControlState.IgnoreChanges;
+                if (SelectedItems.Count != 0)
+                {
+                    SelectedItem = SelectedItems[SelectedItems.Count - 1];
+                    SelectedIndex = Items.IndexOf(SelectedItem);
+                }
+                state = ControlState.Ready;
             }
         }
 
@@ -475,58 +659,11 @@ namespace Gizmo.WPF
             }
             return result;
         }
+        #endregion
 
-        /// <summary>
-        /// Вспомогательная функция обеспечивает выполнение режима выбора множества элементов в коллекции одновременно.
-        /// </summary>
-        /// <remarks>
-        /// Helper function is used to maintain Multiple items Selection Mode.
-        /// </remarks>
-        internal void HandleMultipleSelection(object value, bool riseEvent)
-        {
-            if (value != null)
-            {
-                if (SelectedItems.Count == 0)
-                {
-                    //ни один элемент не был выбран
-                    //no item was selected
-                    SelectedItems.Clear();
-                    UnselectedItems.Clear();
-
-                    SelectedItems.Add(value);
-
-                    foreach (var node in Items)
-                    {
-                        if (!Equals(node, value))
-                        {
-                            UnselectedItems.Add(node);
-                        }
-                    }
-                }
-                else
-                {
-                    if (!SelectedItems.Contains(value))
-                    {
-                        //в ранее выбранных элементах отсутсвует текущий элемент, добавляем его в список выбранных элементов
-                        //in the previously selected items the current element is missing, add it to the list of selected items
-                        SelectedItems.Add(value);
-                        UnselectedItems.Remove(value);
-                    }
-                    else
-                    {
-                        //в ранее выбранных элементах находится текущий, убираем его из списка выбранных элементов
-                        //the current item is in the previously selected items, remove it from the list of selected items
-                        SelectedItems.Remove(value);
-                        UnselectedItems.Add(value);
-                    }
-                }
-                LastSelectedItem = SelectedItems != null ? SelectedItems.Count != 0 ? SelectedItems[SelectedItems.Count - 1] : null : null;
-            }
-        }
         #endregion
 
         #region Public Properties
-
         /// <summary>
         /// Задает радиус углов для UIEnumSwitch. Corner radius of UIEnumSwitch
         /// </summary>
@@ -559,71 +696,94 @@ namespace Gizmo.WPF
         [Bindable(true)]
         public SelectionModeEnum SelectionMode
         {
-            get { return (SelectionModeEnum)GetValue(SelectionModeProperty); }
-            set { SetValue(SelectionModeProperty, value); }
+            get => (SelectionModeEnum)GetValue(SelectionModeProperty);
+            set => SetValue(SelectionModeProperty, value);
         }
         /// <summary>
-        /// Коллекция выбранных элементов. Collection of Selected Items.
+        /// Коллекция выбранных элементов.
         /// </summary>
         /// <remarks>
-        /// Used as storage for Selected Items
+        ///  Collection of Selected Items.
         /// </remarks>
         [Bindable(true)]
         public ObservableCollection<object> SelectedItems
         {
-            get { return (ObservableCollection<object>)GetValue(SelectedItemsProperty); }
-            private set { SetValue(SelectedItemsProperty, value); }
+            get => (ObservableCollection<object>)GetValue(SelectedItemsProperty);
+            private set => SetValue(SelectedItemsProperty, value);
         }
 
         /// <summary>
-        /// Коллекция не выбранных элементов. Collection of Unselected Items.
+        /// Коллекция выбранных элементов.
         /// </summary>
         /// <remarks>
-        /// Used as storage for Unselected Items
+        ///  Collection of Selected Items.
         /// </remarks>
         [Bindable(true)]
         public ObservableCollection<object> UnselectedItems
         {
-            get { return (ObservableCollection<object>)GetValue(UnselectedItemsProperty); }
-            private set { SetValue(UnselectedItemsProperty, value); }
+            get => (ObservableCollection<object>)GetValue(UnselectedItemsProperty);
+            private set => SetValue(UnselectedItemsProperty, value);
         }
+
         /// <summary>
-        /// Значение последнего выбранного элемента
+        /// Значение выбранного элемента
         /// </summary>
         /// <remarks>
-        /// Value of last item in selection
+        /// Value of selected item
         /// </remarks>
         [Bindable(true)]
-        public object LastSelectedItem
+        public new object SelectedItem
         {
-            get { return (object)GetValue(LastSelectedItemProperty); }
-            private set { SetValue(LastSelectedItemProperty, value); }
+            get => GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
+        }
+        /// <summary>
+        /// Index выбранного элемента
+        /// </summary>
+        /// <remarks>
+        /// Index of selected item
+        /// </remarks>
+        [Bindable(true)]
+        public new int SelectedIndex
+        {
+            get => (int)GetValue(SelectedIndexProperty);
+            set => SetValue(SelectedIndexProperty, value);
         }
         #endregion
 
         #region Dependency Properties
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(UIEnumSwitch), new UIPropertyMetadata(new CornerRadius(0)));
-        public static readonly DependencyProperty SourceEnumProperty = DependencyProperty.Register("SourceEnum", typeof(Type), typeof(UIEnumSwitch), new UIPropertyMetadata(null, new PropertyChangedCallback(SourceEnumChanged)));
+        public static readonly DependencyProperty SourceEnumProperty = DependencyProperty.Register("SourceEnum", typeof(Type), typeof(UIEnumSwitch), new UIPropertyMetadata(null, new PropertyChangedCallback(OnSourceEnumChanged)));
         public static readonly DependencyProperty SelectionModeProperty = DependencyProperty.Register("SelectionMode", typeof(SelectionModeEnum), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(SelectionModeEnum.Single));
         public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItems", typeof(ObservableCollection<object>), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty UnselectedItemsProperty = DependencyProperty.Register("UnselectedItems", typeof(ObservableCollection<object>), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(null));
-        public static readonly DependencyProperty LastSelectedItemProperty = DependencyProperty.Register("LastSelectedItem", typeof(object), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(null));
+        public static new readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSelectedItemChanged)));
+        public static new readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register("SelectedIndex", typeof(int), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(-1, new PropertyChangedCallback(OnSelectedIndexChanged)));
         #endregion
 
         #region Property Callbacks
         /// <summary>
-        /// Заполняет элементами коллекцию Items значениями из SourceEnum. Fills Items collection with enum values specified in SoueceEnum
+        /// Вызов функции заполнения элементами коллекции Items значениями из SourceEnum.
         /// </summary>
-        private static void SourceEnumChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        /// <remarks>
+        /// Calling the function filling the Items collection with the values from SourceEnum.
+        /// </remarks>
+        private static void OnSourceEnumChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             if (o != null)
             {
                 UIEnumSwitch enumSwitch = o as UIEnumSwitch;
-                enumSwitch.ProcessSourceEnum();
+                enumSwitch.CreateItemsFromSourceEnum();
             }
         }
 
-        internal void ProcessSourceEnum()
+        /// <summary>
+        /// Функция заполнения элементами коллекции Items значениями из SourceEnum.
+        /// </summary>
+        /// <remarks>
+        /// A function to fill the items in the Items collection with values from SourceEnum.
+        /// </remarks>
+        internal void CreateItemsFromSourceEnum()
         {
             if (SourceEnum != null)
             {
@@ -636,6 +796,7 @@ namespace Gizmo.WPF
                         {
                             Items.Add(node);
                         }
+                        state = ControlState.ItemsCreated;
                     }
                     else
                     {
@@ -647,6 +808,47 @@ namespace Gizmo.WPF
                     throw new InvalidOperationException("Cannot set Items from SourceEnum because ItemsSource is already set!");
                 }
             }
+        }
+
+        /// <summary>
+        /// Выполнение выбора элемента в коллекции при установке значения SelectedItem из внешнего кода или из привязок.
+        /// </summary>
+        /// <remarks>
+        /// Selects an item in the collection when the SelectedItem is set from external code or from bindings.
+        /// </remarks>
+        private static void OnSelectedItemChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            if (o != null)
+            {
+                UIEnumSwitch enumSwitch = o as UIEnumSwitch;
+                if (enumSwitch.state == ControlState.IgnoreChanges)
+                    return;
+                else if (enumSwitch.state == ControlState.Ready)
+                {
+                    enumSwitch.Select(e.NewValue, true, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Выполнение выбора элемента в коллекции при установке значения SelectedIndex из внешнего кода или из привязок.
+        /// </summary>
+        /// <remarks>
+        /// Selects an item in the collection when the SelectedIndex is set from external code or from bindings.
+        /// </remarks>
+        private static void OnSelectedIndexChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            if (o != null)
+            {
+                UIEnumSwitch enumSwitch = o as UIEnumSwitch;
+                if (enumSwitch.state == ControlState.IgnoreChanges)
+                    return;
+                else if (enumSwitch.state == ControlState.Ready)
+                {
+                    enumSwitch.Select(enumSwitch.GetItemAtIndex((int)e.NewValue), true, true);
+                }
+            }
+
         }
         #endregion
     }
