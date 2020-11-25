@@ -47,6 +47,8 @@ namespace Gizmo.WPF
 
         public static PngBitmapEncoder SnapShotPNG(this UIElement visualSource)
         {
+            var clip = visualSource.ClipToBounds;
+            visualSource.ClipToBounds = true;
             visualSource.Measure(new Size((int)visualSource.RenderSize.Width, (int)visualSource.RenderSize.Height));
             visualSource.Arrange(new Rect(new Size((int)visualSource.RenderSize.Width, (int)visualSource.RenderSize.Height))); 
 
@@ -55,7 +57,7 @@ namespace Gizmo.WPF
 
             RenderTargetBitmap renderTarget = new RenderTargetBitmap((int)actualWidth, (int)actualHeight, 96, 96, PixelFormats.Pbgra32);
             VisualBrush sourceBrush = new VisualBrush(visualSource);
-
+        
             DrawingVisual drawingVisual = new DrawingVisual();
             DrawingContext drawingContext = drawingVisual.RenderOpen();
 
@@ -67,6 +69,8 @@ namespace Gizmo.WPF
 
             PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(renderTarget));
+            visualSource.ClipToBounds = clip;
+
             return encoder;
         }
     }
