@@ -112,7 +112,7 @@ namespace Gizmo.WPF
                     SingleSelection(true, SelectionAction.Selection);
                 }
             }
-            else if (ParentUIEnumSwitch.SelectionMode == SelectionModeEnum.MultipleWhithDefault)
+            else if (ParentUIEnumSwitch.SelectionMode == SelectionModeEnum.MultipleWithDefault)
             {
                 if (FirstTimeSelected)
                 {

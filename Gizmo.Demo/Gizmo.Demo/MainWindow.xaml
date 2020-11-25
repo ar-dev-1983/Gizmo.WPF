@@ -34,17 +34,17 @@
                 <ui:UITabPanel.Items>
                     <ui:UITabPanelItem x:Name="FirstLeftTab" Margin="0,3">
                         <ui:UITabPanelItem.Header>
-                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.NewFile}" Margin="0,2" />
                         </ui:UITabPanelItem.Header>
                     </ui:UITabPanelItem>
                     <ui:UITabPanelItem x:Name="SecondLeftTab" Margin="0,3">
                         <ui:UITabPanelItem.Header>
-                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.SaveFile}" />
                         </ui:UITabPanelItem.Header>
                     </ui:UITabPanelItem>
                     <ui:UITabPanelItem x:Name="ThirdLeftTab" Margin="0,3">
                         <ui:UITabPanelItem.Header>
-                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.SaveAsFile}" />
                         </ui:UITabPanelItem.Header>
                     </ui:UITabPanelItem>
                 </ui:UITabPanel.Items>
@@ -55,17 +55,17 @@
                 <ui:UITabPanel.Items>
                     <ui:UITabPanelItem x:Name="FirstRightTab" Margin="0,3">
                         <ui:UITabPanelItem.Header>
-                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.FileText}" />
                         </ui:UITabPanelItem.Header>
                     </ui:UITabPanelItem>
                     <ui:UITabPanelItem x:Name="SecondRightTab" Margin="0,3">
                         <ui:UITabPanelItem.Header>
-                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.FileImage}" />
                         </ui:UITabPanelItem.Header>
                     </ui:UITabPanelItem>
                     <ui:UITabPanelItem x:Name="ThirdRightTab" Margin="0,3">
                         <ui:UITabPanelItem.Header>
-                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" />
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.FileHtml}" />
                         </ui:UITabPanelItem.Header>
                     </ui:UITabPanelItem>
                 </ui:UITabPanel.Items>
@@ -73,7 +73,7 @@
         </Border>
         <ContentPresenter x:Name="DemoContent" Grid.Column="1" Grid.Row="1">
             <ContentPresenter.Content>
-                <Frame Source="/Views/GizmoControls.xaml" VerticalContentAlignment="Top" HorizontalContentAlignment="Left"/>
+                <local:EnumSwhitches/>
             </ContentPresenter.Content>
         </ContentPresenter>
     </Grid>

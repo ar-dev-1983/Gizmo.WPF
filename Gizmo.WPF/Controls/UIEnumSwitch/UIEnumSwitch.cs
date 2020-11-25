@@ -144,11 +144,16 @@ namespace Gizmo.WPF
 
             if (SelectedIndex == -1 && SelectedItem == null)
             {
-                if (SelectionMode == SelectionModeEnum.MultipleWhithDefault)
+                if (SelectionMode == SelectionModeEnum.MultipleWithDefault)
                 {
                     if (Items.IndexOf(item) == 0)
                     {
                         (element as UIEnumSwitchItem).MultipleSelectionWithDefault(true, SelectionAction.FirstSelection);
+                    }
+                    else
+                    {
+                        if (!UnselectedItems.Contains(item))
+                            UnselectedItems.Add(item);
                     }
                 }
             }
@@ -160,7 +165,7 @@ namespace Gizmo.WPF
                     {
                         (element as UIEnumSwitchItem).SingleSelection(true, SelectionAction.FirstSelection);
                     }
-                    else if (SelectionMode == SelectionModeEnum.MultipleWhithDefault)
+                    else if (SelectionMode == SelectionModeEnum.MultipleWithDefault)
                     {
                         (element as UIEnumSwitchItem).MultipleSelectionWithDefault(true, SelectionAction.FirstSelection);
                     }
@@ -168,6 +173,11 @@ namespace Gizmo.WPF
                     {
                         (element as UIEnumSwitchItem).MultipleSelection(true, SelectionAction.FirstSelection);
                     }
+                }
+                else
+                {
+                    if (!UnselectedItems.Contains(item))
+                        UnselectedItems.Add(item);
                 }
             }
             else if (SelectedItem != null)
@@ -178,7 +188,7 @@ namespace Gizmo.WPF
                     {
                         (element as UIEnumSwitchItem).SingleSelection(true, SelectionAction.FirstSelection);
                     }
-                    else if (SelectionMode == SelectionModeEnum.MultipleWhithDefault)
+                    else if (SelectionMode == SelectionModeEnum.MultipleWithDefault)
                     {
                         (element as UIEnumSwitchItem).MultipleSelectionWithDefault(true, SelectionAction.FirstSelection);
                     }
@@ -187,27 +197,58 @@ namespace Gizmo.WPF
                         (element as UIEnumSwitchItem).MultipleSelection(true, SelectionAction.FirstSelection);
                     }
                 }
+                else
+                {
+                    if (!UnselectedItems.Contains(item))
+                        UnselectedItems.Add(item);
+                }
             }
-
-            if (Items.Count == 1)
+            if (SeparateItems)
             {
+                this.BorderThickness = new Thickness(0);
+
                 (element as UIEnumSwitchItem).CornerRadius = CornerRadius;
                 (element as UIEnumSwitchItem).BorderThickness = new Thickness(1);
-            }
-            else if (Items.IndexOf(item) == 0)
-            {
-                (element as UIEnumSwitchItem).CornerRadius = new CornerRadius(CornerRadius.TopLeft, 0d, 0d, CornerRadius.BottomLeft);
-                (element as UIEnumSwitchItem).BorderThickness = new Thickness(1, 1, 0, 1);
-            }
-            else if (Items.IndexOf(item) == Items.Count - 1)
-            {
-                (element as UIEnumSwitchItem).CornerRadius = new CornerRadius(0d, CornerRadius.TopRight, CornerRadius.BottomRight, 0d);
-                (element as UIEnumSwitchItem).BorderThickness = new Thickness(0, 1, 1, 1);
+
+                if (Items.Count == 1)
+                {
+                    (element as UIEnumSwitchItem).Margin = new Thickness(0);
+                }
+                else if (Items.IndexOf(item) == 0)
+                {
+                    (element as UIEnumSwitchItem).Margin = new Thickness(0, 0, 2, 0);
+                }
+                else if (Items.IndexOf(item) == Items.Count - 1)
+                {
+                    (element as UIEnumSwitchItem).Margin = new Thickness(2, 0, 0, 0);
+                }
+                else
+                {
+                    (element as UIEnumSwitchItem).Margin = new Thickness(2, 0, 2, 0);
+                }
             }
             else
             {
-                (element as UIEnumSwitchItem).CornerRadius = new CornerRadius(0);
-                (element as UIEnumSwitchItem).BorderThickness = new Thickness(0, 1, 0, 1);
+                if (Items.Count == 1)
+                {
+                    (element as UIEnumSwitchItem).CornerRadius = CornerRadius;
+                    (element as UIEnumSwitchItem).BorderThickness = new Thickness(1);
+                }
+                else if (Items.IndexOf(item) == 0)
+                {
+                    (element as UIEnumSwitchItem).CornerRadius = new CornerRadius(CornerRadius.TopLeft, 0d, 0d, CornerRadius.BottomLeft);
+                    (element as UIEnumSwitchItem).BorderThickness = new Thickness(1, 1, 0, 1);
+                }
+                else if (Items.IndexOf(item) == Items.Count - 1)
+                {
+                    (element as UIEnumSwitchItem).CornerRadius = new CornerRadius(0d, CornerRadius.TopRight, CornerRadius.BottomRight, 0d);
+                    (element as UIEnumSwitchItem).BorderThickness = new Thickness(0, 1, 1, 1);
+                }
+                else
+                {
+                    (element as UIEnumSwitchItem).CornerRadius = new CornerRadius(0);
+                    (element as UIEnumSwitchItem).BorderThickness = new Thickness(0, 1, 0, 1);
+                }
             }
         }
 
@@ -295,7 +336,7 @@ namespace Gizmo.WPF
                 {
                     HandleSingleSelection(value, raiseEvent, selectItem);
                 }
-                else if (SelectionMode == SelectionModeEnum.MultipleWhithDefault)
+                else if (SelectionMode == SelectionModeEnum.MultipleWithDefault)
                 {
                     HandleMultipleSelectionWithDefault(value, selectItem);
                 }
@@ -476,7 +517,7 @@ namespace Gizmo.WPF
 
         #endregion
 
-        #region MultipleWhithDefault Selection Mode
+        #region MultipleWithDefault Selection Mode
         /// <summary>
         /// Вспомогательная функция для режима выбора множества элементов, задает состояние IsSelected, и ResetedByDefaultItem, а так же заполняет список коллекции UnselectedItems
         /// </summary>
@@ -676,7 +717,18 @@ namespace Gizmo.WPF
             get => (CornerRadius)GetValue(CornerRadiusProperty);
             set => SetValue(CornerRadiusProperty, value);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        [Bindable(true), Category("Appearance")]
+        public bool SeparateItems
+        {
+            get => (bool)GetValue(SeparateItemsProperty);
+            set => SetValue(SeparateItemsProperty, value);
+        }
         /// <summary>
         /// Исходное значение Enum из значений типа которого заполняются элементы в коллекции Items. Source Enum for Items Collection to fill.
         /// </summary>
@@ -753,8 +805,9 @@ namespace Gizmo.WPF
 
         #region Dependency Properties
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(UIEnumSwitch), new UIPropertyMetadata(new CornerRadius(0)));
+        public static readonly DependencyProperty SeparateItemsProperty = DependencyProperty.Register("SeparateItems", typeof(bool), typeof(UIEnumSwitch), new UIPropertyMetadata(false, new PropertyChangedCallback(OnSeparateItemsChanged)));
         public static readonly DependencyProperty SourceEnumProperty = DependencyProperty.Register("SourceEnum", typeof(Type), typeof(UIEnumSwitch), new UIPropertyMetadata(null, new PropertyChangedCallback(OnSourceEnumChanged)));
-        public static readonly DependencyProperty SelectionModeProperty = DependencyProperty.Register("SelectionMode", typeof(SelectionModeEnum), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(SelectionModeEnum.Single));
+        public static readonly DependencyProperty SelectionModeProperty = DependencyProperty.Register("SelectionMode", typeof(SelectionModeEnum), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(SelectionModeEnum.Single, new PropertyChangedCallback(OnSelectionModeChanged)));
         public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItems", typeof(ObservableCollection<object>), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty UnselectedItemsProperty = DependencyProperty.Register("UnselectedItems", typeof(ObservableCollection<object>), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(null));
         public static new readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSelectedItemChanged)));
@@ -762,6 +815,32 @@ namespace Gizmo.WPF
         #endregion
 
         #region Property Callbacks
+        /// <summary>
+        /// Вызов функции обработки изменения режима выбора элементов.
+        /// </summary>
+        /// <remarks>
+        /// Calling the function that handles SelectionMode changes.
+        /// </remarks>
+        private static void OnSelectionModeChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            if (o != null)
+            {
+                UIEnumSwitch enumSwitch = o as UIEnumSwitch;
+            }
+        }
+        /// <summary>
+        /// Вызов функции обработки изменения режима выбора элементов.
+        /// </summary>
+        /// <remarks>
+        /// Calling the function that handles SelectionMode changes.
+        /// </remarks>
+        private static void OnSeparateItemsChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            if (o != null)
+            {
+                UIEnumSwitch enumSwitch = o as UIEnumSwitch;
+            }
+        }
         /// <summary>
         /// Вызов функции заполнения элементами коллекции Items значениями из SourceEnum.
         /// </summary>
@@ -792,7 +871,7 @@ namespace Gizmo.WPF
                     if (SourceEnum.IsEnum)
                     {
                         Items.Clear();
-                        foreach (var node in SourceEnum.GetEnumValues())
+                        foreach (var node in Enum.GetValues(SourceEnum))
                         {
                             Items.Add(node);
                         }

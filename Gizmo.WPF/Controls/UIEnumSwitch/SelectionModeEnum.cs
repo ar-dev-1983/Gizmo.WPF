@@ -21,7 +21,7 @@
         /// <remarks>
         /// The mode in which several items can be selected at the same time or the default item, if none of the items is selected - the default item is automatically selected (the first in the list).
         /// </remarks>
-        MultipleWhithDefault,
+        MultipleWithDefault,
         /// <summary>
         /// Режим в котором может быть выбрано несколько элементов одновременно.
         /// </summary>

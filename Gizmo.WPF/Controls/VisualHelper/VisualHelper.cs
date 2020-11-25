@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -48,6 +47,9 @@ namespace Gizmo.WPF
 
         public static PngBitmapEncoder SnapShotPNG(this UIElement visualSource)
         {
+            visualSource.Measure(new Size((int)visualSource.RenderSize.Width, (int)visualSource.RenderSize.Height));
+            visualSource.Arrange(new Rect(new Size((int)visualSource.RenderSize.Width, (int)visualSource.RenderSize.Height))); 
+
             double actualHeight = visualSource.RenderSize.Height;
             double actualWidth = visualSource.RenderSize.Width;
 

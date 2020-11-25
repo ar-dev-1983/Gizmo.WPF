@@ -4,7 +4,7 @@
     <local:HeightDivideConverter x:Key="HeightDivideConverter" />
     
     <DataTemplate x:Key="WatermarkTemplate">
-        <ContentControl Content="{Binding}" Foreground="{DynamicResource {ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}}" Focusable="False" />
+        <TextBlock Text="{Binding}" Foreground="{DynamicResource {ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}}" Focusable="False" Margin="4,0,1,0" />
     </DataTemplate>
     
     <Style TargetType="{x:Type local:UISearchBoxItem}">
@@ -53,7 +53,7 @@
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       IsHitTestVisible="False"
-                                      Visibility="Collapsed" />
+                                      Visibility="Collapsed" Margin="1,0,1,0" />
                     <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" 
                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"

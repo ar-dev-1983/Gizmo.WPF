@@ -14,6 +14,18 @@ namespace Gizmo.WPF
     /// </remarks>
     public class UIPasswordBox : TextBox, ICorneredControl
     {
+        public static readonly RoutedEvent PasswordChangedEvent = PasswordBox.PasswordChangedEvent.AddOwner(typeof(UIPasswordBox));
+        public event RoutedEventHandler PasswordChanged
+        {
+            add
+            {
+                AddHandler(PasswordChangedEvent, value);
+            }
+            remove
+            {
+                RemoveHandler(PasswordChangedEvent, value);
+            }
+        }
         #region Handlers
         /// <summary>
         /// Предотвращает выполнение команд: копировать, вырезать, вставить. В стиле так же скрыто контекстное меню.
@@ -59,6 +71,8 @@ namespace Gizmo.WPF
                 if (password != null)
                 {
                     password = secureString.Copy();
+                    OnPasswordChanged(new RoutedEventArgs(PasswordChangedEvent, this));
+
                     Text = new string('*', password.Length);
                 }
             }
@@ -85,6 +99,7 @@ namespace Gizmo.WPF
                 Text = Text.Insert(_caretIndex++, "*");
                 CaretIndex = _caretIndex;
             }
+            OnPasswordChanged(new RoutedEventArgs(PasswordChangedEvent, this));
         }
 
         /// <summary>
@@ -102,6 +117,7 @@ namespace Gizmo.WPF
             }
             Text = Text.Remove(index, length);
             CaretIndex = _caretIndex;
+            OnPasswordChanged(new RoutedEventArgs(PasswordChangedEvent, this));
         }
 
         /// <summary>
@@ -178,7 +194,7 @@ namespace Gizmo.WPF
 
         #region Public Properties
         [Bindable(false)]
-        public SecureString Password
+        public SecureString SecurePassword
         {
             get => password;
             set => InitPassword(value);
@@ -234,11 +250,21 @@ namespace Gizmo.WPF
         #endregion
 
         #region Dependency Properties
-        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register("Password", typeof(SecureString), typeof(UIPasswordBox), new UIPropertyMetadata(new SecureString()));
+        public static readonly DependencyProperty SecurePasswordProperty = DependencyProperty.Register("SecurePassword", typeof(SecureString), typeof(UIPasswordBox), new UIPropertyMetadata(new SecureString()));
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(UIPasswordBox), new UIPropertyMetadata(new CornerRadius(3)));
         public static readonly DependencyProperty FlatProperty = DependencyProperty.Register("Flat", typeof(bool), typeof(UIPasswordBox), new UIPropertyMetadata(false));
         public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(object), typeof(UIPasswordBox), new UIPropertyMetadata(null));
         public static readonly DependencyProperty WatermarkDataTemplateProperty = DependencyProperty.Register("WatermarkDataTemplate", typeof(DataTemplate), typeof(UIPasswordBox), new UIPropertyMetadata(null));
         #endregion
+
+        protected virtual void OnPasswordChanged(RoutedEventArgs e)
+        {
+            HandlePasswordChangedChanged(true, e);
+        }
+
+        private void HandlePasswordChangedChanged(bool newValue, RoutedEventArgs e)
+        {
+            RaiseEvent(e);
+        }
     }
 }

@@ -1,15 +1,14 @@
-using System.Windows;
+п»їusing System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Gizmo.WPF
 {
     /// <summary>
-    /// UISearchBox - это элемент управления для организации стандартизированного интерфейса для пользователя в части поиска по спискам в приложении.
-    /// UISearchBox сам по себе не выполняет поиск, а только передает строку для поиска в логике приложения, и выводит результаты поиска, передаваемые ему извне, 
-    /// для отображения пользователю и выбора определенного результата.
+    /// UISearchBox - СЌС‚Рѕ СЌР»РµРјРµРЅС‚ СѓРїСЂР°РІР»РµРЅРёСЏ РґР»СЏ РѕСЂРіР°РЅРёР·Р°С†РёРё СЃС‚Р°РЅРґР°СЂС‚РёР·РёСЂРѕРІР°РЅРЅРѕРіРѕ РёРЅС‚РµСЂС„РµР№СЃР° РґР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ С‡Р°СЃС‚Рё РїРѕРёСЃРєР° РїРѕ СЃРїРёСЃРєР°Рј РІ РїСЂРёР»РѕР¶РµРЅРёРё.
+    /// UISearchBox СЃР°Рј РїРѕ СЃРµР±Рµ РЅРµ РІС‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє, Р° С‚РѕР»СЊРєРѕ РїРµСЂРµРґР°РµС‚ СЃС‚СЂРѕРєСѓ РґР»СЏ РїРѕРёСЃРєР° РІ Р»РѕРіРёРєРµ РїСЂРёР»РѕР¶РµРЅРёСЏ, Рё РІС‹РІРѕРґРёС‚ СЂРµР·СѓР»СЊС‚Р°С‚С‹ РїРѕРёСЃРєР°, РїРµСЂРµРґР°РІР°РµРјС‹Рµ РµРјСѓ РёР·РІРЅРµ, 
+    /// РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ Рё РІС‹Р±РѕСЂР° РѕРїСЂРµРґРµР»РµРЅРЅРѕРіРѕ СЂРµР·СѓР»СЊС‚Р°С‚Р°.
     /// </summary>
     /// <remarks>
     /// UISearchBox is a control for organizing a standardized user interface for searching through lists in an application.
@@ -31,7 +30,7 @@ namespace Gizmo.WPF
 
         #region Routed Events
         /// <summary>
-        /// Событие представляющее изменение строки поиска в UISearchBox
+        /// РЎРѕР±С‹С‚РёРµ РїСЂРµРґСЃС‚Р°РІР»СЏСЋС‰РµРµ РёР·РјРµРЅРµРЅРёРµ СЃС‚СЂРѕРєРё РїРѕРёСЃРєР° РІ UISearchBox
         /// </summary>
         /// <remarks>
         /// Routed Event representing search string is changed in UISearchBox
@@ -39,7 +38,7 @@ namespace Gizmo.WPF
         public static RoutedEvent SearchTextChangedEvent;
 
         /// <summary>
-        /// Обработчик события представляющего изменение строки поиска в UISearchBox
+        /// РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ РїСЂРµРґСЃС‚Р°РІР»СЏСЋС‰РµРіРѕ РёР·РјРµРЅРµРЅРёРµ СЃС‚СЂРѕРєРё РїРѕРёСЃРєР° РІ UISearchBox
         /// </summary>
         /// <remarks>
         /// Routed event handler represents Unselection Event for UISearchBox
@@ -69,7 +68,7 @@ namespace Gizmo.WPF
 
         #region Constructors
         /// <summary>
-        /// Конструктор по умолчанию для DependencyObject
+        /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РґР»СЏ DependencyObject
         /// </summary>
         /// <remarks>
         /// Default DependencyObject constructor
@@ -83,9 +82,15 @@ namespace Gizmo.WPF
         static UISearchBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(UISearchBox), new FrameworkPropertyMetadata(typeof(UISearchBox)));
-            SearchTextChangedEvent = EventManager.RegisterRoutedEvent("SearchTextChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(UISearchBox));
-            PressedEvent = EventManager.RegisterRoutedEvent("PressedClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(UISearchBox));
-            UnpressedEvent = EventManager.RegisterRoutedEvent("UnpressedClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(UISearchBox));
+            SearchTextChangedEvent = EventManager.RegisterRoutedEvent("SearchTextChanged", RoutingStrategy.Bubble, typeof
+
+(RoutedEventHandler), typeof(UISearchBox));
+            PressedEvent = EventManager.RegisterRoutedEvent("PressedClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof
+
+(UISearchBox));
+            UnpressedEvent = EventManager.RegisterRoutedEvent("UnpressedClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof
+
+(UISearchBox));
             ItemsPanelTemplate template = new ItemsPanelTemplate(new FrameworkElementFactory(typeof(VirtualizingStackPanel)));
             template.Seal();
             ItemsPanelProperty.OverrideMetadata(typeof(UISearchBox), new FrameworkPropertyMetadata(template));
@@ -94,7 +99,7 @@ namespace Gizmo.WPF
 
         #region Override Methods
         /// <summary>
-        /// Возвращает true если элемент является своим собственным контейнером
+        /// Р’РѕР·РІСЂР°С‰Р°РµС‚ true РµСЃР»Рё СЌР»РµРјРµРЅС‚ СЏРІР»СЏРµС‚СЃСЏ СЃРІРѕРёРј СЃРѕР±СЃС‚РІРµРЅРЅС‹Рј РєРѕРЅС‚РµР№РЅРµСЂРѕРј
         /// </summary>
         /// <remarks>
         /// Return true if the item is its own ItemContainer
@@ -104,7 +109,7 @@ namespace Gizmo.WPF
             return item is UISearchBoxItem;
         }
         /// <summary>
-        /// Создает контейнер для элемента
+        /// РЎРѕР·РґР°РµС‚ РєРѕРЅС‚РµР№РЅРµСЂ РґР»СЏ СЌР»РµРјРµРЅС‚Р°
         /// </summary>
         /// <remarks>
         /// Create or identify the element used to display the given item.
@@ -115,7 +120,7 @@ namespace Gizmo.WPF
         }
 
         /// <summary>
-        /// Задает свойства контейнера элемента для отображения
+        /// Р—Р°РґР°РµС‚ СЃРІРѕР№СЃС‚РІР° РєРѕРЅС‚РµР№РЅРµСЂР° СЌР»РµРјРµРЅС‚Р° РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ
         /// </summary>
         /// <remarks>
         /// Prepare the element to display the item
@@ -146,7 +151,7 @@ namespace Gizmo.WPF
 
         #region Event Handlers
         /// <summary>
-        /// Функция отслеживает фокус у SearchTextBox. Если фокус потерян - закрываем Popup с результатами поиска.
+        /// Р¤СѓРЅРєС†РёСЏ РѕС‚СЃР»РµР¶РёРІР°РµС‚ С„РѕРєСѓСЃ Сѓ SearchTextBox. Р•СЃР»Рё С„РѕРєСѓСЃ РїРѕС‚РµСЂСЏРЅ - Р·Р°РєСЂС‹РІР°РµРј Popup СЃ СЂРµР·СѓР»СЊС‚Р°С‚Р°РјРё РїРѕРёСЃРєР°.
         /// </summary>
         /// <remarks>
         /// The function tracks of focus in SearchTextBox. If focus is lost - we hide Popup with search results.
@@ -165,7 +170,7 @@ namespace Gizmo.WPF
             }
         }
         /// <summary>
-        /// Функция отслеживает фокус у SearchTextBox. Если фокус получен - показываем Popup с результатами поиска.
+        /// Р¤СѓРЅРєС†РёСЏ РѕС‚СЃР»РµР¶РёРІР°РµС‚ С„РѕРєСѓСЃ Сѓ SearchTextBox. Р•СЃР»Рё С„РѕРєСѓСЃ РїРѕР»СѓС‡РµРЅ - РїРѕРєР°Р·С‹РІР°РµРј Popup СЃ СЂРµР·СѓР»СЊС‚Р°С‚Р°РјРё РїРѕРёСЃРєР°.
         /// </summary>
         /// <remarks>
         /// The function tracks focus in SearchTextBox. If focus is got - we show Popup with search results.
@@ -180,10 +185,10 @@ namespace Gizmo.WPF
         }
 
         /// <summary>
-        /// Функция генерирует событие SearchTextChangedEvent при изменении текста в SearchTextBox.
+        /// Р¤СѓРЅРєС†РёСЏ РіРµРЅРµСЂРёСЂСѓРµС‚ СЃРѕР±С‹С‚РёРµ SearchTextChangedEvent РїСЂРё РёР·РјРµРЅРµРЅРёРё С‚РµРєСЃС‚Р° РІ SearchTextBox.
         /// </summary>
         /// <remarks>
-        /// The function generates the SearchTextChangedEvent when the text in the SearchTextBox changesю.
+        /// The function generates the SearchTextChangedEvent when the text in the SearchTextBox changesСЋ.
         /// </remarks>
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -279,17 +284,39 @@ namespace Gizmo.WPF
         #endregion
 
         #region Dependency Properties
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(UISearchBox), new UIPropertyMetadata(new CornerRadius(0)));
-        public static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register("IsPressed", typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(false, new PropertyChangedCallback(IsPressedChanged)));
-        public static readonly DependencyProperty SearchTextProperty = DependencyProperty.Register("SearchText", typeof(string), typeof(UISearchBox), new UIPropertyMetadata(string.Empty));
-        public static readonly DependencyProperty HoldSearchTextAfterHideProperty = DependencyProperty.Register("HoldSearchTextAfterHide", typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(true));
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(SearchPlacementEnum), typeof(UISearchBox), new UIPropertyMetadata(SearchPlacementEnum.Left));
-        public static readonly DependencyProperty ShowOptionsProperty = DependencyProperty.Register("ShowOptions", typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(false));
-        public static readonly DependencyProperty OptionsContentProperty = DependencyProperty.Register("OptionsContent", typeof(object), typeof(UISearchBox), new UIPropertyMetadata(null));
-        public static readonly DependencyProperty CollapsibleProperty = DependencyProperty.Register("Collapsible", typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(true));
-        public static readonly DependencyProperty PopupPlacementProperty = DependencyProperty.Register("PopupPlacement", typeof(PlacementMode), typeof(UISearchBox), new UIPropertyMetadata(PlacementMode.Bottom));
-        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(object), typeof(UISearchBox), new UIPropertyMetadata(null));
-        public static readonly DependencyProperty WatermarkDataTemplateProperty = DependencyProperty.Register("WatermarkDataTemplate", typeof(DataTemplate), typeof(UISearchBox), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius),
+
+typeof(UISearchBox), new UIPropertyMetadata(new CornerRadius(0)));
+        public static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register("IsPressed", typeof(bool), typeof
+
+(UISearchBox), new UIPropertyMetadata(false, new PropertyChangedCallback(IsPressedChanged)));
+        public static readonly DependencyProperty SearchTextProperty = DependencyProperty.Register("SearchText", typeof(string), typeof
+
+(UISearchBox), new UIPropertyMetadata(string.Empty));
+        public static readonly DependencyProperty HoldSearchTextAfterHideProperty = DependencyProperty.Register("HoldSearchTextAfterHide",
+
+typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(true));
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof
+
+(SearchPlacementEnum), typeof(UISearchBox), new UIPropertyMetadata(SearchPlacementEnum.Left));
+        public static readonly DependencyProperty ShowOptionsProperty = DependencyProperty.Register("ShowOptions", typeof(bool), typeof
+
+(UISearchBox), new UIPropertyMetadata(false));
+        public static readonly DependencyProperty OptionsContentProperty = DependencyProperty.Register("OptionsContent", typeof(object),
+
+typeof(UISearchBox), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty CollapsibleProperty = DependencyProperty.Register("Collapsible", typeof(bool), typeof
+
+(UISearchBox), new UIPropertyMetadata(true));
+        public static readonly DependencyProperty PopupPlacementProperty = DependencyProperty.Register("PopupPlacement", typeof
+
+(PlacementMode), typeof(UISearchBox), new UIPropertyMetadata(PlacementMode.Bottom));
+        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(object), typeof
+
+(UISearchBox), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty WatermarkDataTemplateProperty = DependencyProperty.Register("WatermarkDataTemplate",
+
+typeof(DataTemplate), typeof(UISearchBox), new UIPropertyMetadata(null));
         #endregion
 
         #region Property Callbacks
