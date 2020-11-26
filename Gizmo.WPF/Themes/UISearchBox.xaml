@@ -322,7 +322,7 @@
     <Style TargetType="{x:Type local:UISearchBox}">
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="12" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
         <Setter Property="Focusable" Value="false" />
