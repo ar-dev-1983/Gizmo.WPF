@@ -1,19 +1,23 @@
 ﻿using Gizmo.WPF;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Gizmo.Demo
 {
     public enum TestEnum
     {
+        [Description("Go to Start")]
         GoToStart = 0xe91a,
         Previous = 0xe919,
+        [Description("Play")]
         Play = 0xe91c,
         Pause = 0xe91d,
         Stop = 0xe91e,
         PlayPause = 0xe91f,
         Next = 0xe918,
+        [Description("")]
         GoToEnd = 0xe91b
     }
 

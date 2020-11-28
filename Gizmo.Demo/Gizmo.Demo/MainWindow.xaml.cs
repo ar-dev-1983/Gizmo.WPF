@@ -13,8 +13,7 @@ namespace Gizmo.Demo
         public MainWindow()
         {
             InitializeComponent();
-            ThemeManager.ApplyTheme(UIThemeEnum.BlueDark);
-
+            ThemeManager.ApplyThemeToWindow(this,UIThemeEnum.BlueDark);
             appvm = new AppViewModel();
             DataContext = appvm;
         }

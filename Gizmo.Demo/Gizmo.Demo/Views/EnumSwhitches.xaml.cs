@@ -11,5 +11,10 @@ namespace Gizmo.Demo
         {
             InitializeComponent();
         }
+
+        private void UIButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            TestEnumEwitch3.SeparateItems = !TestEnumEwitch3.SeparateItems;
+        }
     }
 }

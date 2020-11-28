@@ -203,9 +203,22 @@ namespace Gizmo.WPF
                         UnselectedItems.Add(item);
                 }
             }
+
+            if (ShowDescriptionInTooltip)
+            {
+                if ((item as Enum).GetAttributeOfType<DescriptionAttribute>() != null)
+                {
+                    var description = (item as Enum).GetAttributeOfType<DescriptionAttribute>().Description;
+                    if (description != string.Empty)
+                    {
+                        (element as UIEnumSwitchItem).ToolTip = description;
+                    }
+                }
+            }
+
             if (SeparateItems)
             {
-                this.BorderThickness = new Thickness(0);
+                BorderThickness = new Thickness(0);
 
                 (element as UIEnumSwitchItem).CornerRadius = CornerRadius;
                 (element as UIEnumSwitchItem).BorderThickness = new Thickness(1);
@@ -229,6 +242,8 @@ namespace Gizmo.WPF
             }
             else
             {
+                (element as UIEnumSwitchItem).Margin = new Thickness(0);
+
                 if (Items.Count == 1)
                 {
                     (element as UIEnumSwitchItem).CornerRadius = CornerRadius;
@@ -801,6 +816,18 @@ namespace Gizmo.WPF
             get => (int)GetValue(SelectedIndexProperty);
             set => SetValue(SelectedIndexProperty, value);
         }
+        /// <summary>
+        /// Показывать описание из аттрибута значения Enum в Tooltip UIEnumSwitchItem
+        /// </summary>
+        /// <remarks>
+        /// Show description from Description Attribute for Enum value as UIEnumSwitchItem Tooltip
+        /// </remarks>
+        [Bindable(false)]
+        public bool ShowDescriptionInTooltip
+        {
+            get => (bool)GetValue(ShowDescriptionInTooltipProperty);
+            set => SetValue(ShowDescriptionInTooltipProperty, value);
+        }
         #endregion
 
         #region Dependency Properties
@@ -812,6 +839,7 @@ namespace Gizmo.WPF
         public static readonly DependencyProperty UnselectedItemsProperty = DependencyProperty.Register("UnselectedItems", typeof(ObservableCollection<object>), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(null));
         public static new readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSelectedItemChanged)));
         public static new readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register("SelectedIndex", typeof(int), typeof(UIEnumSwitch), new FrameworkPropertyMetadata(-1, new PropertyChangedCallback(OnSelectedIndexChanged)));
+        public static readonly DependencyProperty ShowDescriptionInTooltipProperty = DependencyProperty.Register("ShowDescriptionInTooltip", typeof(bool), typeof(UIEnumSwitch), new UIPropertyMetadata(false));
         #endregion
 
         #region Property Callbacks
@@ -826,21 +854,123 @@ namespace Gizmo.WPF
             if (o != null)
             {
                 UIEnumSwitch enumSwitch = o as UIEnumSwitch;
+                if (enumSwitch.state == ControlState.IgnoreChanges)
+                    return;
+                else if (enumSwitch.state == ControlState.Ready)
+                {
+                    enumSwitch.ResetSelection((SelectionModeEnum)e.OldValue);
+                }
             }
         }
+
         /// <summary>
-        /// Вызов функции обработки изменения режима выбора элементов.
+        /// Функция обработки изменения режима выбора элементов.
         /// </summary>
         /// <remarks>
-        /// Calling the function that handles SelectionMode changes.
+        /// Function that handles SelectionMode changes.
+        /// </remarks>
+        private void ResetSelection(SelectionModeEnum oldValue)
+        {
+            state = ControlState.IgnoreChanges;
+            if (SelectionMode == SelectionModeEnum.Single && oldValue != SelectionModeEnum.Single)
+            {
+                if (SelectedItems.Count != 1 && SelectedItem != null)
+                    Select(SelectedItem, true, true);
+            }
+            else if (SelectionMode == SelectionModeEnum.MultipleWithDefault)
+            {
+                if (oldValue != SelectionModeEnum.MultipleWithDefault && SelectedItems.Contains(Items[0]) && SelectedItems.Count != 1)
+                    Select(Items[0], true, true);
+            }
+            state = ControlState.Ready;
+        }
+
+        /// <summary>
+        /// Вызов функции обработки изменения параметра SeparateItems.
+        /// </summary>
+        /// <remarks>
+        /// Calling the function that handles SeparateItems changes.
         /// </remarks>
         private static void OnSeparateItemsChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             if (o != null)
             {
                 UIEnumSwitch enumSwitch = o as UIEnumSwitch;
+                if (enumSwitch.state == ControlState.IgnoreChanges)
+                    return;
+                else if (enumSwitch.state == ControlState.Ready)
+                {
+                    enumSwitch.HandleSeparateItemsChanged();
+                }
             }
         }
+
+        /// <summary>
+        /// Функция обработки изменения параметра SeparateItems.
+        /// </summary>
+        /// <remarks>
+        /// Function that handles SeparateItems changes.
+        /// </remarks>
+        private void HandleSeparateItemsChanged()
+        {
+            foreach (var node in Items)
+            {
+                var container = GetItemContainer(node);
+                if (container != null)
+                {
+                    if (SeparateItems)
+                    {
+                        BorderThickness = new Thickness(0);
+
+                        container.CornerRadius = CornerRadius;
+                        container.BorderThickness = new Thickness(1);
+
+                        if (Items.Count == 1)
+                        {
+                            container.Margin = new Thickness(0);
+                        }
+                        else if (Items.IndexOf(node) == 0)
+                        {
+                            container.Margin = new Thickness(0, 0, 2, 0);
+                        }
+                        else if (Items.IndexOf(node) == Items.Count - 1)
+                        {
+                            container.Margin = new Thickness(2, 0, 0, 0);
+                        }
+                        else
+                        {
+                            container.Margin = new Thickness(2, 0, 2, 0);
+                        }
+                    }
+                    else
+                    {
+                        container.Margin = new Thickness(0);
+
+                        if (Items.Count == 1)
+                        {
+                            container.CornerRadius = CornerRadius;
+                            container.BorderThickness = new Thickness(1);
+                        }
+                        else if (Items.IndexOf(node) == 0)
+                        {
+                            container.CornerRadius = new CornerRadius(CornerRadius.TopLeft, 0d, 0d, CornerRadius.BottomLeft);
+                            container.BorderThickness = new Thickness(1, 1, 0, 1);
+                        }
+                        else if (Items.IndexOf(node) == Items.Count - 1)
+                        {
+                            container.CornerRadius = new CornerRadius(0d, CornerRadius.TopRight, CornerRadius.BottomRight, 0d);
+                            container.BorderThickness = new Thickness(0, 1, 1, 1);
+                        }
+                        else
+                        {
+                            container.CornerRadius = new CornerRadius(0);
+                            container.BorderThickness = new Thickness(0, 1, 0, 1);
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Вызов функции заполнения элементами коллекции Items значениями из SourceEnum.
         /// </summary>
