@@ -6,6 +6,20 @@ namespace Gizmo.WPF
 {
     public static class VisualHelper
     {
+        public static T FindChild<T>(this DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null) return null;
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                var result = (child as T) ?? FindChild<T>(child);
+                if (result != null) return result;
+            }
+            return null;
+        }
+
         //this static method is for most common purpuses
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
