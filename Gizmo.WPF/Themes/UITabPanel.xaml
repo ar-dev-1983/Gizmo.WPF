@@ -3,6 +3,7 @@
                     xmlns:local="clr-namespace:Gizmo.WPF">
 
     <local:HeightDivideConverter x:Key="HeightDivideConverter" />
+    <local:TabShapeConverter x:Key="TabShapeConverter" />
 
     <Style x:Key="VerticalTabPanelToggleButtonLeft" TargetType="{x:Type local:UIToggleButton}">
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
@@ -20,35 +21,17 @@
                         <Grid.Effect>
                             <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0" Direction="180"/>
                         </Grid.Effect>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="20"/>
-                        </Grid.RowDefinitions>
-                        <Path x:Name="PART_BackgroundTop" Data="M21,0 C20,10 0,10 0.5,20 H20 z" Fill="{TemplateBinding Background}"/>
-                        <Path x:Name="PART_borderTop" Data="M21,0 C20,10 0,10 0.5,20" Stroke="{TemplateBinding BorderBrush}"/>
-                        <Border x:Name="PART_Background" Margin="0" Grid.Row="1" CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}" BorderThickness="0" BorderBrush="Transparent"></Border>
-                        <Border x:Name="PART_border" Margin="0" Grid.Row="1" CornerRadius="{TemplateBinding CornerRadius}" Background="Transparent" BorderThickness="1,0,0,0" BorderBrush="{TemplateBinding BorderBrush}" />
-                        <Path Grid.Row="2" x:Name="PART_BackgroundBottom" Data="M0.5,0 C0,10 20,10 21,20 V0 z" Fill="{TemplateBinding Background}"/>
-                        <Path Grid.Row="2" x:Name="PART_borderBottom" Data="M0.5,0 C0,10 20,10 21,20" Stroke="{TemplateBinding BorderBrush}"/>
-                        <ContentPresenter Grid.Row="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <Path Margin="1,0,-1,0" StrokeThickness="1" x:Name="PART_Background" Data="{Binding ElementName=PART_Content, Path=ActualHeight, Converter={StaticResource TabShapeConverter}, ConverterParameter=Left}" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
+                        <ContentPresenter x:Name="PART_Content" Margin="0,0,0,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundTop" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_borderTop" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundBottom" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_borderBottom" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundTop" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_borderTop" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundBottom" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_borderBottom" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
                             <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -73,35 +56,17 @@
                         <Grid.Effect>
                             <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0" Direction="0"/>
                         </Grid.Effect>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="20"/>
-                        </Grid.RowDefinitions>
-                        <Path x:Name="PART_BackgroundTop" Data="M-0.5,0 C0 10 20 10 19.5 20h-20 z" Fill="{TemplateBinding Background}"/>
-                        <Path x:Name="PART_borderTop" Data="M-0.5,0 C0 10 20 10 19.5 20" Stroke="{TemplateBinding BorderBrush}"/>
-                        <Border x:Name="PART_Background" Margin="0" Grid.Row="1" CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}" BorderThickness="0" BorderBrush="Transparent"></Border>
-                        <Border x:Name="PART_border" Margin="0" Grid.Row="1" CornerRadius="{TemplateBinding CornerRadius}" Background="Transparent" BorderThickness="0,0,1,0" BorderBrush="{TemplateBinding BorderBrush}" />
-                        <Path Grid.Row="2" x:Name="PART_BackgroundBottom" Data="m19.5 0c0 10-20 10-20 20v-20 z" Fill="{TemplateBinding Background}"/>
-                        <Path Grid.Row="2" x:Name="PART_borderBottom" Data="m19.5 0c0 10-20 10-20 20" Stroke="{TemplateBinding BorderBrush}"/>
-                        <ContentPresenter Grid.Row="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <Path StrokeThickness="1" x:Name="PART_Background" Data="{Binding ElementName=PART_Content, Path=ActualHeight, Converter={StaticResource TabShapeConverter}, ConverterParameter=Right}" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
+                        <ContentPresenter x:Name="PART_Content" Margin="0,0,0,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundTop" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_borderTop" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundBottom" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_borderBottom" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundTop" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_borderTop" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundBottom" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_borderBottom" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
                             <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -126,35 +91,52 @@
                         <Grid.Effect>
                             <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0" Direction="90"/>
                         </Grid.Effect>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="20"/>
-                        </Grid.ColumnDefinitions>
-                        <Path Grid.Column="0" x:Name="PART_BackgroundLeft" Data="M20,0.5C10,0 10,20 0,20 H20 z" Fill="{TemplateBinding Background}"/>
-                        <Path Grid.Column="0" x:Name="PART_borderLeft" Data="M20,0.5C10,0 10,20 0,20" Stroke="{TemplateBinding BorderBrush}"/>
-                        <Border Grid.Column="1" x:Name="PART_Background" Margin="0" Background="{TemplateBinding Background}" BorderThickness="0,1,0,0" BorderBrush="Transparent"></Border>
-                        <Border Grid.Column="1" x:Name="PART_border" Margin="0"  Background="Transparent" BorderThickness="0,1,0,0" BorderBrush="{TemplateBinding BorderBrush}" />
-                        <Path Grid.Column="2" x:Name="PART_BackgroundRight" Data="M0,0.5 C10,0 10,20 20,20 H-20 z" Fill="{TemplateBinding Background}"/>
-                        <Path Grid.Column="2" x:Name="PART_borderRight" Data="M0,0.5 C10,0 10,20 20,20" Stroke="{TemplateBinding BorderBrush}"/>
-                        <ContentPresenter Grid.Column="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <Path Margin="0,1,0,-1" StrokeThickness="1" x:Name="PART_Background" Data="{Binding ElementName=PART_Content, Path=ActualWidth, Converter={StaticResource TabShapeConverter}, ConverterParameter=Top}" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
+                        <ContentPresenter x:Name="PART_Content" Margin="0,0,0,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundLeft" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_borderLeft" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundRight" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_borderRight" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundLeft" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_borderLeft" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                            <Setter TargetName="PART_BackgroundRight" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_borderRight" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="HorizontalTabPanelToggleButtonBottom" TargetType="{x:Type local:UIToggleButton}">
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:UIToggleButton}">
+                    <Grid>
+                        <Grid.Effect>
+                            <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0" Direction="90"/>
+                        </Grid.Effect>
+                        <Path StrokeThickness="1" x:Name="PART_Background" Data="{Binding ElementName=PART_Content, Path=ActualWidth, Converter={StaticResource TabShapeConverter}, ConverterParameter=Bottom}" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
+                        <ContentPresenter x:Name="PART_Content" Margin="0,0,0,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
                             <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -185,18 +167,19 @@
                             <Setter TargetName="PART_Header" Property="Style" Value="{StaticResource VerticalTabPanelToggleButtonLeft}" />
                             <Setter TargetName="PART_Header" Property="HorizontalAlignment" Value="Right" />
                             <Setter TargetName="PART_Header" Property="VerticalAlignment" Value="Top" />
-                            <Setter TargetName="PART_Header" Property="Width" Value="20" />
                         </Trigger>
                         <Trigger Property="Orientation" Value="Right">
                             <Setter TargetName="PART_Header" Property="Style" Value="{StaticResource VerticalTabPanelToggleButtonRight}" />
                             <Setter TargetName="PART_Header" Property="HorizontalAlignment" Value="Left" />
                             <Setter TargetName="PART_Header" Property="VerticalAlignment" Value="Top" />
-                            <Setter TargetName="PART_Header" Property="Width" Value="20" />
                         </Trigger>
                         <Trigger Property="Orientation" Value="Top">
                             <Setter TargetName="PART_Header" Property="Style" Value="{StaticResource HorizontalTabPanelToggleButtonTop}" />
                             <Setter TargetName="PART_Header" Property="HorizontalAlignment" Value="Left" />
-                            <Setter TargetName="PART_Header" Property="Height" Value="20" />
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Bottom">
+                            <Setter TargetName="PART_Header" Property="Style" Value="{StaticResource HorizontalTabPanelToggleButtonBottom}" />
+                            <Setter TargetName="PART_Header" Property="HorizontalAlignment" Value="Left" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -300,6 +283,38 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+    <ControlTemplate x:Key="HorizontalTabPanelTemplateBottom" TargetType="{x:Type local:UITabPanel}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" MinHeight="32" MaxHeight="32" />
+                <RowDefinition Name="ContentRow" Height="Auto" />
+            </Grid.RowDefinitions>
+            <ItemsControl Margin="10,0,0,0" Grid.Row="0" ItemsSource="{TemplateBinding Items}" VerticalAlignment="Top" VerticalContentAlignment="Top">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <Border Grid.Row="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"/>
+            <ContentPresenter Margin="1" Grid.Row="1"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsExpanded" Value="False"/>
+                    <Condition Property="IsExpandable" Value="True"/>
+                </MultiTrigger.Conditions>
+                <Setter TargetName="ContentRow" Property="MinHeight" Value="0" />
+                <Setter TargetName="ContentRow" Property="Height" Value="0" />
+            </MultiTrigger>
+            <Trigger Property="IsExpandable" Value="False">
+                <Setter TargetName="ContentRow" Property="MinHeight" Value="0" />
+                <Setter TargetName="ContentRow" Property="Height" Value="0" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <Style TargetType="{x:Type local:UITabPanel}">
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, NodeCanvasBackgroundBrush}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
@@ -315,6 +330,9 @@
             </Trigger>
             <Trigger Property="Orientation" Value="Top">
                 <Setter Property="Template" Value="{StaticResource HorizontalTabPanelTemplateTop}" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Bottom">
+                <Setter Property="Template" Value="{StaticResource HorizontalTabPanelTemplateBottom}" />
             </Trigger>
         </Style.Triggers>
     </Style>
