@@ -82,15 +82,9 @@ namespace Gizmo.WPF
         static UISearchBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(UISearchBox), new FrameworkPropertyMetadata(typeof(UISearchBox)));
-            SearchTextChangedEvent = EventManager.RegisterRoutedEvent("SearchTextChanged", RoutingStrategy.Bubble, typeof
-
-(RoutedEventHandler), typeof(UISearchBox));
-            PressedEvent = EventManager.RegisterRoutedEvent("PressedClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof
-
-(UISearchBox));
-            UnpressedEvent = EventManager.RegisterRoutedEvent("UnpressedClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof
-
-(UISearchBox));
+            SearchTextChangedEvent = EventManager.RegisterRoutedEvent("SearchTextChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(UISearchBox));
+            PressedEvent = EventManager.RegisterRoutedEvent("PressedClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof (UISearchBox));
+            UnpressedEvent = EventManager.RegisterRoutedEvent("UnpressedClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof (UISearchBox));
             ItemsPanelTemplate template = new ItemsPanelTemplate(new FrameworkElementFactory(typeof(VirtualizingStackPanel)));
             template.Seal();
             ItemsPanelProperty.OverrideMetadata(typeof(UISearchBox), new FrameworkPropertyMetadata(template));
@@ -284,39 +278,17 @@ namespace Gizmo.WPF
         #endregion
 
         #region Dependency Properties
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius),
-
-typeof(UISearchBox), new UIPropertyMetadata(new CornerRadius(0)));
-        public static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register("IsPressed", typeof(bool), typeof
-
-(UISearchBox), new UIPropertyMetadata(false, new PropertyChangedCallback(IsPressedChanged)));
-        public static readonly DependencyProperty SearchTextProperty = DependencyProperty.Register("SearchText", typeof(string), typeof
-
-(UISearchBox), new UIPropertyMetadata(string.Empty));
-        public static readonly DependencyProperty HoldSearchTextAfterHideProperty = DependencyProperty.Register("HoldSearchTextAfterHide",
-
-typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(true));
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof
-
-(SearchPlacementEnum), typeof(UISearchBox), new UIPropertyMetadata(SearchPlacementEnum.Left));
-        public static readonly DependencyProperty ShowOptionsProperty = DependencyProperty.Register("ShowOptions", typeof(bool), typeof
-
-(UISearchBox), new UIPropertyMetadata(false));
-        public static readonly DependencyProperty OptionsContentProperty = DependencyProperty.Register("OptionsContent", typeof(object),
-
-typeof(UISearchBox), new UIPropertyMetadata(null));
-        public static readonly DependencyProperty CollapsibleProperty = DependencyProperty.Register("Collapsible", typeof(bool), typeof
-
-(UISearchBox), new UIPropertyMetadata(true));
-        public static readonly DependencyProperty PopupPlacementProperty = DependencyProperty.Register("PopupPlacement", typeof
-
-(PlacementMode), typeof(UISearchBox), new UIPropertyMetadata(PlacementMode.Bottom));
-        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(object), typeof
-
-(UISearchBox), new UIPropertyMetadata(null));
-        public static readonly DependencyProperty WatermarkDataTemplateProperty = DependencyProperty.Register("WatermarkDataTemplate",
-
-typeof(DataTemplate), typeof(UISearchBox), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(UISearchBox), new UIPropertyMetadata(new CornerRadius(0)));
+        public static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register("IsPressed", typeof(bool), typeof (UISearchBox), new UIPropertyMetadata(false, new PropertyChangedCallback(IsPressedChanged)));
+        public static readonly DependencyProperty SearchTextProperty = DependencyProperty.Register("SearchText", typeof(string), typeof (UISearchBox), new UIPropertyMetadata(string.Empty));
+        public static readonly DependencyProperty HoldSearchTextAfterHideProperty = DependencyProperty.Register("HoldSearchTextAfterHide", typeof(bool), typeof(UISearchBox), new UIPropertyMetadata(true));
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof (SearchPlacementEnum), typeof(UISearchBox), new UIPropertyMetadata(SearchPlacementEnum.Left));
+        public static readonly DependencyProperty ShowOptionsProperty = DependencyProperty.Register("ShowOptions", typeof(bool), typeof (UISearchBox), new UIPropertyMetadata(false));
+        public static readonly DependencyProperty OptionsContentProperty = DependencyProperty.Register("OptionsContent", typeof(object), typeof(UISearchBox), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty CollapsibleProperty = DependencyProperty.Register("Collapsible", typeof(bool), typeof (UISearchBox), new UIPropertyMetadata(true));
+        public static readonly DependencyProperty PopupPlacementProperty = DependencyProperty.Register("PopupPlacement", typeof (PlacementMode), typeof(UISearchBox), new UIPropertyMetadata(PlacementMode.Bottom));
+        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(object), typeof (UISearchBox), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty WatermarkDataTemplateProperty = DependencyProperty.Register("WatermarkDataTemplate", typeof(DataTemplate), typeof(UISearchBox), new UIPropertyMetadata(null));
         #endregion
 
         #region Property Callbacks

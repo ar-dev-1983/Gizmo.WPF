@@ -1,207 +1,112 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Gizmo.WPF">
-
-    <local:HeightDivideConverter x:Key="HeightDivideConverter" />
-    <local:TabShapeConverter x:Key="TabShapeConverter" />
-
-    <Style x:Key="VerticalTabPanelToggleButtonLeft" TargetType="{x:Type local:UIToggleButton}">
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
-        <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
-        <Setter Property="BorderThickness" Value="1" />
+    
+    <local:BoolToVisivilityConverter x:Key="BoolToVisivilityConverter" />
+    
+    <Style x:Key="CompletelyTransparentUIButton" TargetType="{x:Type local:UIButton}">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}}" />
         <Setter Property="Focusable" Value="false" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:UIToggleButton}">
+                <ControlTemplate TargetType="{x:Type local:UIButton}">
                     <Grid>
-                        <Grid.Effect>
-                            <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0" Direction="180"/>
-                        </Grid.Effect>
-                        <Path Margin="1,0,-1,0" StrokeThickness="1" x:Name="PART_Background" Data="{Binding ElementName=PART_Content, Path=ActualHeight, Converter={StaticResource TabShapeConverter}, ConverterParameter=Left}" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
-                        <ContentPresenter x:Name="PART_Content" Margin="0,0,0,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <Border Background="Transparent" BorderBrush="Transparent" BorderThickness="0"/>
                     </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <ControlTemplate x:Key="SimpleTabPanelItem" TargetType="{x:Type local:UITabPanelItem}">
+        <Grid x:Name="PART_Header">
+            <Border x:Name="PART_HeaderControl" Background="Transparent" BorderThickness="0" BorderBrush="Transparent"/>
+            <Border  x:Name="PART_Border" Background="Transparent" BorderBrush="Transparent" IsHitTestVisible="False" />
+            <ContentPresenter x:Name="PART_HeaderContent" ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="Orientation" Value="Left">
+                <Setter TargetName="PART_HeaderContent" Property="Margin" Value="5,5,9,5" />
+                <Setter TargetName="PART_Border" Property="BorderThickness" Value="0,0,4,0" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Right">
+                <Setter TargetName="PART_HeaderContent" Property="Margin" Value="9,5,5,5" />
+                <Setter TargetName="PART_Border" Property="BorderThickness" Value="4,0,0,0" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Top">
+                <Setter TargetName="PART_HeaderContent" Property="Margin" Value="5,5,5,9" />
+                <Setter TargetName="PART_Border" Property="BorderThickness" Value="0,0,0,4" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Bottom">
+                <Setter TargetName="PART_HeaderContent" Property="Margin" Value="5,9,5,5" />
+                <Setter TargetName="PART_Border" Property="BorderThickness" Value="0,4,0,0" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, HighlightForegroundBrush}}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 
-    <Style x:Key="VerticalTabPanelToggleButtonRight" TargetType="{x:Type local:UIToggleButton}">
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
-        <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:UIToggleButton}">
-                    <Grid>
-                        <Grid.Effect>
-                            <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0" Direction="0"/>
-                        </Grid.Effect>
-                        <Path StrokeThickness="1" x:Name="PART_Background" Data="{Binding ElementName=PART_Content, Path=ActualHeight, Converter={StaticResource TabShapeConverter}, ConverterParameter=Right}" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
-                        <ContentPresenter x:Name="PART_Content" Margin="0,0,0,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="HorizontalTabPanelToggleButtonTop" TargetType="{x:Type local:UIToggleButton}">
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
-        <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:UIToggleButton}">
-                    <Grid>
-                        <Grid.Effect>
-                            <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0" Direction="90"/>
-                        </Grid.Effect>
-                        <Path Margin="0,1,0,-1" StrokeThickness="1" x:Name="PART_Background" Data="{Binding ElementName=PART_Content, Path=ActualWidth, Converter={StaticResource TabShapeConverter}, ConverterParameter=Top}" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
-                        <ContentPresenter x:Name="PART_Content" Margin="0,0,0,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="HorizontalTabPanelToggleButtonBottom" TargetType="{x:Type local:UIToggleButton}">
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
-        <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:UIToggleButton}">
-                    <Grid>
-                        <Grid.Effect>
-                            <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0" Direction="90"/>
-                        </Grid.Effect>
-                        <Path StrokeThickness="1" x:Name="PART_Background" Data="{Binding ElementName=PART_Content, Path=ActualWidth, Converter={StaticResource TabShapeConverter}, ConverterParameter=Bottom}" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
-                        <ContentPresenter x:Name="PART_Content" Margin="0,0,0,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
-                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="PART_Background" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
-                            <Setter TargetName="PART_Background" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <ControlTemplate x:Key="CurvedTabPanelItem" TargetType="{x:Type local:UITabPanelItem}">
+        <Grid x:Name="PART_Header">
+            <local:UITabPanelItemHeader StrokeThickness="1" x:Name="PART_HeaderControl" 
+                                                    Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType=local:UITabPanel}}" 
+                                                    ContentSize="{Binding ElementName=PART_HeaderContent, Path=ActualWidth, Mode=OneWay}"
+                                                    ShadowColor="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}"
+                                                    Fill="{Binding Background, RelativeSource={RelativeSource AncestorType=local:UITabPanel}}" 
+                                                    Stroke="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=local:UITabPanel}}"/>
+            <ContentPresenter x:Name="PART_HeaderContent" ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="PART_HeaderControl" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
+                <Setter TargetName="PART_HeaderControl" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="PART_HeaderControl" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
+                <Setter TargetName="PART_HeaderControl" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 
     <Style TargetType="{x:Type local:UITabPanelItem}">
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="Template" Value="{StaticResource CurvedTabPanelItem}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:UITabPanelItem}">
-                    <local:UIToggleButton x:Name="PART_Header"
-                                Margin="0"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                Background="{TemplateBinding Background}"
-                                VerticalAlignment="Top"
-                                Style="{StaticResource VerticalTabPanelToggleButtonLeft}"
-                                HorizontalAlignment="Right" 
-                                IsChecked="{Binding IsSelected, RelativeSource={RelativeSource  TemplatedParent}, Mode=TwoWay}"
-                                Content="{TemplateBinding Header}"/>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="Orientation" Value="Left">
-                            <Setter TargetName="PART_Header" Property="Style" Value="{StaticResource VerticalTabPanelToggleButtonLeft}" />
-                            <Setter TargetName="PART_Header" Property="HorizontalAlignment" Value="Right" />
-                            <Setter TargetName="PART_Header" Property="VerticalAlignment" Value="Top" />
-                        </Trigger>
-                        <Trigger Property="Orientation" Value="Right">
-                            <Setter TargetName="PART_Header" Property="Style" Value="{StaticResource VerticalTabPanelToggleButtonRight}" />
-                            <Setter TargetName="PART_Header" Property="HorizontalAlignment" Value="Left" />
-                            <Setter TargetName="PART_Header" Property="VerticalAlignment" Value="Top" />
-                        </Trigger>
-                        <Trigger Property="Orientation" Value="Top">
-                            <Setter TargetName="PART_Header" Property="Style" Value="{StaticResource HorizontalTabPanelToggleButtonTop}" />
-                            <Setter TargetName="PART_Header" Property="HorizontalAlignment" Value="Left" />
-                        </Trigger>
-                        <Trigger Property="Orientation" Value="Bottom">
-                            <Setter TargetName="PART_Header" Property="Style" Value="{StaticResource HorizontalTabPanelToggleButtonBottom}" />
-                            <Setter TargetName="PART_Header" Property="HorizontalAlignment" Value="Left" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Style.Triggers>
+            <Trigger Property="TabStyle" Value="SimpleTabs">
+                <Setter Property="Template" Value="{StaticResource SimpleTabPanelItem}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <ControlTemplate x:Key="VerticalTabPanelTemplateLeft" TargetType="{x:Type local:UITabPanel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="32" MinWidth="32" MaxWidth="32" />
-                <ColumnDefinition Name="ContentColumn" MinWidth="230" Width="230" MaxWidth="420" />
+                <ColumnDefinition Name="ContentColumn" Width="*" />
             </Grid.ColumnDefinitions>
-            <ItemsControl Margin="0,10,0,0" Grid.Column="0" ItemsSource="{TemplateBinding Items}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            <Border Grid.Column="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"/>
-            <ContentPresenter Grid.Column="1" Margin="0,1"/>
+            <Border  IsHitTestVisible="False" Focusable="False" Grid.Column="0" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,0">
+                <Border.Effect>
+                    <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="5" Opacity="1" ShadowDepth="2" Direction="180"/>
+                </Border.Effect>
+            </Border>
+            <ItemsPresenter Margin="0,5,0,0" Grid.Column="0" x:Name="PART_ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+            <Border IsHitTestVisible="False" Focusable="False" Margin="-1,0,0,0" Grid.Column="1" 
+                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+            <ContentPresenter x:Name="PART_TabContent" Grid.Column="1" Content="{Binding Path=SelectedItem.Content, RelativeSource={RelativeSource AncestorType=local:UITabPanel}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Border x:Name="PART_ItemsBorder" Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" Grid.Column="0" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,0"/>
+            <local:UIButton x:Name="PART_ResizeButton" 
+                            IsEnabled="{TemplateBinding ResizeAllowed}" 
+                            Visibility="{Binding IsExpanded,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BoolToVisivilityConverter}}"  
+                            Grid.Column="1" Margin="-2,0,2,0" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Left"
+                            ClickMode="Press" Command="local:UITabPanel.ResizeCommand"
+                            Style="{StaticResource CompletelyTransparentUIButton}"/>
         </Grid>
         <ControlTemplate.Triggers>
             <MultiTrigger>
@@ -215,6 +120,13 @@
             <Trigger Property="IsExpandable" Value="False">
                 <Setter TargetName="ContentColumn" Property="MinWidth" Value="0" />
                 <Setter TargetName="ContentColumn" Property="Width" Value="0" />
+                <Setter TargetName="PART_ItemsBorder" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="TabsStyle" Value="CompactTabs">
+                <Setter TargetName="PART_ItemsPresenter" Property="Margin" Value="0,27,0,0" />
+            </Trigger>
+            <Trigger SourceName="PART_ResizeButton" Property="IsEnabled" Value="True">
+                <Setter TargetName="PART_ResizeButton" Property="Cursor" Value="SizeWE" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -222,20 +134,32 @@
     <ControlTemplate x:Key="VerticalTabPanelTemplateRight" TargetType="{x:Type local:UITabPanel}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="ContentColumn" MinWidth="230" Width="230" MaxWidth="420" />
+                <ColumnDefinition Name="ContentColumn" Width="*" />
                 <ColumnDefinition Width="32" MinWidth="32" MaxWidth="32" />
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"/>
-            <ContentPresenter Margin="1" Grid.Column="0" />
-            <ItemsControl Margin="0,10,0,0" Grid.Column="1" ItemsSource="{TemplateBinding Items}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <Border IsHitTestVisible="False" Focusable="False" Grid.Column="1" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,0,0">
+                <Border.Effect>
+                    <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="5" Opacity="1" ShadowDepth="2" Direction="0"/>
+                </Border.Effect>
+            </Border>
+            <ItemsPresenter Margin="0,5,0,0" Grid.Column="1" x:Name="PART_ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+            <Border IsHitTestVisible="False" Focusable="False" Margin="0,0,-1,0" Grid.Column="0" 
+                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+            <ContentPresenter x:Name="PART_TabContent" Margin="1" Grid.Column="0" Content="{Binding Path=SelectedItem.Content, RelativeSource={RelativeSource AncestorType=local:UITabPanel}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            <Border x:Name="PART_ItemsBorder" Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" Grid.Column="1" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,0,0"/>
+            <local:UIButton x:Name="PART_ResizeButton" 
+                            IsEnabled="{TemplateBinding ResizeAllowed}" 
+                            Visibility="{Binding IsExpanded,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BoolToVisivilityConverter}}"  
+                            Grid.Column="0" Margin="2,0,-2,0" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                            ClickMode="Press" Command="local:UITabPanel.ResizeCommand"
+                            Style="{StaticResource CompletelyTransparentUIButton}"/>
         </Grid>
         <ControlTemplate.Triggers>
+            <Trigger SourceName="PART_TabContent" Property="Content" Value="{x:Null}">
+                <Setter TargetName="ContentColumn" Property="MinWidth" Value="0" />
+                <Setter TargetName="ContentColumn" Property="Width" Value="0" />
+                <Setter TargetName="PART_ItemsBorder" Property="Visibility" Value="Visible" />
+            </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsExpanded" Value="False"/>
@@ -247,6 +171,13 @@
             <Trigger Property="IsExpandable" Value="False">
                 <Setter TargetName="ContentColumn" Property="MinWidth" Value="0" />
                 <Setter TargetName="ContentColumn" Property="Width" Value="0" />
+                <Setter TargetName="PART_ItemsBorder" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="TabsStyle" Value="CompactTabs">
+                <Setter TargetName="PART_ItemsPresenter" Property="Margin" Value="0,27,0,0" />
+            </Trigger>
+            <Trigger SourceName="PART_ResizeButton" Property="IsEnabled" Value="True">
+                <Setter TargetName="PART_ResizeButton" Property="Cursor" Value="SizeWE" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -255,19 +186,25 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="32" MinHeight="32" MaxHeight="32" />
-                <RowDefinition Name="ContentRow" Height="Auto" />
+                <RowDefinition Name="ContentRow" Height="*" />
             </Grid.RowDefinitions>
-            <ItemsControl Margin="10,0,0,0" Grid.Row="0" ItemsSource="{TemplateBinding Items}" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            <Border Grid.Row="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"/>
-            <ContentPresenter Margin="1" Grid.Row="1"/>
+            <Border IsHitTestVisible="False" Focusable="False" Grid.Row="0" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,1">
+                <Border.Effect>
+                    <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="5" Opacity="1" ShadowDepth="2" Direction="90"/>
+                </Border.Effect>
+            </Border>
+            <ItemsPresenter  Margin="5,0,0,0" Grid.Row="0" VerticalAlignment="Bottom" x:Name="PART_ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+            <Border IsHitTestVisible="False" Focusable="False" Grid.Row="1" Margin="0,-1,0,0" 
+                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+            <ContentPresenter x:Name="PART_TabContent" Margin="1" Grid.Row="1" Content="{Binding Path=SelectedItem.Content, RelativeSource={RelativeSource AncestorType=local:UITabPanel}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Border x:Name="PART_ItemsBorder" Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" Grid.Row="0" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,1"/>
         </Grid>
         <ControlTemplate.Triggers>
+            <Trigger SourceName="PART_TabContent" Property="Content" Value="{x:Null}">
+                <Setter TargetName="ContentRow" Property="MinHeight" Value="0" />
+                <Setter TargetName="ContentRow" Property="Height" Value="0" />
+                <Setter TargetName="PART_ItemsBorder" Property="Visibility" Value="Visible" />
+            </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsExpanded" Value="False"/>
@@ -279,6 +216,10 @@
             <Trigger Property="IsExpandable" Value="False">
                 <Setter TargetName="ContentRow" Property="MinHeight" Value="0" />
                 <Setter TargetName="ContentRow" Property="Height" Value="0" />
+                <Setter TargetName="PART_ItemsBorder" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="TabsStyle" Value="CompactTabs">
+                <Setter TargetName="PART_ItemsPresenter" Property="Margin" Value="27,0,0,0" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -286,20 +227,26 @@
     <ControlTemplate x:Key="HorizontalTabPanelTemplateBottom" TargetType="{x:Type local:UITabPanel}">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Name="ContentRow" Height="*" />
                 <RowDefinition Height="32" MinHeight="32" MaxHeight="32" />
-                <RowDefinition Name="ContentRow" Height="Auto" />
             </Grid.RowDefinitions>
-            <ItemsControl Margin="10,0,0,0" Grid.Row="0" ItemsSource="{TemplateBinding Items}" VerticalAlignment="Top" VerticalContentAlignment="Top">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            <Border Grid.Row="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"/>
-            <ContentPresenter Margin="1" Grid.Row="1"/>
+            <Border IsHitTestVisible="False" Focusable="False" Grid.Row="1" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,1,0,0">
+                <Border.Effect>
+                    <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="5" Opacity="1" ShadowDepth="2" Direction="270"/>
+                </Border.Effect>
+            </Border>
+            <ItemsPresenter  Margin="5,0,0,0" Grid.Row="1" VerticalAlignment="Top" x:Name="PART_ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+            <Border IsHitTestVisible="False" Focusable="False" Grid.Row="0" Margin="0,0,0,-1" 
+                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+            <ContentPresenter x:Name="PART_TabContent" Margin="1" Grid.Row="0" Content="{Binding Path=SelectedItem.Content, RelativeSource={RelativeSource AncestorType=local:UITabPanel}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Border x:Name="PART_ItemsBorder" Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" Grid.Row="1" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,1,0,0"/>
         </Grid>
         <ControlTemplate.Triggers>
+            <Trigger SourceName="PART_TabContent" Property="Content" Value="{x:Null}">
+                <Setter TargetName="ContentRow" Property="MinHeight" Value="0" />
+                <Setter TargetName="ContentRow" Property="Height" Value="0" />
+                <Setter TargetName="PART_ItemsBorder" Property="Visibility" Value="Visible" />
+            </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsExpanded" Value="False"/>
@@ -311,28 +258,50 @@
             <Trigger Property="IsExpandable" Value="False">
                 <Setter TargetName="ContentRow" Property="MinHeight" Value="0" />
                 <Setter TargetName="ContentRow" Property="Height" Value="0" />
+                <Setter TargetName="PART_ItemsBorder" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="TabsStyle" Value="CompactTabs">
+                <Setter TargetName="PART_ItemsPresenter" Property="Margin" Value="27,0,0,0" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+    <ItemsPanelTemplate x:Key="HorizontalOrientation">
+        <VirtualizingStackPanel IsItemsHost="True" VirtualizingPanel.IsVirtualizing="True" Orientation="Horizontal"
+                                    VirtualizingPanel.VirtualizationMode="Recycling"
+                                    VirtualizingPanel.ScrollUnit="Item"
+                                    VirtualizingPanel.IsContainerVirtualizable="True"
+                                    VirtualizingPanel.IsVirtualizingWhenGrouping="True"/>
+    </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="VerticalOrientation">
+        <VirtualizingStackPanel IsItemsHost="True" VirtualizingPanel.IsVirtualizing="True" Orientation="Vertical"
+                                    VirtualizingPanel.VirtualizationMode="Recycling"
+                                    VirtualizingPanel.ScrollUnit="Item"
+                                    VirtualizingPanel.IsContainerVirtualizable="True"
+                                    VirtualizingPanel.IsVirtualizingWhenGrouping="True"/>
+    </ItemsPanelTemplate>
+
     <Style TargetType="{x:Type local:UITabPanel}">
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, NodeCanvasBackgroundBrush}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
-        <Setter Property="CornerRadius" Value="0" />
         <Setter Property="BorderThickness" Value="1" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Left">
                 <Setter Property="Template" Value="{StaticResource VerticalTabPanelTemplateLeft}" />
+                <Setter Property="ItemsPanel" Value="{StaticResource VerticalOrientation}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Right">
                 <Setter Property="Template" Value="{StaticResource VerticalTabPanelTemplateRight}" />
+                <Setter Property="ItemsPanel" Value="{StaticResource VerticalOrientation}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Top">
                 <Setter Property="Template" Value="{StaticResource HorizontalTabPanelTemplateTop}" />
+                <Setter Property="ItemsPanel" Value="{StaticResource HorizontalOrientation}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Bottom">
                 <Setter Property="Template" Value="{StaticResource HorizontalTabPanelTemplateBottom}" />
+                <Setter Property="ItemsPanel" Value="{StaticResource HorizontalOrientation}" />
             </Trigger>
         </Style.Triggers>
     </Style>

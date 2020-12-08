@@ -322,13 +322,13 @@ namespace Gizmo.WPF
         {
             get
             {
-                UIEnumSwitch searchBox = ParentSelector as UIEnumSwitch;
+                UIEnumSwitch enumSwitch = ParentSelector as UIEnumSwitch;
 
-                if (searchBox == null)//in some cases we cant find ParentSelector, so we try to find it in another way
+                if (enumSwitch == null)//in some cases we cant find ParentSelector, so we try to find it in another way
                 {
-                    searchBox = VisualHelper.FindVisulaParent<UIEnumSwitch>(this);
+                    enumSwitch = VisualHelper.FindVisulaParent<UIEnumSwitch>(this);
                 }
-                return searchBox;
+                return enumSwitch;
             }
         }
 

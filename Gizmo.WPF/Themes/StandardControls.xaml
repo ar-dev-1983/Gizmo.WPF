@@ -10,6 +10,7 @@
     <local:BoolToVisivilityInvertedConverter x:Key="BoolToVisivilityInvertedConverter" />
     <local:NullableValueConverter x:Key="NullableValueConverter" />
     <local:RoundedCornerConverter x:Key="RoundedCornerConverter" />
+    <local:HeightDivideConverter x:Key="HeightDivideConverter" />
 
     <Style TargetType="PasswordBox">
         <Setter Property="OverridesDefaultStyle" Value="true" />
