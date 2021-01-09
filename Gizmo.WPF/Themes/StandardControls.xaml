@@ -12,6 +12,109 @@
     <local:RoundedCornerConverter x:Key="RoundedCornerConverter" />
     <local:HeightDivideConverter x:Key="HeightDivideConverter" />
 
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border x:Name="PART_Background" CornerRadius="0" Background="{TemplateBinding Background}" BorderThickness="0" BorderBrush="Transparent">
+                            <Border.Effect>
+                                <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border x:Name="PART_border" CornerRadius="0" Background="Transparent" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
+                        <ContentPresenter x:Name="PART_Content" Margin="2,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="PART_Content" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsDefault" Value="True">
+                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.8" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1.5" />
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.8" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type ToggleButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid>
+                        <Border x:Name="PART_Background" CornerRadius="0" Background="{TemplateBinding Background}" BorderThickness="0" BorderBrush="Transparent">
+                            <Border.Effect>
+                                <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border x:Name="PART_border" CornerRadius="0" Background="Transparent" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
+                        <ContentPresenter ContentSource="Content" x:Name="PART_Content" Margin="2,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBorderBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.8" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, SelectForegroundBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.8" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="PasswordBox">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -107,6 +210,76 @@
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlReadonlyBackgroundBrush}}" />
                             <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlReadonlyBackgroundBrush}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type CheckBox}">
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter  Property="MinHeight" Value="16" />
+        <Setter  Property="MinWidth" Value="32" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid Width="36">
+                        <Border x:Name="PART_Background" CornerRadius="8" Background="{TemplateBinding Background}" BorderThickness="0" BorderBrush="Transparent">
+                            <Border.Effect>
+                                <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border x:Name="PART_border" CornerRadius="8" Background="Transparent" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}" />
+                        <Border x:Name="PART_Switch" Background="{DynamicResource {ComponentResourceKey local:UITheme, ControlAdditionalBrush}}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="16" CornerRadius="8" BorderThickness="0">
+                            <Path Data="M0,0 V8 M3,0 V8 M6,0 V8" Stroke="DimGray" StrokeThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" StrokeDashCap="Square" StrokeEndLineCap="Square"/>
+                            <Border.Effect>
+                                <DropShadowEffect Color="{DynamicResource {ComponentResourceKey local:UITheme, ShadowColor}}" BlurRadius="2" Opacity="1" ShadowDepth="0"/>
+                            </Border.Effect>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_Switch" Property="HorizontalAlignment" Value="Left" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBrush}}" />
+                            <Setter TargetName="PART_Switch" Property="HorizontalAlignment" Value="Right" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
+                                <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlHighlightBrush}}" />
+                                <Setter TargetName="PART_Switch" Property="HorizontalAlignment" Value="Left" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                                <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                                <Setter TargetName="PART_Switch" Property="HorizontalAlignment" Value="Right" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.8" />
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, DisabledWindowForegroundBrush}}" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1010,7 +1183,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type ContextMenu}">
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, MenuBackgroundBrush}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, MenuBorderBrush}}" />
@@ -1219,7 +1392,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
     <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Style.Triggers>
@@ -1396,10 +1569,172 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
         <ScrollViewer x:Name="PART_ContentHost" Focusable="False" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
     </ControlTemplate>
+
+    <Style x:Key="ComboBoxUIToggleButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ContentPresenter VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ContentSource="Content"/>
+                        <Path x:Name="PART_DropDownSymbol" Grid.Column="1" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Data="M0,0 L3,3 6,0 z" Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="None" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_DropDownSymbol" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, KeyBackgroundBrush}}" />
+                            <Setter TargetName="PART_DropDownSymbol" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, KeyBackgroundBrush}}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="PART_DropDownSymbol" Property="Stroke" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                            <Setter TargetName="PART_DropDownSymbol" Property="Fill" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:UITheme}, ResourceId=EditingComboBoxStyle}" TargetType="{x:Type ComboBox}">
+        <Style.Resources>
+            <Style TargetType="ComboBoxItem">
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBoxItem">
+                            <Grid>
+                                <Border x:Name="PART_Background" Background="{TemplateBinding Background}" BorderThickness="0" BorderBrush="Transparent"/>
+                                <Border x:Name="PART_Border" Background="Transparent" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
+                                <Border x:Name="PART_SelectBorder" Background="Transparent" BorderThickness="2,0,0,0" Margin="0" BorderBrush="{TemplateBinding BorderBrush}" HorizontalAlignment="Left"/>
+                                <ContentPresenter x:Name="PART_Content" Grid.Column="1" Margin="4,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="Content" Value="{x:Null}">
+                                    <Setter TargetName="PART_Content" Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="False" />
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter TargetName="PART_Background" Property="Opacity" Value="0.5" />
+                                        <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                                        <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+                                        <Setter TargetName="PART_Border" Property="BorderThickness" Value="1" />
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="True" />
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter TargetName="PART_Background" Property="Opacity" Value="0.5" />
+                                        <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBackgroundBrush}}" />
+                                        <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlBorderBrush}}" />
+                                        <Setter TargetName="PART_SelectBorder" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                                        <Setter TargetName="PART_Border" Property="BorderThickness" Value="1" />
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="True" />
+                                        <Condition Property="IsMouseOver" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter TargetName="PART_SelectBorder" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey local:UITheme, ControlSelectBorderBrush}}" />
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton
+                                  Style="{StaticResource ComboBoxUIToggleButton}"
+                                  x:Name="PART_ToggleButton"
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                  ClickMode="Press" Focusable="False" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                            <Grid SnapsToDevicePixels="True" Margin="-2,2">
+                                <ContentPresenter x:Name="PART_Content" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding local:UIComboBox.SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding local:UIComboBox.SelectionBoxItemTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                  IsHitTestVisible="False" />
+                                <TextBox x:Name="PART_EditableTextBox"
+                                         Margin="5,0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                         HorizontalContentAlignment="Left"
+                                         Background="White" Focusable="True"
+                                         IsReadOnly="{TemplateBinding IsReadOnly}"
+                                         Style="{x:Null}" Foreground="{DynamicResource {ComponentResourceKey local:UITheme, WindowForegroundBrush}}"
+                                         Template="{StaticResource ComboBoxTextBox}"
+                                         Visibility="Hidden" />
+                            </Grid>
+                        </ToggleButton>
+                        <Popup x:Name="Popup"
+                               AllowsTransparency="True" Focusable="False"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               Placement="Bottom" PopupAnimation="Slide">
+                            <Grid x:Name="DropDown"
+                                  MinWidth="{TemplateBinding ActualWidth}"
+                                  MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                  SnapsToDevicePixels="True">
+                                <Border x:Name="DropDownBorder"
+                                        Background="{DynamicResource {ComponentResourceKey local:UITheme, WindowBackgroundBrush}}"
+                                        BorderBrush="{DynamicResource {ComponentResourceKey local:UITheme, WindowBorderBrush}}"
+                                        CornerRadius="0"
+                                        BorderThickness="1" />
+                                <ScrollViewer Margin="3" SnapsToDevicePixels="True">
+                                    <ItemsPresenter Margin="1" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                        </Trigger>
+                        <Trigger Property="IsEditable" Value="true">
+                            <Setter Property="IsTabStop" Value="false" />
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_Content" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style TargetType="ComboBox">
         <Style.Resources>
@@ -1499,7 +1834,6 @@
                                          Margin="5,0" HorizontalAlignment="Left" VerticalAlignment="Center"
                                          HorizontalContentAlignment="Left"
                                          Background="White" Focusable="True" Foreground="{TemplateBinding Foreground}"
-                                         IsReadOnly="{TemplateBinding IsReadOnly}"
                                          Style="{x:Null}"
                                          Template="{StaticResource ComboBoxTextBox}"
                                          Visibility="Hidden" />

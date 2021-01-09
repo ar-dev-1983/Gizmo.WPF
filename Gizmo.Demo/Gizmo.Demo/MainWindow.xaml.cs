@@ -13,7 +13,7 @@ namespace Gizmo.Demo
         public MainWindow()
         {
             InitializeComponent();
-            ThemeManager.ApplyThemeToWindow(this,UIThemeEnum.BlueDark);
+            ThemeManager.ApplyThemeToWindow(this, UIThemeEnum.BlueDark);
             appvm = new AppViewModel();
             DataContext = appvm;
         }
@@ -23,7 +23,7 @@ namespace Gizmo.Demo
             if (sender != null)
             {
                 if ((sender as UIEnumSwitch).SelectedItem != null)
-                    ThemeManager.ApplyThemeToWindow(this,(UIThemeEnum)(sender as UIEnumSwitch).SelectedItem);
+                    ThemeManager.ApplyThemeToWindow(this, (UIThemeEnum)(sender as UIEnumSwitch).SelectedItem);
             }
         }
     }

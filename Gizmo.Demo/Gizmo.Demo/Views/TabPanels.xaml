@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Gizmo.Demo.TabPanels"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:System="clr-namespace:System;assembly=mscorlib"
+      xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
+      xmlns:local="clr-namespace:Gizmo.Demo"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Margin="0,0,15,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="" FontSize="11pt" FontWeight="Bold" Margin="4" TextAlignment="Center" VerticalAlignment="Center"/>
+            <ui:UITabPanel x:Name="TabPanel" TabsStyle="CompactTabs" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1" Margin="5" Width="300" Height="300"
+                           SelectionChanged="TabPanel_SelectionChanged"
+                           SelectedIndex="1" IsExpandable="True" IsExpanded="True" Orientation="Left" CanUnselect="True" ResizeAllowed="True" MinResizeWidth="100" MaxResizeWidth="450">
+                <ui:UITabPanel.Items>
+                    <ui:UITabPanelItem x:Name="FirstTab">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.NewFile}" />
+                        </ui:UITabPanelItem.Header>
+                        <ui:UITabPanelItem.Content>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.NewFile}" />
+                        </ui:UITabPanelItem.Content>
+                    </ui:UITabPanelItem>
+                    <ui:UITabPanelItem x:Name="SecondTab">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.SaveFile}" />
+                        </ui:UITabPanelItem.Header>
+                        <ui:UITabPanelItem.Content>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.SaveFile}" />
+                        </ui:UITabPanelItem.Content>
+                    </ui:UITabPanelItem>
+                    <ui:UITabPanelItem x:Name="ThirdTab">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.SaveAsFile}" />
+                        </ui:UITabPanelItem.Header>
+                        <ui:UITabPanelItem.Content>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.SaveAsFile}" />
+                        </ui:UITabPanelItem.Content>
+                    </ui:UITabPanelItem>
+                    <ui:UITabPanelItem x:Name="FourthTab">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.NewFile}" />
+                        </ui:UITabPanelItem.Header>
+                        <ui:UITabPanelItem.Content>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.NewFile}" />
+                        </ui:UITabPanelItem.Content>
+                    </ui:UITabPanelItem>
+                    <ui:UITabPanelItem x:Name="FifthTab">
+                        <ui:UITabPanelItem.Header>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.SaveFile}" />
+                        </ui:UITabPanelItem.Header>
+                        <ui:UITabPanelItem.Content>
+                            <ui:GizmoIcon  FontSize="16" Icon="{x:Static ui:GizmoIconEnum.SaveFile}" />
+                        </ui:UITabPanelItem.Content>
+                    </ui:UITabPanelItem>
+                </ui:UITabPanel.Items>
+            </ui:UITabPanel>
+            <StackPanel Grid.Row="1" Grid.Column="0" Margin="5" Orientation="Horizontal">
+                <TextBlock Text="Selected Item: " TextAlignment="Center"/>
+                <TextBlock Text="{Binding ElementName=TabPanel, Path=SelectedItem.Name}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="1" Margin="5" Orientation="Horizontal">
+                <TextBlock Text="Selected Index: " TextAlignment="Center"/>
+                <TextBlock Text="{Binding ElementName=TabPanel, Path=SelectedIndex}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Orientation="Horizontal">
+                <TextBlock Text="Selection changed count: " TextAlignment="Center"/>
+                <TextBlock x:Name="tbCounter" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
+
