@@ -16,5 +16,4 @@ namespace Gizmo.WPF
             throw new NotSupportedException();
         }
     }
-
 }
